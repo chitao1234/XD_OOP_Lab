@@ -1,3 +1,6 @@
 *.d
 *.o
 e-commerce
+.idea/
+.vscode/
+*.csv
