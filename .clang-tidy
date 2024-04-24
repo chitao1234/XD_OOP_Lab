@@ -1,0 +1,7 @@
+#Checks: "readability-*,\
+#clang-analyzer-*,\
+#cert-*,\
+#cppcoreguidelines-*,\
+#google-*,\
+#bugprone-*,\
+#"
