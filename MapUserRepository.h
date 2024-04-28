@@ -12,7 +12,7 @@ class MapUserRepository : public IUserRepository {
 
    public:
     MapUserRepository();
-    User findUserByUsername(std::string username);
+    NormalUser findUserByUsername(std::string username);
     bool registerUser(const NormalUser &user);
     bool login(std::string username, std::string password);
     bool loginAsAdmin(std::string username, std::string password);

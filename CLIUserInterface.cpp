@@ -1,9 +1,6 @@
 #include "CLIUserInterface.h"
 #include "CLIStateMainMenu.h"
 
-#include <cstdlib>
-#include <iostream>
-
 CLIUserInterface::CLIUserInterface(IUserRepository &userRepository)
         : userRepository(userRepository) {
     state = new CLIStateMainMenu(*this);
@@ -25,6 +22,6 @@ IUserRepository &CLIUserInterface::getUserRepository() {
     return userRepository;
 }
 
-void CLIUserInterface::setState(ICLIState *state) {
-    this->state = state;
+void CLIUserInterface::setState(ICLIState *newState) {
+    state = newState;
 }

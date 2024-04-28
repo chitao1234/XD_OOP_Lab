@@ -35,12 +35,14 @@ bool CLIStateMainMenu::handleUserInput() {
             break;
         }
         case 2: {
-            std::string username, password;
+            std::string username, password, email;
             std::cout << "Enter username: ";
             std::cin >> username;
             std::cout << "Enter password: ";
             std::cin >> password;
-            NormalUser user = NormalUser(username, password);
+            std::cout << "Enter email: ";
+            std::cin >> email;
+            NormalUser user = NormalUser(username, password, email);
             if (userRepository.registerUser(user)) {
                 std::cout << "Registration successful.\n";
             } else {

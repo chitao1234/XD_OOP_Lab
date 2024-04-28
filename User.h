@@ -12,6 +12,5 @@ class User {
    private:
     std::string username;
     std::string passwordHash;
-    std::string email;
 };
 #endif

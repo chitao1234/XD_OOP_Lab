@@ -6,7 +6,7 @@
 
 class CLIStateMainMenu : public ICLIState {
 public:
-    CLIStateMainMenu(CLIUserInterface &userInterface);
+    explicit CLIStateMainMenu(CLIUserInterface &userInterface);
 
     void displayMenu();
     bool handleUserInput();

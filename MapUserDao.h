@@ -65,7 +65,7 @@ template<typename T>
 void MapUserDao<T>::save() {
     std::ofstream file(filename.c_str());
     for (typename std::map<std::string, T>::const_iterator iter = users.begin(); iter != users.end(); ++iter) {
-        file << iter->second.getUsername() << "," << iter->second.getPasswordHash() << "\n";
+        file << T::serializeUser(iter->second) << '\n';
     }
     file.close();
 }
@@ -78,11 +78,7 @@ bool MapUserDao<T>::load() {
     }
     std::string line;
     while (getline(file, line)) {
-        std::istringstream iss(line);
-        std::string username, password;
-        getline(iss, username, ',');
-        getline(iss, password, ',');
-        addUser(T(username, password));
+        addUser(T::deserializeUser(line));
     }
     file.close();
     return true;

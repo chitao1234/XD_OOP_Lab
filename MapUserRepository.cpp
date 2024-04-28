@@ -2,12 +2,12 @@
 
 MapUserRepository::MapUserRepository() : userDao("users.csv"), adminDao("admin.csv") {}
 
-User MapUserRepository::findUserByUsername(std::string username) {
+NormalUser MapUserRepository::findUserByUsername(std::string username) {
     return userDao.getUser(username);
 }
 
 bool MapUserRepository::registerUser(const NormalUser &user) {
-    if (userDao.addUser(user)) {
+    if (!userDao.containUser(user.getUsername()) && userDao.addUser(user)) {
         userDao.save();
         return true;
     } else {
