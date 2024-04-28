@@ -1,8 +1,14 @@
 #include "CLIStateMainMenu.h"
+
 #include <iostream>
 
+#include "NormalUser.h"
+
 void CLIStateMainMenu::displayMenu() {
-    std::cout << "1. Login\n2. Register\n3. Exit\nEnter your choice: ";
+    std::cout << "1. Login\n"
+                 "2. Register\n"
+                 "3. Exit\n"
+                 "Enter your choice: ";
 }
 
 bool CLIStateMainMenu::handleUserInput() {
@@ -17,6 +23,10 @@ bool CLIStateMainMenu::handleUserInput() {
             std::cin >> username;
             std::cout << "Password: ";
             std::cin >> password;
+            if (userRepository.loginAsAdmin(username, password)) {
+                std::cout << "Welcome, admin.\n";
+                break;
+            }
             if (userRepository.login(username, password)) {
                 std::cout << "Login successful.\n";
             } else {
@@ -30,7 +40,7 @@ bool CLIStateMainMenu::handleUserInput() {
             std::cin >> username;
             std::cout << "Enter password: ";
             std::cin >> password;
-            User user = User(username, password);
+            NormalUser user = NormalUser(username, password);
             if (userRepository.registerUser(user)) {
                 std::cout << "Registration successful.\n";
             } else {
@@ -49,4 +59,6 @@ bool CLIStateMainMenu::handleUserInput() {
     return exit;
 }
 
-CLIStateMainMenu::CLIStateMainMenu(CLIUserInterface &userInterface) : userInterface(userInterface) {}
+CLIStateMainMenu::CLIStateMainMenu(CLIUserInterface &userInterface)
+    : userInterface(userInterface) {
+}
