@@ -10,12 +10,13 @@ CLIUserInterface::~CLIUserInterface() {
     delete state;
 }
 
-void CLIUserInterface::displayMenu() {
-    state->displayMenu();
-}
-
-bool CLIUserInterface::handleUserInput() {
-    return state->handleUserInput();
+void CLIUserInterface::start() {
+    while (true) {
+        state->displayMenu();
+        if (state->handleUserInput()) {
+            break;
+        }
+    }
 }
 
 IUserRepository &CLIUserInterface::getUserRepository() {

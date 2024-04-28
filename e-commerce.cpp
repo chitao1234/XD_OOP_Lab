@@ -5,9 +5,6 @@ int main() {
     MapUserRepository userRepository = MapUserRepository();
     CLIUserInterface userInterface(userRepository);
 
-    bool exit = false;
-    while (!exit) {
-        userInterface.displayMenu();
-        exit = userInterface.handleUserInput();
-    }
+    userInterface.start();
+    return 0;
 }

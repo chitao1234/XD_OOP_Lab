@@ -1,5 +1,5 @@
 CXX = clang++
-CXXFLAGS = -Wall -Wextra -pedantic -std=c++03 -g
+CXXFLAGS = -Wall -Wextra -pedantic -std=c++17 -g
 
 SOURCES = $(wildcard *.cpp)
 OBJECTS = $(SOURCES:.cpp=.o)

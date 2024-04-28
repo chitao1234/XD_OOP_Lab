@@ -3,6 +3,7 @@
 #include <iostream>
 
 #include "NormalUser.h"
+#include "CLIStateUserLoggedIn.h"
 
 void CLIStateMainMenu::displayMenu() {
     std::cout << "1. Login\n"
@@ -27,8 +28,10 @@ bool CLIStateMainMenu::handleUserInput() {
                 std::cout << "Welcome, admin.\n";
                 break;
             }
-            if (userRepository.login(username, password)) {
+            std::optional<NormalUser> user = userRepository.login(username, password);
+            if (user.has_value()) {
                 std::cout << "Login successful.\n";
+                userInterface.setState(new CLIStateUserLoggedIn(userInterface, user.value()));
             } else {
                 std::cout << "Login failed.\n";
             }

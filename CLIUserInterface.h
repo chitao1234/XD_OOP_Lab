@@ -14,9 +14,7 @@ public:
 
     ~CLIUserInterface();
 
-    void displayMenu();
-
-    bool handleUserInput();
+    void start();
 
     IUserRepository &getUserRepository();
 

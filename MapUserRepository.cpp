@@ -15,12 +15,16 @@ bool MapUserRepository::registerUser(const NormalUser &user) {
     }
 }
 
-bool MapUserRepository::login(std::string username, std::string password) {
+std::optional<NormalUser> MapUserRepository::login(std::string username, std::string password) {
     if (!userDao.containUser(username)) {
-        return false;
+        return {};
     }
     NormalUser user = userDao.getUser(username);
-    return user.verifyPassword(password);
+    if (user.verifyPassword(password)) {
+        return user;
+    } else {
+        return {};
+    }
 }
 
 bool MapUserRepository::loginAsAdmin(std::string username, std::string password) {
