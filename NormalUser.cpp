@@ -18,6 +18,14 @@ std::string NormalUser::serializeUser(const NormalUser &user) {
     std::ostringstream oss;
     oss << user.getUsername() << ','
         << user.getPasswordHash() << ','
-        << user.email;
+        << user.getEmail();
     return oss.str();
+}
+
+std::string NormalUser::getEmail() const {
+    return email;
+}
+
+void NormalUser::setEmail(const std::string &email) {
+    this->email = email;
 }

@@ -5,11 +5,12 @@
 #include <iostream>
 #include "CLIStateUserLoggedIn.h"
 #include "CLIStateMainMenu.h"
+#include "CLIStateUserProfile.h"
 
 void CLIStateUserLoggedIn::displayMenu() {
     std::cout << "1. View products\n"
                  "2. View cart\n"
-                 "3. View profile\n"
+                 "3. View user page\n"
                  "4. Logout\n"
                  "Enter your choice: ";
 }
@@ -25,7 +26,7 @@ void CLIStateUserLoggedIn::handleUserInput() {
             std::cout << "Viewing cart..." << std::endl;
             break;
         case 3:
-            std::cout << "Viewing profile..." << std::endl;
+            userInterface.pushState(new CLIStateUserProfile(userInterface, user));
             break;
         case 4:
             std::cout << "Logging out..." << std::endl;
