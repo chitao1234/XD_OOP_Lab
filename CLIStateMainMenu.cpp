@@ -12,8 +12,7 @@ void CLIStateMainMenu::displayMenu() {
                  "Enter your choice: ";
 }
 
-bool CLIStateMainMenu::handleUserInput() {
-    bool exit = false;
+void CLIStateMainMenu::handleUserInput() {
     int choice;
     std::cin >> choice;
     IUserRepository &userRepository = userInterface.getUserRepository();
@@ -31,7 +30,7 @@ bool CLIStateMainMenu::handleUserInput() {
             std::optional<NormalUser> user = userRepository.login(username, password);
             if (user.has_value()) {
                 std::cout << "Login successful.\n";
-                userInterface.setState(new CLIStateUserLoggedIn(userInterface, user.value()));
+                userInterface.pushState(new CLIStateUserLoggedIn(userInterface, user.value()));
             } else {
                 std::cout << "Login failed.\n";
             }
@@ -55,13 +54,12 @@ bool CLIStateMainMenu::handleUserInput() {
         }
         case 3:
             std::cout << "Exiting...\n";
-            exit = true;
+            userInterface.popState();
             break;
         default:
             std::cout << "Invalid choice. Please try again.\n";
     }
     std::cout << std::endl;
-    return exit;
 }
 
 CLIStateMainMenu::CLIStateMainMenu(CLIUserInterface &userInterface)

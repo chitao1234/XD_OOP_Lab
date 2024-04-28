@@ -3,19 +3,19 @@
 
 CLIUserInterface::CLIUserInterface(IUserRepository &userRepository)
         : userRepository(userRepository) {
-    state = new CLIStateMainMenu(*this);
+    pushState(new CLIStateMainMenu(*this));
 }
 
 CLIUserInterface::~CLIUserInterface() {
-    delete state;
+    for (std::vector<ICLIState *>::iterator it = states.begin(); it != states.end(); ++it) {
+        delete *it;
+    }
 }
 
 void CLIUserInterface::start() {
-    while (true) {
-        state->displayMenu();
-        if (state->handleUserInput()) {
-            break;
-        }
+    while (!states.empty()) {
+        states.back()->displayMenu();
+        states.back()->handleUserInput();
     }
 }
 
@@ -23,6 +23,12 @@ IUserRepository &CLIUserInterface::getUserRepository() {
     return userRepository;
 }
 
-void CLIUserInterface::setState(ICLIState *newState) {
-    state = newState;
+void CLIUserInterface::pushState(ICLIState *newState) {
+    states.push_back(newState);
+}
+
+void CLIUserInterface::popState() {
+    ICLIState *state = states.back();
+    delete state;
+    states.pop_back();
 }

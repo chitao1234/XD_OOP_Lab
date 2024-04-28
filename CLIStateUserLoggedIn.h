@@ -16,7 +16,7 @@ public:
 
     void displayMenu();
 
-    bool handleUserInput();
+    void handleUserInput();
 
 private:
     CLIUserInterface &userInterface;

@@ -9,7 +9,7 @@ public:
     explicit CLIStateMainMenu(CLIUserInterface &userInterface);
 
     void displayMenu();
-    bool handleUserInput();
+    void handleUserInput();
 private:
     CLIUserInterface &userInterface;
 };

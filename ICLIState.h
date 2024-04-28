@@ -12,7 +12,7 @@ public:
 
     virtual void displayMenu() = 0;
 
-    virtual bool handleUserInput() = 0;
+    virtual void handleUserInput() = 0;
 };
 
 

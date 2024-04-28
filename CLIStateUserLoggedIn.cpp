@@ -14,7 +14,7 @@ void CLIStateUserLoggedIn::displayMenu() {
                  "Enter your choice: ";
 }
 
-bool CLIStateUserLoggedIn::handleUserInput() {
+void CLIStateUserLoggedIn::handleUserInput() {
     int choice;
     std::cin >> choice;
     switch (choice) {
@@ -29,12 +29,12 @@ bool CLIStateUserLoggedIn::handleUserInput() {
             break;
         case 4:
             std::cout << "Logging out..." << std::endl;
-            userInterface.setState(new CLIStateMainMenu(userInterface));
+            userInterface.popState();
             break;
         default:
             std::cout << "Invalid choice" << std::endl;
     }
-    return false;
+    std::cout << std::endl;
 }
 
 CLIStateUserLoggedIn::CLIStateUserLoggedIn(CLIUserInterface &userInterface, NormalUser &user) : userInterface(
