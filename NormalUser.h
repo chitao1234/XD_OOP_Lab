@@ -7,9 +7,9 @@
 
 class NormalUser : public User {
 public:
-    NormalUser(const std::string &username, const std::string &password, const std::string &email);
+    NormalUser(const std::string &username, const std::string &password, std::string email);
 
-    std::string getEmail() const;
+    [[nodiscard]] std::string getEmail() const;
 
     void setEmail(const std::string &email);
 

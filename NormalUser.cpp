@@ -1,8 +1,9 @@
 #include <sstream>
+#include <utility>
 #include "NormalUser.h"
 
-NormalUser::NormalUser(const std::string &username, const std::string &password, const std::string &email)
-        : User(username, password), email(email) {
+NormalUser::NormalUser(const std::string &username, const std::string &password, std::string email)
+        : User(username, password), email(std::move(email)) {
 }
 
 NormalUser NormalUser::deserializeUser(const std::string &line) {

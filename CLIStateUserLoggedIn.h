@@ -14,9 +14,9 @@ class CLIStateUserLoggedIn : public ICLIState {
 public:
     CLIStateUserLoggedIn(CLIUserInterface &userInterface, NormalUser &user);
 
-    void displayMenu();
+    void displayMenu() override;
 
-    void handleUserInput();
+    void handleUserInput() override;
 
 private:
     CLIUserInterface &userInterface;

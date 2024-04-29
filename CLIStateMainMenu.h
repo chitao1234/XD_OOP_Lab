@@ -8,8 +8,8 @@ class CLIStateMainMenu : public ICLIState {
 public:
     explicit CLIStateMainMenu(CLIUserInterface &userInterface);
 
-    void displayMenu();
-    void handleUserInput();
+    void displayMenu() override;
+    void handleUserInput() override;
 private:
     CLIUserInterface &userInterface;
 };

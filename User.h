@@ -4,10 +4,10 @@
 
 class User {
    public:
-    User(const std::string& username, const std::string& password);
-    std::string getUsername() const;
-    std::string getPasswordHash() const;
-    bool verifyPassword(const std::string& password) const;
+    User(std::string  username, std::string  password);
+    [[nodiscard]] std::string getUsername() const;
+    [[nodiscard]] std::string getPasswordHash() const;
+    [[nodiscard]] bool verifyPassword(const std::string& password) const;
 
    private:
     std::string username;

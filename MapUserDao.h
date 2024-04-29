@@ -1,34 +1,41 @@
 #ifndef MAPUSERDAO_H
 #define MAPUSERDAO_H
+
 #include <map>
 #include <fstream>
 #include <sstream>
+#include <utility>
 
 #include "IUserDao.h"
 
 template<typename T>
 class MapUserDao : public IUserDao<T> {
-   private:
+private:
     std::string filename;
     std::map<std::string, T> users;
 
-   public:
-    explicit MapUserDao(const std::string &filename);
+public:
+    explicit MapUserDao(std::string filename);
+
     ~MapUserDao();
 
-    T getUser(std::string username);
-    bool addUser(const T &user);
-    bool updateUser(const T &user);
-    void deleteUser(std::string username);
-    void save();
+    T getUser(std::string username) override;
 
-    bool containUser(std::string username);
+    bool addUser(const T &user) override;
 
-    bool load();
+    bool updateUser(const T &user) override;
+
+    void deleteUser(std::string username) override;
+
+    bool containUser(std::string username) override;
+
+    void save() override;
+
+    bool load() override;
 };
 
 template<typename T>
-MapUserDao<T>::MapUserDao(const std::string &filename) : filename(filename) {
+MapUserDao<T>::MapUserDao(std::string filename) : filename(std::move(filename)) {
     MapUserDao::load();
 }
 

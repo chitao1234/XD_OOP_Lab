@@ -1,8 +1,9 @@
+#include <utility>
 #include <vector>
 #include "User.h"
 
-User::User(const std::string &username, const std::string &password)
-        : username(username), passwordHash(password) {
+User::User(std::string username, std::string password)
+        : username(std::move(username)), passwordHash(std::move(password)) {
 }
 
 std::string User::getUsername() const {

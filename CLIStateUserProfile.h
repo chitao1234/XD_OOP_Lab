@@ -14,9 +14,9 @@ class CLIStateUserProfile : public ICLIState {
 public:
     CLIStateUserProfile(CLIUserInterface &userInterface, NormalUser &user);
 
-    void displayMenu();
+    void displayMenu() override;
 
-    void handleUserInput();
+    void handleUserInput() override;
 
 private:
     CLIUserInterface &userInterface;

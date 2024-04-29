@@ -8,7 +8,7 @@
 
 class ICLIState {
 public:
-    virtual ~ICLIState() {};
+    virtual ~ICLIState() = default;
 
     virtual void displayMenu() = 0;
 

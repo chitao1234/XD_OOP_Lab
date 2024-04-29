@@ -6,7 +6,7 @@
 
 class IUserRepository {
 public:
-    virtual ~IUserRepository() {};
+    virtual ~IUserRepository() = default;
 
     virtual NormalUser findUserByUsername(std::string username) = 0;
 

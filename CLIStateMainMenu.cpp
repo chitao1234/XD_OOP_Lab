@@ -8,7 +8,8 @@
 void CLIStateMainMenu::displayMenu() {
     std::cout << "1. Login\n"
                  "2. Register\n"
-                 "3. Exit\n"
+                 "3. View products\n"
+                 "4. Exit\n"
                  "Enter your choice: ";
 }
 
@@ -53,6 +54,9 @@ void CLIStateMainMenu::handleUserInput() {
             break;
         }
         case 3:
+            std::cout << "View products...\n";
+            break;
+        case 4:
             std::cout << "Exiting...\n";
             userInterface.popState();
             break;
@@ -63,5 +67,5 @@ void CLIStateMainMenu::handleUserInput() {
 }
 
 CLIStateMainMenu::CLIStateMainMenu(CLIUserInterface &userInterface)
-    : userInterface(userInterface) {
+        : userInterface(userInterface) {
 }
