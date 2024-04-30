@@ -2,20 +2,25 @@
 // Created by chi on 24/04/28.
 //
 
-#include "MapProductDAO.h"
+#include "MapProductDao.h"
 
 #include <utility>
 #include <stdexcept>
 #include <fstream>
 
-MapProductDAO::MapProductDAO(std::string filename) : filename(std::move(filename)) {
+MapProductDao::MapProductDao(std::string filename) : filename(std::move(filename)) {
+    MapProductDao::load();
 }
 
-bool MapProductDAO::containProduct(uint64_t id) {
+MapProductDao::~MapProductDao() {
+    MapProductDao::save();
+}
+
+bool MapProductDao::containProduct(uint64_t id) {
     return products.find(id) != products.end();
 }
 
-void MapProductDAO::addProduct(const Product &product) {
+void MapProductDao::addProduct(const Product &product) {
     if (containProduct(product.getId())) {
         throw std::runtime_error("Product already exists");
     }
@@ -23,22 +28,22 @@ void MapProductDAO::addProduct(const Product &product) {
 }
 
 
-void MapProductDAO::removeProduct(uint64_t id) {
+void MapProductDao::removeProduct(uint64_t id) {
     if (!containProduct(id)) {
         throw std::runtime_error("Product not found");
     }
     products.erase(id);
 }
 
-void MapProductDAO::updateProduct(const Product &product) {
+void MapProductDao::updateProduct(const Product &product) {
     products.at(product.getId()) = product;
 }
 
-Product MapProductDAO::getProduct(uint64_t id) {
+Product MapProductDao::getProduct(uint64_t id) {
     return products.at(id);
 }
 
-std::vector<Product> MapProductDAO::getProducts() {
+std::vector<Product> MapProductDao::getProducts() {
     std::vector<Product> result;
     result.reserve(products.size());
     for (const auto &pair : products) {
@@ -47,7 +52,7 @@ std::vector<Product> MapProductDAO::getProducts() {
     return result;
 }
 
-std::vector<Product> MapProductDAO::getProducts(std::string query) {
+std::vector<Product> MapProductDao::getProducts(std::string query) {
     std::vector<Product> result;
     for (const auto &pair : products) {
         if (pair.second.getName().find(query) != std::string::npos) {
@@ -57,14 +62,15 @@ std::vector<Product> MapProductDAO::getProducts(std::string query) {
     return result;
 }
 
-void MapProductDAO::save() {
+void MapProductDao::save() {
     std::ofstream file(filename);
     for (const auto &pair : products) {
         file << Product::serialize(pair.second) << '\n';
     }
+    file.close();
 }
 
-bool MapProductDAO::load() {
+bool MapProductDao::load() {
     std::ifstream file(filename);
     if (file.bad()) {
         return false;
@@ -75,5 +81,6 @@ bool MapProductDAO::load() {
         Product product = Product::deserialize(line);
         products.insert({product.getId(), product});
     }
+    file.close();
     return true;
 }

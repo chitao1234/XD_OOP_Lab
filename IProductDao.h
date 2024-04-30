@@ -9,9 +9,9 @@
 #include <vector>
 #include "Product.h"
 
-class IProductDAO {
+class IProductDao {
 public:
-    virtual ~IProductDAO() = default;
+    virtual ~IProductDao() = default;
 
     virtual bool containProduct(uint64_t id) = 0;
 

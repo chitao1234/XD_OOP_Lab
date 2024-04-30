@@ -3,9 +3,13 @@
 //
 
 #include "MapProductRepository.h"
-#include "MapProductDAO.h"
+#include "MapProductDao.h"
 
-MapProductRepository::MapProductRepository() : productDao(new MapProductDAO("products.csv")) {}
+MapProductRepository::MapProductRepository() : productDao(new MapProductDao("products.csv")) {}
+
+MapProductRepository::~MapProductRepository() {
+    delete productDao;
+}
 
 bool MapProductRepository::addProduct(const Product &product) {
     if (productDao->containProduct(product.getId())) {
@@ -41,4 +45,3 @@ bool MapProductRepository::deleteProduct(int productId) {
 std::vector<Product> MapProductRepository::listProducts() {
     return productDao->getProducts();
 }
-

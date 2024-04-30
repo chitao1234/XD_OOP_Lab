@@ -6,13 +6,13 @@
 #define E_COMMERCE_MAPPRODUCTREPOSITORY_H
 
 #include "IProductRepository.h"
-#include "IProductDAO.h"
+#include "IProductDao.h"
 
 class MapProductRepository : public IProductRepository {
 public:
     MapProductRepository();
 
-    ~MapProductRepository() = default;
+    ~MapProductRepository();
 
     bool addProduct(const Product &product) override;
 
@@ -25,7 +25,7 @@ public:
     std::vector<Product> listProducts() override;
 
 private:
-    IProductDAO *productDao;
+    IProductDao *productDao;
 };
 
 

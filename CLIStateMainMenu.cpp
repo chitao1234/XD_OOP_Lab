@@ -4,6 +4,7 @@
 
 #include "NormalUser.h"
 #include "CLIStateUserLoggedIn.h"
+#include "CLIStateProductList.h"
 
 void CLIStateMainMenu::displayMenu() {
     std::cout << "1. Login\n"
@@ -53,9 +54,13 @@ void CLIStateMainMenu::handleUserInput() {
             }
             break;
         }
-        case 3:
+        case 3: {
+            IProductRepository &productRepository = userInterface.getProductRepository();
+            std::vector<Product> products = productRepository.listProducts();
             std::cout << "View products...\n";
+            userInterface.pushState(new CLIStateProductList(userInterface, products));
             break;
+        }
         case 4:
             std::cout << "Exiting...\n";
             userInterface.popState();
@@ -63,7 +68,9 @@ void CLIStateMainMenu::handleUserInput() {
         default:
             std::cout << "Invalid choice. Please try again.\n";
     }
-    std::cout << std::endl;
+
+    std::cout <<
+              std::endl;
 }
 
 CLIStateMainMenu::CLIStateMainMenu(CLIUserInterface &userInterface)

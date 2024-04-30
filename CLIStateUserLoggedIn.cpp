@@ -6,6 +6,7 @@
 #include "CLIStateUserLoggedIn.h"
 #include "CLIStateMainMenu.h"
 #include "CLIStateUserProfile.h"
+#include "CLIStateProductList.h"
 
 void CLIStateUserLoggedIn::displayMenu() {
     std::cout << "1. View products\n"
@@ -20,7 +21,7 @@ void CLIStateUserLoggedIn::handleUserInput() {
     std::cin >> choice;
     switch (choice) {
         case 1:
-            std::cout << "Viewing products..." << std::endl;
+            userInterface.pushState(new CLIStateProductList(userInterface, userInterface.getProductRepository().listProducts()));
             break;
         case 2:
             std::cout << "Viewing cart..." << std::endl;

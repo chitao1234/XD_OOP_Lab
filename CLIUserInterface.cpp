@@ -1,8 +1,8 @@
 #include "CLIUserInterface.h"
 #include "CLIStateMainMenu.h"
 
-CLIUserInterface::CLIUserInterface(IUserRepository &userRepository)
-        : userRepository(userRepository) {
+CLIUserInterface::CLIUserInterface(IUserRepository &userRepository, IProductRepository &productRepository)
+        : userRepository(userRepository), productRepository(productRepository) {
     pushState(new CLIStateMainMenu(*this));
 }
 
@@ -31,4 +31,8 @@ void CLIUserInterface::popState() {
     ICLIState *state = states.back();
     delete state;
     states.pop_back();
+}
+
+IProductRepository &CLIUserInterface::getProductRepository() {
+    return productRepository;
 }

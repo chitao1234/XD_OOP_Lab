@@ -6,12 +6,14 @@
 #define E_COMMERCE_MAPPRODUCTDAO_H
 
 #include <map>
-#include "IProductDAO.h"
+#include "IProductDao.h"
 
 
-class MapProductDAO : public IProductDAO {
+class MapProductDao : public IProductDao {
 public:
-    explicit MapProductDAO(std::string filename);
+    explicit MapProductDao(std::string filename);
+
+    ~MapProductDao() override;
 
     bool containProduct(uint64_t id) override;
 

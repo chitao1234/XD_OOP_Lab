@@ -1,9 +1,11 @@
 #include "CLIUserInterface.h"
 #include "MapUserRepository.h"
+#include "MapProductRepository.h"
 
 int main() {
     MapUserRepository userRepository = MapUserRepository();
-    CLIUserInterface userInterface(userRepository);
+    MapProductRepository productRepository = MapProductRepository();
+    CLIUserInterface userInterface(userRepository, productRepository);
 
     userInterface.start();
     return 0;
