@@ -29,10 +29,21 @@ public:
 
     bool containUser(std::string username) override;
 
+    std::vector<T> listUsers() override;
+
     void save() override;
 
     bool load() override;
 };
+
+template<typename T>
+std::vector<T> MapUserDao<T>::listUsers() {
+    std::vector<T> result;
+    for (typename std::map<std::string, T>::const_iterator iter = users.begin(); iter != users.end(); ++iter) {
+        result.push_back(iter->second);
+    }
+    return result;
+}
 
 template<typename T>
 MapUserDao<T>::MapUserDao(std::string filename) : filename(std::move(filename)) {

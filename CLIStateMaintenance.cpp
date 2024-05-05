@@ -5,6 +5,7 @@
 #include <iostream>
 #include "CLIStateMaintenance.h"
 #include "CLIStateProductMaintenance.h"
+#include "CLIStateUserMaintenance.h"
 
 CLIStateMaintenance::CLIStateMaintenance(CLIUserInterface &userInterface) : userInterface(userInterface) {
 }
@@ -26,7 +27,7 @@ void CLIStateMaintenance::handleUserInput() {
             break;
         }
         case 2: {
-            // TODO: Implement user maintenance
+            userInterface.pushState(new CLIStateUserMaintenance(userInterface));
             break;
         }
         case 3: {

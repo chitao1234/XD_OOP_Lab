@@ -15,11 +15,11 @@ public:
 
     virtual bool addProduct(std::string name, std::string description, double price, long remainingStock) = 0;
 
-    virtual std::optional<Product> getProduct(int productId) = 0;
+    virtual std::optional<Product> getProduct(uint64_t productId) = 0;
 
     virtual bool updateProduct(const Product &product) = 0;
 
-    virtual bool deleteProduct(int productId) = 0;
+    virtual bool deleteProduct(uint64_t productId) = 0;
 
     virtual std::vector<Product> listProducts() = 0;
 };

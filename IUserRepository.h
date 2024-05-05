@@ -19,6 +19,12 @@ public:
     virtual bool changePassword(const NormalUser& user, std::string oldPassword, std::string newPassword) = 0;
 
     virtual bool updateUser(const NormalUser &User) = 0;
+
+    virtual bool deleteUser(std::string username) = 0;
+
+    virtual bool replaceUser(const NormalUser &user, const NormalUser &newUser) = 0;
+
+    virtual std::vector<NormalUser> listUsers() = 0;
 };
 
 #endif

@@ -17,7 +17,7 @@ bool MapProductRepository::addProduct(std::string name, std::string description,
     return true;
 }
 
-std::optional<Product> MapProductRepository::getProduct(int productId) {
+std::optional<Product> MapProductRepository::getProduct(uint64_t productId) {
     if (!productDao->containProduct(productId)) {
         return std::nullopt;
     }
@@ -33,7 +33,7 @@ bool MapProductRepository::updateProduct(const Product &product) {
     return true;
 }
 
-bool MapProductRepository::deleteProduct(int productId) {
+bool MapProductRepository::deleteProduct(uint64_t productId) {
     if (!productDao->containProduct(productId)) {
         return false;
     }

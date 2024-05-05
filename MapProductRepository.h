@@ -16,11 +16,11 @@ public:
 
     bool addProduct(std::string name, std::string description, double price, long remainingStock) override;
 
-    std::optional<Product> getProduct(int productId) override;
+    std::optional<Product> getProduct(uint64_t productId) override;
 
     bool updateProduct(const Product &product) override;
 
-    bool deleteProduct(int productId) override;
+    bool deleteProduct(uint64_t productId) override;
 
     std::vector<Product> listProducts() override;
 

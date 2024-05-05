@@ -18,6 +18,8 @@ public:
 
     virtual bool containUser(std::string username) = 0;
 
+    virtual std::vector<T> listUsers() = 0;
+
     virtual void save() = 0;
 
     virtual bool load() = 0;

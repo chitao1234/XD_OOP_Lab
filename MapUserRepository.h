@@ -1,6 +1,7 @@
 #ifndef MAPUSERREPOSITORY_H
 #define MAPUSERREPOSITORY_H
 
+#include <vector>
 #include "AdminUser.h"
 #include "MapUserDao.h"
 #include "IUserRepository.h"
@@ -8,11 +9,13 @@
 
 class MapUserRepository : public IUserRepository {
 private:
-    MapUserDao<NormalUser> userDao;
-    MapUserDao<AdminUser> adminDao;
+    IUserDao<NormalUser> *userDao;
+    IUserDao<AdminUser> *adminDao;
 
 public:
     MapUserRepository();
+
+    ~MapUserRepository();
 
     NormalUser findUserByUsername(std::string username) override;
 
@@ -25,6 +28,12 @@ public:
     bool changePassword(const NormalUser &user, std::string oldPassword, std::string newPassword) override;
 
     bool updateUser(const NormalUser &user) override;
+
+    bool deleteUser(std::string username) override;
+
+    bool replaceUser(const NormalUser &user, const NormalUser &newUser) override;
+
+    std::vector<NormalUser> listUsers() override;
 };
 
 
