@@ -11,11 +11,9 @@ MapProductRepository::~MapProductRepository() {
     delete productDao;
 }
 
-bool MapProductRepository::addProduct(const Product &product) {
-    if (productDao->containProduct(product.getId())) {
-        return false;
-    }
-    productDao->addProduct(product);
+bool MapProductRepository::addProduct(std::string name, std::string description, double price, long remainingStock) {
+    productDao->addProduct(Product(productDao->nextId(), name, description, price, remainingStock));
+    productDao->save();
     return true;
 }
 
@@ -31,6 +29,7 @@ bool MapProductRepository::updateProduct(const Product &product) {
         return false;
     }
     productDao->updateProduct(product);
+    productDao->save();
     return true;
 }
 
@@ -39,6 +38,7 @@ bool MapProductRepository::deleteProduct(int productId) {
         return false;
     }
     productDao->removeProduct(productId);
+    productDao->save();
     return true;
 }
 

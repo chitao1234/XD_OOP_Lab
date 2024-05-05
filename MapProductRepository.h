@@ -14,7 +14,7 @@ public:
 
     ~MapProductRepository();
 
-    bool addProduct(const Product &product) override;
+    bool addProduct(std::string name, std::string description, double price, long remainingStock) override;
 
     std::optional<Product> getProduct(int productId) override;
 

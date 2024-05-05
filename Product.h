@@ -6,12 +6,13 @@
 #define E_COMMERCE_PRODUCT_H
 
 #include <string>
+#include <cstdint>
 
 class Product {
 public:
-    Product(int id, std::string name, std::string description, double price);
+    Product(uint64_t id, std::string name, std::string description, double price, long remainingStock);
 
-    [[nodiscard]] int getId() const;
+    [[nodiscard]] uint64_t getId() const;
 
     [[nodiscard]] std::string getName() const;
 
@@ -19,21 +20,26 @@ public:
 
     [[nodiscard]] double getPrice() const;
 
+    [[nodiscard]] long getRemainingStock() const;
+
     void setName(std::string name);
 
     void setDescription(std::string description);
 
     void setPrice(double price);
 
+    void setRemainingStock(long remainingStock);
+
     static std::string serialize(const Product &product);
 
     static Product deserialize(const std::string &line);
 
 private:
-    int id;
+    uint64_t id;
     std::string name;
     std::string description;
     double price;
+    long remainingStock;
 };
 
 #endif //E_COMMERCE_PRODUCT_H

@@ -27,6 +27,8 @@ public:
 
     virtual std::vector<Product> getProducts(std::string query) = 0;
 
+    virtual uint64_t nextId() = 0;
+
     virtual void save() = 0;
 
     virtual bool load() = 0;

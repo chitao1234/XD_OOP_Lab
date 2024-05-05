@@ -29,11 +29,14 @@ public:
 
     std::vector<Product> getProducts(std::string query) override;
 
+    uint64_t nextId() override;
+
     void save() override;
 
     bool load() override;
 
 private:
+    uint64_t lastId;
     std::string filename;
     std::map<uint64_t, Product> products;
 };

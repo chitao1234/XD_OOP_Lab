@@ -5,11 +5,17 @@
 #include <sstream>
 #include "Product.h"
 
-Product::Product(int id, std::string name, std::string description, double price) : id(id), name(std::move(name)),
-                                                                                    description(std::move(description)),
-                                                                                    price(price) {}
+Product::Product(uint64_t id,
+                 std::string name,
+                 std::string description,
+                 double price,
+                 long remainingStock) : id(id),
+                                        name(std::move(name)),
+                                        description(std::move(description)),
+                                        price(price),
+                                        remainingStock(remainingStock) {}
 
-int Product::getId() const {
+uint64_t Product::getId() const {
     return id;
 }
 
@@ -43,15 +49,25 @@ std::string Product::serialize(const Product &product) {
     oss << product.getName() << ',';
     oss << product.getDescription() << ',';
     oss << product.getPrice() << ',';
+    oss << product.getRemainingStock();
     return oss.str();
 }
 
 Product Product::deserialize(const std::string &line) {
     std::istringstream iss(line);
-    std::string id, name, description, price;
+    std::string id, name, description, price, remainingStock;
     std::getline(iss, id, ',');
     std::getline(iss, name, ',');
     std::getline(iss, description, ',');
     std::getline(iss, price, ',');
-    return {std::stoi(id), name, description, std::stod(price)};
+    std::getline(iss, remainingStock, ',');
+    return {std::stoul(id), name, description, std::stod(price), std::stol(remainingStock)};
+}
+
+long Product::getRemainingStock() const {
+    return remainingStock;
+}
+
+void Product::setRemainingStock(long remainingStock) {
+    this->remainingStock = remainingStock;
 }

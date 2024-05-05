@@ -8,7 +8,7 @@
 #include <stdexcept>
 #include <fstream>
 
-MapProductDao::MapProductDao(std::string filename) : filename(std::move(filename)) {
+MapProductDao::MapProductDao(std::string filename) : lastId(0), filename(std::move(filename)) {
     MapProductDao::load();
 }
 
@@ -79,8 +79,13 @@ bool MapProductDao::load() {
     std::string line;
     while (std::getline(file, line)) {
         Product product = Product::deserialize(line);
+        lastId = std::max(lastId, product.getId());
         products.insert({product.getId(), product});
     }
     file.close();
     return true;
+}
+
+uint64_t MapProductDao::nextId() {
+    return ++lastId;
 }

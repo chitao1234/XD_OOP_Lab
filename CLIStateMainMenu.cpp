@@ -5,6 +5,7 @@
 #include "NormalUser.h"
 #include "CLIStateUserLoggedIn.h"
 #include "CLIStateProductList.h"
+#include "CLIStateMaintenance.h"
 
 void CLIStateMainMenu::displayMenu() {
     std::cout << "1. Login\n"
@@ -27,6 +28,7 @@ void CLIStateMainMenu::handleUserInput() {
             std::cin >> password;
             if (userRepository.loginAsAdmin(username, password)) {
                 std::cout << "Welcome, admin.\n";
+                userInterface.pushState(new CLIStateMaintenance(userInterface));
                 break;
             }
             std::optional<NormalUser> user = userRepository.login(username, password);

@@ -13,7 +13,7 @@ class IProductRepository {
 public:
     ~IProductRepository() = default;
 
-    virtual bool addProduct(const Product &product) = 0;
+    virtual bool addProduct(std::string name, std::string description, double price, long remainingStock) = 0;
 
     virtual std::optional<Product> getProduct(int productId) = 0;
 

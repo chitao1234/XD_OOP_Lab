@@ -21,9 +21,11 @@ void CLIStateUserLoggedIn::handleUserInput() {
     std::cin >> choice;
     switch (choice) {
         case 1:
+            // TODO: search
             userInterface.pushState(new CLIStateProductList(userInterface, userInterface.getProductRepository().listProducts()));
             break;
         case 2:
+            // TODO: cart
             std::cout << "Viewing cart..." << std::endl;
             break;
         case 3:
