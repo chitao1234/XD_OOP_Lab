@@ -24,6 +24,8 @@ public:
 
     std::vector<Product> listProducts() override;
 
+    std::vector<Product> searchProducts(std::string keyword) override;
+
 private:
     IProductDao *productDao;
 };

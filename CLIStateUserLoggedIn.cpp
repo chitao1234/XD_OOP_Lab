@@ -7,6 +7,7 @@
 #include "CLIStateMainMenu.h"
 #include "CLIStateUserProfile.h"
 #include "CLIStateProductList.h"
+#include "SessionManager.h"
 
 void CLIStateUserLoggedIn::displayMenu() {
     std::cout << "1. View products\n"
@@ -22,17 +23,21 @@ void CLIStateUserLoggedIn::handleUserInput() {
     switch (choice) {
         case 1:
             // TODO: search
-            userInterface.pushState(new CLIStateProductList(userInterface, userInterface.getProductRepository().listProducts()));
+            userInterface.pushState(
+                    new CLIStateProductList(userInterface, userInterface.getProductRepository().listProducts()));
             break;
         case 2:
             // TODO: cart
             std::cout << "Viewing cart..." << std::endl;
             break;
         case 3:
-            userInterface.pushState(new CLIStateUserProfile(userInterface, user));
+            userInterface.pushState(new CLIStateUserProfile(userInterface,
+                                                            SessionManager::getInstance()
+                                                                    ->getCurrentUser().value()));
             break;
         case 4:
             std::cout << "Logging out..." << std::endl;
+            SessionManager::getInstance()->logoutUser();
             userInterface.popState();
             break;
         default:
@@ -41,6 +46,6 @@ void CLIStateUserLoggedIn::handleUserInput() {
     std::cout << std::endl;
 }
 
-CLIStateUserLoggedIn::CLIStateUserLoggedIn(CLIUserInterface &userInterface, NormalUser &user) : userInterface(
-        userInterface), user(user) {
+CLIStateUserLoggedIn::CLIStateUserLoggedIn(CLIUserInterface &userInterface) : userInterface(
+        userInterface) {
 }

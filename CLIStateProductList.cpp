@@ -20,11 +20,18 @@ void CLIStateProductList::displayMenu() {
 }
 
 void CLIStateProductList::handleUserInput() {
-    std::cout << "Enter product number to view details, or 'b' to go back: ";
+    std::cout << "Enter product number to view details, or 'b' to go back and 's' to search: ";
     std::string input;
     std::cin >> input;
     if (input == "b") {
         userInterface.popState();
+    } else if (input == "s") {
+        std::string search;
+        std::cout << "Enter search query: ";
+        std::cin >> search;
+        userInterface.pushState(new CLIStateProductList(userInterface,
+                                                        userInterface.getProductRepository()
+                                                                .searchProducts(search)));
     } else {
         long productNumber = std::stol(input) - 1;
         if (productNumber >= 0 && (size_t) productNumber < products.size()) {

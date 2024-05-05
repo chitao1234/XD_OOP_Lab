@@ -3,7 +3,9 @@
 //
 
 #include <iostream>
+#include <utility>
 #include "CLIStateUserProfile.h"
+#include "SessionManager.h"
 
 void CLIStateUserProfile::displayMenu() {
     std::cout << "1. View profile\n"
@@ -29,6 +31,7 @@ void CLIStateUserProfile::handleUserInput() {
             std::cin >> email;
             user.setEmail(email);
             userRepository.updateUser(user);
+            SessionManager::getInstance()->loginUser(user);
             break;
         }
         case 3: {
@@ -49,7 +52,10 @@ void CLIStateUserProfile::handleUserInput() {
                 std::cout << "Password changed.\n";
             } else {
                 std::cout << "Old password is incorrect.\n";
+                break;
             }
+            user = userRepository.login(user.getUsername(), newPassword).value();
+            SessionManager::getInstance()->loginUser(user);
             break;
         }
         case 4:
@@ -63,6 +69,6 @@ void CLIStateUserProfile::handleUserInput() {
 
 }
 
-CLIStateUserProfile::CLIStateUserProfile(CLIUserInterface &userInterface, NormalUser &user) : userInterface(
-        userInterface), user(user) {
+CLIStateUserProfile::CLIStateUserProfile(CLIUserInterface &userInterface, NormalUser user) : userInterface(
+        userInterface), user(std::move(user)) {
 }

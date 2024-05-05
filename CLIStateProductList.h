@@ -17,6 +17,7 @@ public:
     void displayMenu() override;
 
     void handleUserInput() override;
+
 private:
     CLIUserInterface &userInterface;
     std::vector<Product> products;

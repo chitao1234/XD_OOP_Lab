@@ -12,7 +12,7 @@
 
 class CLIStateUserProfile : public ICLIState {
 public:
-    CLIStateUserProfile(CLIUserInterface &userInterface, NormalUser &user);
+    CLIStateUserProfile(CLIUserInterface &userInterface, NormalUser user);
 
     void displayMenu() override;
 
@@ -20,7 +20,7 @@ public:
 
 private:
     CLIUserInterface &userInterface;
-    NormalUser &user;
+    NormalUser user;
 };
 
 

@@ -36,3 +36,8 @@ void CLIUserInterface::popState() {
 IProductRepository &CLIUserInterface::getProductRepository() {
     return productRepository;
 }
+
+void CLIUserInterface::replaceState(ICLIState *newState) {
+    popState();
+    pushState(newState);
+}

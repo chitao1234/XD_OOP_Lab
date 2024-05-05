@@ -45,3 +45,7 @@ bool MapProductRepository::deleteProduct(uint64_t productId) {
 std::vector<Product> MapProductRepository::listProducts() {
     return productDao->getProducts();
 }
+
+std::vector<Product> MapProductRepository::searchProducts(std::string keyword) {
+    return productDao->getProducts(keyword);
+}

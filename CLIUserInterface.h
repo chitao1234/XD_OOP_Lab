@@ -26,6 +26,8 @@ public:
     void pushState(ICLIState *newState);
 
     void popState();
+
+    void replaceState(ICLIState *newState);
 };
 
 #endif

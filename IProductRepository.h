@@ -22,6 +22,8 @@ public:
     virtual bool deleteProduct(uint64_t productId) = 0;
 
     virtual std::vector<Product> listProducts() = 0;
+
+    virtual std::vector<Product> searchProducts(std::string keyword) = 0;
 };
 
 

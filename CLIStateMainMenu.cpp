@@ -6,6 +6,7 @@
 #include "CLIStateUserLoggedIn.h"
 #include "CLIStateProductList.h"
 #include "CLIStateMaintenance.h"
+#include "SessionManager.h"
 
 void CLIStateMainMenu::displayMenu() {
     std::cout << "1. Login\n"
@@ -34,7 +35,8 @@ void CLIStateMainMenu::handleUserInput() {
             std::optional<NormalUser> user = userRepository.login(username, password);
             if (user.has_value()) {
                 std::cout << "Login successful.\n";
-                userInterface.pushState(new CLIStateUserLoggedIn(userInterface, user.value()));
+                SessionManager::getInstance()->loginUser(user.value());
+                userInterface.pushState(new CLIStateUserLoggedIn(userInterface));
             } else {
                 std::cout << "Login failed.\n";
             }
