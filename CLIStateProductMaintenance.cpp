@@ -6,7 +6,9 @@
 #include "CLIStateProductMaintenance.h"
 #include "StorageService.h"
 
-CLIStateProductMaintenance::CLIStateProductMaintenance(CLIUserInterface &userInterface) : userInterface(userInterface) {
+CLIStateProductMaintenance::CLIStateProductMaintenance(CLIUserInterface &userInterface) :
+        userInterface(userInterface),
+        productDisplay(StorageService::getInstance()->getProductRepository().listProducts()) {
 }
 
 void CLIStateProductMaintenance::displayMenu() {
@@ -24,7 +26,7 @@ void CLIStateProductMaintenance::handleUserInput() {
     std::cin >> choice;
     switch (choice) {
         case 1: {
-            listProducts();
+            productDisplay.listProducts(ProductDisplay::DETAILED_WITH_STOCK);
             break;
         }
         case 2: {
@@ -46,7 +48,7 @@ void CLIStateProductMaintenance::handleUserInput() {
             break;
         }
         case 3: {
-            listProducts();
+            productDisplay.listProducts(ProductDisplay::DETAILED_WITH_STOCK);
             int productId;
             std::cout << "Enter product id: ";
             std::cin >> productId;
@@ -80,7 +82,7 @@ void CLIStateProductMaintenance::handleUserInput() {
             break;
         }
         case 4: {
-            listProducts();
+            productDisplay.listProducts(ProductDisplay::DETAILED_WITH_STOCK);
             int productId;
             std::cout << "Enter product id: ";
             std::cin >> productId;
@@ -99,16 +101,4 @@ void CLIStateProductMaintenance::handleUserInput() {
         default:
             std::cout << "Invalid choice" << std::endl;
     }
-}
-
-void CLIStateProductMaintenance::listProducts() {
-    IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
-    std::vector<Product> products = productRepository.listProducts();
-    std::cout << "Product List" << std::endl;
-    std::cout << "ID Name Price Stock" << std::endl;
-    for (const Product &product: products) {
-        std::cout << product.getId() << " " << product.getName() << " " << product.getPrice() << " "
-                  << product.getRemainingStock() << std::endl;
-    }
-    std::cout << std::endl;
 }

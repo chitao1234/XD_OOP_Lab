@@ -26,7 +26,7 @@ ShoppingCartRepository::~ShoppingCartRepository() {
 
 void ShoppingCartRepository::addProduct(uint64_t productId, long quantity) {
     long originalQuantity = shoppingCartDao->getProductQuantity(username, productId);
-    if (originalQuantity < 0) throw std::runtime_error("Product not found in cart");
+    if (originalQuantity < 0) originalQuantity = 0;
     shoppingCartDao->updateProductQuantity(username, productId, originalQuantity + quantity);
     shoppingCartDao->save();
 }

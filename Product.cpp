@@ -71,3 +71,8 @@ long Product::getRemainingStock() const {
 void Product::setRemainingStock(long remainingStock) {
     this->remainingStock = remainingStock;
 }
+
+bool Product::operator==(const Product &product) const {
+    return id == product.id && name == product.name && description == product.description && price == product.price &&
+           remainingStock == product.remainingStock;
+}

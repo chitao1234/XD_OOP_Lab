@@ -38,6 +38,7 @@ void ShoppingCartDao::updateProductQuantity(std::string username, uint64_t produ
             return;
         }
     }
+    cart.emplace_back(productId, quantity);
 }
 
 void ShoppingCartDao::clearCart(std::string username) {
@@ -51,6 +52,7 @@ void ShoppingCartDao::save() {
             ofs << cart.first << ',' << product.first << ',' << product.second << '\n';
         }
     }
+    ofs.close();
 }
 
 bool ShoppingCartDao::load() {
@@ -68,6 +70,7 @@ bool ShoppingCartDao::load() {
         iss >> quantity;
         carts[currentUsername].emplace_back(productId, quantity);
     }
+    ifs.close();
     return true;
 }
 

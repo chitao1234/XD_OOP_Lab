@@ -34,6 +34,8 @@ public:
 
     static Product deserialize(const std::string &line);
 
+    bool operator==(const Product &product) const;
+
 private:
     uint64_t id;
     std::string name;

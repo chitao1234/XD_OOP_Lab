@@ -9,6 +9,7 @@
 #include "ICLIState.h"
 #include "CLIUserInterface.h"
 #include "Product.h"
+#include "ProductDisplay.h"
 
 class CLIStateProductList : public ICLIState {
 public:
@@ -20,7 +21,7 @@ public:
 
 private:
     CLIUserInterface &userInterface;
-    std::vector<Product> products;
+    ProductDisplay productDisplay;
 };
 
 

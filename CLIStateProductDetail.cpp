@@ -5,6 +5,7 @@
 #include <iostream>
 #include <utility>
 #include "CLIStateProductDetail.h"
+#include "SessionManager.h"
 
 void CLIStateProductDetail::displayMenu() {
     std::cout << "Product Detail" << std::endl;
@@ -15,7 +16,6 @@ void CLIStateProductDetail::displayMenu() {
                  "2. Buy\n"
                  "3. Back\n"
                  "Enter your choice: ";
-    std::cout << std::endl;
 }
 
 CLIStateProductDetail::CLIStateProductDetail(CLIUserInterface &userInterface, Product product) : userInterface(
@@ -27,14 +27,23 @@ void CLIStateProductDetail::handleUserInput() {
     int choice;
     std::cin >> choice;
     switch (choice) {
-        case 1:
-            // StorageService::getInstance()->getLoggedInUser().addToCart(product);
-            // TODO: cart
+        case 1: {
+            if (!SessionManager::getInstance()->getLoginStatus()) {
+                std::cout << "Please login first" << std::endl;
+                break;
+            }
+            IShoppingCartRepository &cart = SessionManager::getInstance()->getShoppingCartRepository();
+            std::cout << "Enter quantity: ";
+            long quantity;
+            std::cin >> quantity;
+            cart.addProduct(product.getId(), quantity);
             std::cout << "Added to cart" << std::endl;
             break;
+        }
         case 2:
             // TODO: buy
             std::cout << "Bought" << std::endl;
+            break;
         case 3:
             userInterface.popState();
             break;

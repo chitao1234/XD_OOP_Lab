@@ -7,6 +7,7 @@
 
 #include "ICLIState.h"
 #include "CLIUserInterface.h"
+#include "ProductDisplay.h"
 
 class CLIStateProductMaintenance : public ICLIState{
 public:
@@ -16,9 +17,8 @@ public:
 
     void handleUserInput() override;
 private:
-    void listProducts();
-
     CLIUserInterface &userInterface;
+    ProductDisplay productDisplay;
 };
 
 
