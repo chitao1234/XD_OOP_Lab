@@ -8,6 +8,7 @@
 #include "CLIStateUserProfile.h"
 #include "CLIStateProductList.h"
 #include "SessionManager.h"
+#include "StorageService.h"
 
 void CLIStateUserLoggedIn::displayMenu() {
     std::cout << "1. View products\n"
@@ -24,7 +25,7 @@ void CLIStateUserLoggedIn::handleUserInput() {
         case 1:
             // TODO: search
             userInterface.pushState(
-                    new CLIStateProductList(userInterface, userInterface.getProductRepository().listProducts()));
+                    new CLIStateProductList(userInterface, StorageService::getInstance()->getProductRepository().listProducts()));
             break;
         case 2:
             // TODO: cart

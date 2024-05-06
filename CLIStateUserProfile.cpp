@@ -6,6 +6,7 @@
 #include <utility>
 #include "CLIStateUserProfile.h"
 #include "SessionManager.h"
+#include "StorageService.h"
 
 void CLIStateUserProfile::displayMenu() {
     std::cout << "1. View profile\n"
@@ -24,7 +25,7 @@ void CLIStateUserProfile::handleUserInput() {
             std::cout << "Email: " << user.getEmail() << std::endl;
             break;
         case 2: {
-            IUserRepository &userRepository = userInterface.getUserRepository();
+            IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
             std::string email;
             std::cout << "Editing profile...\n"
                          "Enter new email: ";
@@ -35,7 +36,7 @@ void CLIStateUserProfile::handleUserInput() {
             break;
         }
         case 3: {
-            IUserRepository &userRepository = userInterface.getUserRepository();
+            IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
             std::string oldPassword, newPassword, confirmPassword;
             std::cout << "Changing password...\n"
                          "Old password: ";

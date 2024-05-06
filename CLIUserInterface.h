@@ -8,12 +8,10 @@
 
 class CLIUserInterface {
 private:
-    IUserRepository &userRepository;
-    IProductRepository &productRepository;
     std::vector<ICLIState *> states;
 
 public:
-    explicit CLIUserInterface(IUserRepository &userRepository, IProductRepository &productRepository);
+    explicit CLIUserInterface();
 
     ~CLIUserInterface();
 

@@ -1,14 +1,13 @@
 #include "CLIUserInterface.h"
 #include "CLIStateMainMenu.h"
 
-CLIUserInterface::CLIUserInterface(IUserRepository &userRepository, IProductRepository &productRepository)
-        : userRepository(userRepository), productRepository(productRepository) {
+CLIUserInterface::CLIUserInterface() {
     pushState(new CLIStateMainMenu(*this));
 }
 
 CLIUserInterface::~CLIUserInterface() {
-    for (std::vector<ICLIState *>::iterator it = states.begin(); it != states.end(); ++it) {
-        delete *it;
+    for (auto &state: states) {
+        delete state;
     }
 }
 
@@ -19,10 +18,6 @@ void CLIUserInterface::start() {
     }
 }
 
-IUserRepository &CLIUserInterface::getUserRepository() {
-    return userRepository;
-}
-
 void CLIUserInterface::pushState(ICLIState *newState) {
     states.push_back(newState);
 }
@@ -31,10 +26,6 @@ void CLIUserInterface::popState() {
     ICLIState *state = states.back();
     delete state;
     states.pop_back();
-}
-
-IProductRepository &CLIUserInterface::getProductRepository() {
-    return productRepository;
 }
 
 void CLIUserInterface::replaceState(ICLIState *newState) {

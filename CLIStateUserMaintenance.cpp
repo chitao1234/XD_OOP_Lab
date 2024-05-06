@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "CLIStateUserMaintenance.h"
+#include "StorageService.h"
 
 CLIStateUserMaintenance::CLIStateUserMaintenance(CLIUserInterface &userInterface) : userInterface(userInterface) {
 }
@@ -27,7 +28,7 @@ void CLIStateUserMaintenance::handleUserInput() {
             break;
         }
         case 2: {
-            IUserRepository &userRepository = userInterface.getUserRepository();
+            IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
             std::string username, password, email;
             std::cout << "Enter username: ";
             std::cin >> username;
@@ -45,7 +46,7 @@ void CLIStateUserMaintenance::handleUserInput() {
         }
         case 3: {
             listUsers();
-            IUserRepository &userRepository = userInterface.getUserRepository();
+            IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
             std::optional<NormalUser> user = readUser();
             if (!user.has_value()) {
                 std::cout << "User not found" << std::endl;
@@ -67,7 +68,7 @@ void CLIStateUserMaintenance::handleUserInput() {
         }
         case 4: {
             listUsers();
-            IUserRepository &userRepository = userInterface.getUserRepository();
+            IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
             std::optional<NormalUser> user = readUser();
             if (!user.has_value()) {
                 std::cout << "User not found" << std::endl;
@@ -89,7 +90,7 @@ void CLIStateUserMaintenance::handleUserInput() {
 }
 
 void CLIStateUserMaintenance::listUsers() {
-    IUserRepository &userRepository = userInterface.getUserRepository();
+    IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
     std::vector<NormalUser> users = userRepository.listUsers();
     std::cout << "Users:\n";
     for (const NormalUser &user : users) {
@@ -102,7 +103,7 @@ std::optional<NormalUser> CLIStateUserMaintenance::readUser() {
     std::string username;
     std::cout << "Enter username: ";
     std::cin >> username;
-    IUserRepository &userRepository = userInterface.getUserRepository();
+    IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
     std::optional<NormalUser> user = userRepository.findUserByUsername(username);
     return user;
 }

@@ -11,6 +11,10 @@ void CLIStateProductDetail::displayMenu() {
     std::cout << "Name: " << product.getName() << std::endl;
     std::cout << "Price: " << product.getPrice() << std::endl;
     std::cout << "Description: " << product.getDescription() << std::endl;
+    std::cout << "1. Add to cart\n"
+                 "2. Buy\n"
+                 "3. Back\n"
+                 "Enter your choice: ";
     std::cout << std::endl;
 }
 
@@ -20,18 +24,18 @@ CLIStateProductDetail::CLIStateProductDetail(CLIUserInterface &userInterface, Pr
 }
 
 void CLIStateProductDetail::handleUserInput() {
-    std::cout << "1. Add to cart\n"
-                 "2. Back\n"
-                 "Enter your choice: ";
     int choice;
     std::cin >> choice;
     switch (choice) {
         case 1:
-            // userInterface.getLoggedInUser().addToCart(product);
+            // StorageService::getInstance()->getLoggedInUser().addToCart(product);
             // TODO: cart
             std::cout << "Added to cart" << std::endl;
             break;
         case 2:
+            // TODO: buy
+            std::cout << "Bought" << std::endl;
+        case 3:
             userInterface.popState();
             break;
         default:

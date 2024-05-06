@@ -4,6 +4,7 @@
 
 #include <iostream>
 #include "CLIStateProductMaintenance.h"
+#include "StorageService.h"
 
 CLIStateProductMaintenance::CLIStateProductMaintenance(CLIUserInterface &userInterface) : userInterface(userInterface) {
 }
@@ -27,7 +28,7 @@ void CLIStateProductMaintenance::handleUserInput() {
             break;
         }
         case 2: {
-            IProductRepository &productRepository = userInterface.getProductRepository();
+            IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
             std::string name;
             double price;
             std::string description;
@@ -49,7 +50,7 @@ void CLIStateProductMaintenance::handleUserInput() {
             int productId;
             std::cout << "Enter product id: ";
             std::cin >> productId;
-            IProductRepository &productRepository = userInterface.getProductRepository();
+            IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
             std::optional<Product> product = productRepository.getProduct(productId);
             if (!product.has_value()) {
                 std::cout << "Product not found" << std::endl;
@@ -83,7 +84,7 @@ void CLIStateProductMaintenance::handleUserInput() {
             int productId;
             std::cout << "Enter product id: ";
             std::cin >> productId;
-            IProductRepository &productRepository = userInterface.getProductRepository();
+            IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
             if (!productRepository.deleteProduct(productId)) {
                 std::cout << "Product not found" << std::endl;
                 break;
@@ -101,7 +102,7 @@ void CLIStateProductMaintenance::handleUserInput() {
 }
 
 void CLIStateProductMaintenance::listProducts() {
-    IProductRepository &productRepository = userInterface.getProductRepository();
+    IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
     std::vector<Product> products = productRepository.listProducts();
     std::cout << "Product List" << std::endl;
     std::cout << "ID Name Price Stock" << std::endl;

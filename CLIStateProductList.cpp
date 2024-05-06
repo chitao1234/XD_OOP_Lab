@@ -5,6 +5,7 @@
 #include <iostream>
 #include "CLIStateProductList.h"
 #include "CLIStateProductDetail.h"
+#include "StorageService.h"
 
 CLIStateProductList::CLIStateProductList(CLIUserInterface &userInterface, const std::vector<Product> &products)
         : userInterface(userInterface), products(products) {
@@ -30,7 +31,7 @@ void CLIStateProductList::handleUserInput() {
         std::cout << "Enter search query: ";
         std::cin >> search;
         userInterface.pushState(new CLIStateProductList(userInterface,
-                                                        userInterface.getProductRepository()
+                                                        StorageService::getInstance()->getProductRepository()
                                                                 .searchProducts(search)));
     } else {
         long productNumber = std::stol(input) - 1;

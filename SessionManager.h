@@ -8,16 +8,21 @@
 
 #include <optional>
 #include "NormalUser.h"
+#include "IShoppingCartRepository.h"
+#include "SingletonTemplate.h"
 
-class SessionManager {
+class SessionManager : public SingletonTemplate<SessionManager> {
 private:
-    static SessionManager *instance;
+    friend class SingletonTemplate<SessionManager>;
+
     std::optional<NormalUser> currentUser;
+    IShoppingCartRepository *shoppingCartRepository;
 
     SessionManager();
 
+    ~SessionManager();
+
 public:
-    static SessionManager *getInstance();
 
     void loginUser(const NormalUser &user);
 
@@ -26,6 +31,8 @@ public:
     [[nodiscard]] bool getLoginStatus() const;
 
     [[nodiscard]] std::optional<NormalUser> getCurrentUser() const;
+
+    [[nodiscard]] IShoppingCartRepository &getShoppingCartRepository() const;
 };
 
 

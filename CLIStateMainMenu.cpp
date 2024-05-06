@@ -7,6 +7,7 @@
 #include "CLIStateProductList.h"
 #include "CLIStateMaintenance.h"
 #include "SessionManager.h"
+#include "StorageService.h"
 
 void CLIStateMainMenu::displayMenu() {
     std::cout << "1. Login\n"
@@ -19,7 +20,7 @@ void CLIStateMainMenu::displayMenu() {
 void CLIStateMainMenu::handleUserInput() {
     int choice;
     std::cin >> choice;
-    IUserRepository &userRepository = userInterface.getUserRepository();
+    IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
     switch (choice) {
         case 1: {
             std::string username, password;
@@ -59,7 +60,7 @@ void CLIStateMainMenu::handleUserInput() {
             break;
         }
         case 3: {
-            IProductRepository &productRepository = userInterface.getProductRepository();
+            IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
             std::vector<Product> products = productRepository.listProducts();
             std::cout << "View products...\n";
             userInterface.pushState(new CLIStateProductList(userInterface, products));
