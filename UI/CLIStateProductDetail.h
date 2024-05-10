@@ -6,7 +6,7 @@
 #define E_COMMERCE_CLISTATEPRODUCTDETAIL_H
 
 #include "ICLIState.h"
-#include "Product.h"
+#include "DataType/Product.h"
 #include "CLIUserInterface.h"
 
 class CLIStateProductDetail : public ICLIState {

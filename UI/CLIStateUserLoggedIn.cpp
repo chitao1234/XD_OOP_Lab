@@ -7,8 +7,8 @@
 #include "CLIStateMainMenu.h"
 #include "CLIStateUserProfile.h"
 #include "CLIStateProductList.h"
-#include "SessionManager.h"
-#include "StorageService.h"
+#include "Service/SessionManager.h"
+#include "Service/StorageService.h"
 #include "CLIStateCart.h"
 
 void CLIStateUserLoggedIn::displayMenu() {

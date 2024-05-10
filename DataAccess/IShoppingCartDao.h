@@ -6,7 +6,7 @@
 #define E_COMMERCE_ISHOPPINGCARTDAO_H
 
 #include <cstdint>
-#include "Product.h"
+#include "../DataType/Product.h"
 
 class IShoppingCartDao {
 public:

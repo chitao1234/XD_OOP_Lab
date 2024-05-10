@@ -5,7 +5,7 @@
 #ifndef E_COMMERCE_IPRODUCTREPOSITORY_H
 #define E_COMMERCE_IPRODUCTREPOSITORY_H
 
-#include "Product.h"
+#include "../DataType/Product.h"
 #include <vector>
 #include <optional>
 

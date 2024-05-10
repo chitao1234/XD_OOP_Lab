@@ -8,7 +8,7 @@
 
 #include "ICLIState.h"
 #include "CLIUserInterface.h"
-#include "User.h"
+#include "DataType/User.h"
 
 class CLIStateUserLoggedIn : public ICLIState {
 public:

@@ -2,9 +2,9 @@
 #define CLIUSERINTERFACE_H
 
 #include <vector>
-#include "IUserRepository.h"
+#include "DataAccess/IUserRepository.h"
 #include "ICLIState.h"
-#include "IProductRepository.h"
+#include "DataAccess/IProductRepository.h"
 
 class CLIUserInterface {
 private:

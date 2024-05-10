@@ -4,7 +4,7 @@
 
 #include <stdexcept>
 #include "SessionManager.h"
-#include "ShoppingCartRepository.h"
+#include "../DataAccess/ShoppingCartRepository.h"
 #include "StorageService.h"
 
 SessionManager::SessionManager() : currentUser(), shoppingCartRepository(nullptr) {}

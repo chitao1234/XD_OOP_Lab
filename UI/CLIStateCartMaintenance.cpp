@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "CLIStateCartMaintenance.h"
-#include "SessionManager.h"
+#include "Service/SessionManager.h"
 
 CLIStateCartMaintenance::CLIStateCartMaintenance(CLIUserInterface &userInterface, std::pair<Product, long> product)
         : userInterface(userInterface), product(std::move(product)) {

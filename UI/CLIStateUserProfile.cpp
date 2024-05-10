@@ -5,8 +5,8 @@
 #include <iostream>
 #include <utility>
 #include "CLIStateUserProfile.h"
-#include "SessionManager.h"
-#include "StorageService.h"
+#include "Service/SessionManager.h"
+#include "Service/StorageService.h"
 
 void CLIStateUserProfile::displayMenu() {
     std::cout << "1. View profile\n"

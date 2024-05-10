@@ -2,10 +2,10 @@
 #define MAPUSERREPOSITORY_H
 
 #include <vector>
-#include "AdminUser.h"
+#include "../DataType/AdminUser.h"
 #include "MapUserDao.h"
 #include "IUserRepository.h"
-#include "NormalUser.h"
+#include "../DataType/NormalUser.h"
 
 class MapUserRepository : public IUserRepository {
 private:

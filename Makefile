@@ -1,9 +1,12 @@
 CXX = clang++
-CXXFLAGS = -Wall -Wextra -pedantic -std=c++17 -fsanitize=address,undefined -g
+ROOT_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
+CXXFLAGS = -I$(ROOT_DIR) -Wall -Wextra -pedantic -std=c++17 -fsanitize=address,undefined -g
 
-SOURCES = $(wildcard *.cpp)
-OBJECTS = $(SOURCES:.cpp=.o)
-DEPS = $(OBJECTS:.o=.d)
+SRC_DIRS := . UI DataType DataAccess Service
+
+SOURCES := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.cpp))
+OBJECTS := $(SOURCES:.cpp=.o)
+DEPS := $(SOURCES:.cpp=.d)
 
 EXEC = e-commerce
 

@@ -6,7 +6,7 @@
 #include <algorithm>
 #include "CLIStateCart.h"
 #include "CLIStateCartMaintenance.h"
-#include "SessionManager.h"
+#include "Service/SessionManager.h"
 
 void CLIStateCart::displayMenu() {
     productDisplay.setProducts(SessionManager::getInstance()->getShoppingCartRepository().listProducts());

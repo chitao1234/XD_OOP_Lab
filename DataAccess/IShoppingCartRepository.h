@@ -6,7 +6,7 @@
 #define E_COMMERCE_ISHOPPINGCARTREPOSITORY_H
 
 #include <vector>
-#include "Product.h"
+#include "../DataType/Product.h"
 
 
 class IShoppingCartRepository {

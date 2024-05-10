@@ -8,7 +8,7 @@
 #include <vector>
 #include "ICLIState.h"
 #include "CLIUserInterface.h"
-#include "Product.h"
+#include "DataType/Product.h"
 #include "ProductDisplay.h"
 
 class CLIStateProductList : public ICLIState {

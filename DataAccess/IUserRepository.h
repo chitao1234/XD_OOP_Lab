@@ -2,7 +2,7 @@
 #define IUSERREPOSITORY_H
 
 #include <optional>
-#include "NormalUser.h"
+#include "../DataType/NormalUser.h"
 
 class IUserRepository {
 public:

@@ -5,7 +5,7 @@
 #include <iostream>
 #include "CLIStateProductList.h"
 #include "CLIStateProductDetail.h"
-#include "StorageService.h"
+#include "Service/StorageService.h"
 
 CLIStateProductList::CLIStateProductList(CLIUserInterface &userInterface, const std::vector <Product> &products)
         : userInterface(userInterface), productDisplay(products) {

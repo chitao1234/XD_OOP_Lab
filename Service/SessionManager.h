@@ -7,8 +7,8 @@
 
 
 #include <optional>
-#include "NormalUser.h"
-#include "IShoppingCartRepository.h"
+#include "../DataType/NormalUser.h"
+#include "../DataAccess/IShoppingCartRepository.h"
 #include "SingletonTemplate.h"
 
 class SessionManager : public SingletonTemplate<SessionManager> {

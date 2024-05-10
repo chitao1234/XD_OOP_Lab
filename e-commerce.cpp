@@ -1,7 +1,7 @@
-#include "CLIUserInterface.h"
-#include "MapUserRepository.h"
-#include "MapProductRepository.h"
-#include "StorageService.h"
+#include "UI/CLIUserInterface.h"
+#include "DataAccess/MapUserRepository.h"
+#include "DataAccess/MapProductRepository.h"
+#include "Service/StorageService.h"
 
 int main() {
     MapUserRepository userRepository = MapUserRepository();

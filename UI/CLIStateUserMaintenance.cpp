@@ -4,7 +4,7 @@
 
 #include <iostream>
 #include "CLIStateUserMaintenance.h"
-#include "StorageService.h"
+#include "Service/StorageService.h"
 
 CLIStateUserMaintenance::CLIStateUserMaintenance(CLIUserInterface &userInterface) : userInterface(userInterface) {
 }

@@ -2,12 +2,12 @@
 
 #include <iostream>
 
-#include "NormalUser.h"
+#include "DataType/NormalUser.h"
 #include "CLIStateUserLoggedIn.h"
 #include "CLIStateProductList.h"
 #include "CLIStateMaintenance.h"
-#include "SessionManager.h"
-#include "StorageService.h"
+#include "Service/SessionManager.h"
+#include "Service/StorageService.h"
 
 void CLIStateMainMenu::displayMenu() {
     std::cout << "1. Login\n"

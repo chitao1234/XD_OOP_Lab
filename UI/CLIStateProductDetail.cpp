@@ -5,7 +5,7 @@
 #include <iostream>
 #include <utility>
 #include "CLIStateProductDetail.h"
-#include "SessionManager.h"
+#include "Service/SessionManager.h"
 
 void CLIStateProductDetail::displayMenu() {
     std::cout << "Product Detail" << std::endl;
