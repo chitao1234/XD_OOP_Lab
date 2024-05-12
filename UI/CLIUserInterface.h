@@ -6,26 +6,24 @@
 #include "ICLIState.h"
 #include "DataAccess/IProductRepository.h"
 
-class CLIUserInterface {
-private:
-    std::vector<ICLIState *> states;
+namespace UI {
+    class CLIUserInterface {
+    private:
+        std::vector<ICLIState *> states;
 
-public:
-    explicit CLIUserInterface();
+    public:
+        explicit CLIUserInterface();
 
-    ~CLIUserInterface();
+        ~CLIUserInterface();
 
-    void start();
+        void start();
 
-    IUserRepository &getUserRepository();
+        void pushState(ICLIState *newState);
 
-    IProductRepository &getProductRepository();
+        void popState();
 
-    void pushState(ICLIState *newState);
-
-    void popState();
-
-    void replaceState(ICLIState *newState);
-};
+        void replaceState(ICLIState *newState);
+    };
+}
 
 #endif

@@ -11,29 +11,31 @@
 #include "../DataAccess/IShoppingCartRepository.h"
 #include "SingletonTemplate.h"
 
-class SessionManager : public SingletonTemplate<SessionManager> {
-private:
-    friend class SingletonTemplate<SessionManager>;
+namespace Service {
 
-    std::optional<NormalUser> currentUser;
-    IShoppingCartRepository *shoppingCartRepository;
+    class SessionManager : public SingletonTemplate<SessionManager> {
+    private:
+        friend class SingletonTemplate<SessionManager>;
 
-    SessionManager();
+        std::optional <DataType::NormalUser> currentUser;
+        DataAccess::IShoppingCartRepository *shoppingCartRepository;
 
-    ~SessionManager();
+        SessionManager();
 
-public:
+        ~SessionManager();
 
-    void loginUser(const NormalUser &user);
+    public:
 
-    void logoutUser();
+        void loginUser(const DataType::NormalUser &user);
 
-    [[nodiscard]] bool getLoginStatus() const;
+        void logoutUser();
 
-    [[nodiscard]] std::optional<NormalUser> getCurrentUser() const;
+        [[nodiscard]] bool getLoginStatus() const;
 
-    [[nodiscard]] IShoppingCartRepository &getShoppingCartRepository() const;
-};
+        [[nodiscard]] std::optional <DataType::NormalUser> getCurrentUser() const;
 
+        [[nodiscard]] DataAccess::IShoppingCartRepository &getShoppingCartRepository() const;
+    };
+}
 
 #endif //E_COMMERCE_SESSIONMANAGER_H

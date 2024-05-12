@@ -7,137 +7,143 @@
 #include <algorithm>
 #include "ProductDisplay.h"
 
-void ProductDisplay::listProducts(DisplayType displayType) {
-    if (products.empty()) {
-        std::cout << "No product" << std::endl;
-        return;
-    }
-    int i = 1;
-    switch (displayType) {
-        case BRIEF:
-            std::cout << "Index Name Price" << std::endl;
-            for (const auto &product: products) {
-                std::cout << i++ << " " << product.first.getName() << " " << product.first.getPrice()
-                          << std::endl;
-            }
-            break;
-        case BRIEF_WITH_NUMBER:
-            std::cout << "Index Name Price Number" << std::endl;
-            for (const auto &product: products) {
-                std::cout << i++ << " " << product.first.getName() << " " << product.first.getPrice() << " "
-                          << product.second
-                          << std::endl;
-            }
-            break;
-        case DETAILED_WITH_STOCK:
-            std::cout << "ID Name Price Stock" << std::endl;
-            for (const auto &product: products) {
-                std::cout << product.first.getId() << " " << product.first.getName() << " " << product.first.getPrice()
-                          << " "
-                          << product.second << std::endl;
-            }
-            break;
-    }
-    std::cout << std::endl;
-}
+namespace UI {
+    using DataType::Product;
 
-ProductDisplay::ProductDisplay(const std::vector<Product> &products) {
-    for (const Product &product: products) {
-        this->products.emplace_back(product, product.getRemainingStock());
-    }
-}
-
-void ProductDisplay::setProducts(const std::vector<Product> &products) {
-    this->products.clear();
-    for (const Product &product: products) {
-        this->products.emplace_back(product, product.getRemainingStock());
-    }
-}
-
-ProductDisplay::ProductDisplay(const std::vector<std::pair<Product, long>> &products) : products(products) {
-}
-
-void ProductDisplay::setProducts(const std::vector<std::pair<Product, long>> &products) {
-    this->products = products;
-}
-
-ProductDisplay ProductDisplay::searchProduct(std::string keyword) {
-    std::vector<std::pair<Product, long>> result;
-    for (const auto &pair: products) {
-        if (pair.first.getName().find(keyword) != std::string::npos) {
-            result.push_back(pair);
+    void ProductDisplay::listProducts(DisplayType displayType) {
+        if (products.empty()) {
+            std::cout << "No product" << std::endl;
+            return;
         }
-    }
-    return ProductDisplay(result);
-}
-
-std::vector<std::pair<Product, long>> ProductDisplay::interactiveSelect(ProductDisplay::DisplayType displayType, bool single) {
-    std::vector<std::pair<Product, long>> result;
-    while (true) {
-        listProducts(displayType);
-        std::cout << "Enter product number to select, or 's' to search and 'f' to finish: ";
-        std::string input;
-        std::cin >> input;
-        if (input == "f") {
-            break;
-        } else if (input == "s") {
-            std::string search;
-            std::cout << "Enter search query: ";
-            std::cin >> search;
-            auto subResult = searchProduct(search).interactiveSelect(displayType, single);
-            result.reserve(result.size() + subResult.size());
-            for (const auto &product: subResult) {
-                if (std::find(result.begin(), result.end(), product) != result.end()) {
-                    std::cout << "Product " << product.first.getName() << " already selected" << std::endl;
-                    continue;
+        int i = 1;
+        switch (displayType) {
+            case BRIEF:
+                std::cout << "Index Name Price" << std::endl;
+                for (const auto &product: products) {
+                    std::cout << i++ << " " << product.first.getName() << " " << product.first.getPrice()
+                              << std::endl;
                 }
-                result.push_back(product);
-            }
-            if (single && !result.empty()) break;
-        } else {
-            long productNumber = -1;
-            try {
-                productNumber = std::stol(input) - 1;
-            } catch (std::invalid_argument &e) {
-            }
-            if (productNumber < 0 || static_cast<size_t>(productNumber) >= size()) {
-                std::cout << "Invalid product number" << std::endl;
-            }
-            result.push_back(products[productNumber]);
-            if (single) break;
+                break;
+            case BRIEF_WITH_NUMBER:
+                std::cout << "Index Name Price Number" << std::endl;
+                for (const auto &product: products) {
+                    std::cout << i++ << " " << product.first.getName() << " " << product.first.getPrice() << " "
+                              << product.second
+                              << std::endl;
+                }
+                break;
+            case DETAILED_WITH_STOCK:
+                std::cout << "ID Name Price Stock" << std::endl;
+                for (const auto &product: products) {
+                    std::cout << product.first.getId() << " " << product.first.getName() << " "
+                              << product.first.getPrice()
+                              << " "
+                              << product.second << std::endl;
+                }
+                break;
+        }
+        std::cout << std::endl;
+    }
+
+    ProductDisplay::ProductDisplay(const std::vector<Product> &products) {
+        for (const Product &product: products) {
+            this->products.emplace_back(product, product.getRemainingStock());
         }
     }
-    return result;
-}
 
-size_t ProductDisplay::size() const {
-    return products.size();
-}
-
-std::optional<Product> ProductDisplay::selectProduct(ProductDisplay::DisplayType displayType) {
-    auto result = interactiveSelect(displayType, true);
-    if (result.empty()) return std::nullopt;
-    return {result.at(0).first};
-}
-
-std::optional<std::pair<Product, long>>
-ProductDisplay::selectProductWithNumber(ProductDisplay::DisplayType displayType) {
-    auto result = interactiveSelect(displayType, true);
-    if (result.empty()) return std::nullopt;
-    return {result.at(0)};
-}
-
-std::vector<Product> ProductDisplay::selectProducts(ProductDisplay::DisplayType displayType) {
-    auto selectResult = interactiveSelect(displayType, false);
-    std::vector<Product> result;
-    result.reserve(selectResult.size());
-    for ( auto &pair: selectResult) {
-        result.push_back(pair.first);
+    void ProductDisplay::setProducts(const std::vector<Product> &products) {
+        this->products.clear();
+        for (const Product &product: products) {
+            this->products.emplace_back(product, product.getRemainingStock());
+        }
     }
-    return result;
-}
 
-std::vector<std::pair<Product, long>>
-ProductDisplay::selectProductsWithNumber(ProductDisplay::DisplayType displayType) {
-    return interactiveSelect(displayType, false);
+    ProductDisplay::ProductDisplay(const std::vector<std::pair<Product, long>> &products) : products(products) {
+    }
+
+    void ProductDisplay::setProducts(const std::vector<std::pair<Product, long>> &products) {
+        this->products = products;
+    }
+
+    ProductDisplay ProductDisplay::searchProduct(std::string keyword) {
+        std::vector<std::pair<Product, long>> result;
+        for (const auto &pair: products) {
+            if (pair.first.getName().find(keyword) != std::string::npos) {
+                result.push_back(pair);
+            }
+        }
+        return ProductDisplay(result);
+    }
+
+    std::vector<std::pair<Product, long>>
+    ProductDisplay::interactiveSelect(ProductDisplay::DisplayType displayType, bool single) {
+        std::vector<std::pair<Product, long>> result;
+        while (true) {
+            listProducts(displayType);
+            std::cout << "Enter product number to select, or 's' to search and 'f' to finish: ";
+            std::string input;
+            std::cin >> input;
+            if (input == "f") {
+                break;
+            } else if (input == "s") {
+                std::string search;
+                std::cout << "Enter search query: ";
+                std::cin >> search;
+                auto subResult = searchProduct(search).interactiveSelect(displayType, single);
+                result.reserve(result.size() + subResult.size());
+                for (const auto &product: subResult) {
+                    if (std::find(result.begin(), result.end(), product) != result.end()) {
+                        std::cout << "Product " << product.first.getName() << " already selected" << std::endl;
+                        continue;
+                    }
+                    result.push_back(product);
+                }
+                if (single && !result.empty()) break;
+            } else {
+                long productNumber = -1;
+                try {
+                    productNumber = std::stol(input) - 1;
+                } catch (std::invalid_argument &e) {
+                }
+                if (productNumber < 0 || static_cast<size_t>(productNumber) >= size()) {
+                    std::cout << "Invalid product number" << std::endl;
+                }
+                result.push_back(products[productNumber]);
+                if (single) break;
+            }
+        }
+        return result;
+    }
+
+    size_t ProductDisplay::size() const {
+        return products.size();
+    }
+
+    std::optional<Product> ProductDisplay::selectProduct(ProductDisplay::DisplayType displayType) {
+        auto result = interactiveSelect(displayType, true);
+        if (result.empty()) return std::nullopt;
+        return {result.at(0).first};
+    }
+
+    std::optional<std::pair<Product, long>>
+    ProductDisplay::selectProductWithNumber(ProductDisplay::DisplayType displayType) {
+        auto result = interactiveSelect(displayType, true);
+        if (result.empty()) return std::nullopt;
+        return {result.at(0)};
+    }
+
+    std::vector<Product> ProductDisplay::selectProducts(ProductDisplay::DisplayType displayType) {
+        auto selectResult = interactiveSelect(displayType, false);
+        std::vector<Product> result;
+        result.reserve(selectResult.size());
+        for (auto &pair: selectResult) {
+            result.push_back(pair.first);
+        }
+        return result;
+    }
+
+    std::vector<std::pair<Product, long>>
+    ProductDisplay::selectProductsWithNumber(ProductDisplay::DisplayType displayType) {
+        return interactiveSelect(displayType, false);
+    }
 }

@@ -8,6 +8,7 @@
 #include <string>
 #include <cstdint>
 
+namespace DataType {
 class Product {
 public:
     Product(uint64_t id, std::string name, std::string description, double price, long remainingStock);
@@ -43,5 +44,6 @@ private:
     double price;
     long remainingStock;
 };
+}
 
 #endif //E_COMMERCE_PRODUCT_H

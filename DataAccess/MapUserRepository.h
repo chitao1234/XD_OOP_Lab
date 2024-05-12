@@ -7,34 +7,36 @@
 #include "IUserRepository.h"
 #include "../DataType/NormalUser.h"
 
-class MapUserRepository : public IUserRepository {
-private:
-    IUserDao<NormalUser> *userDao;
-    IUserDao<AdminUser> *adminDao;
+namespace DataAccess {
+    class MapUserRepository : public IUserRepository {
+    private:
+        IUserDao<DataType::NormalUser> *userDao;
+        IUserDao<DataType::AdminUser> *adminDao;
 
-public:
-    MapUserRepository();
+    public:
+        MapUserRepository();
 
-    ~MapUserRepository();
+        ~MapUserRepository() override;
 
-    NormalUser findUserByUsername(std::string username) override;
+        DataType::NormalUser findUserByUsername(std::string username) override;
 
-    bool registerUser(const NormalUser &user) override;
+        bool registerUser(const DataType::NormalUser &user) override;
 
-    std::optional<NormalUser> login(std::string username, std::string password) override;
+        std::optional<DataType::NormalUser> login(std::string username, std::string password) override;
 
-    bool loginAsAdmin(std::string username, std::string password) override;
+        bool loginAsAdmin(std::string username, std::string password) override;
 
-    bool changePassword(const NormalUser &user, std::string oldPassword, std::string newPassword) override;
+        bool changePassword(const DataType::NormalUser &user, std::string oldPassword, std::string newPassword) override;
 
-    bool updateUser(const NormalUser &user) override;
+        bool updateUser(const DataType::NormalUser &user) override;
 
-    bool deleteUser(std::string username) override;
+        bool deleteUser(std::string username) override;
 
-    bool replaceUser(const NormalUser &user, const NormalUser &newUser) override;
+        bool replaceUser(const DataType::NormalUser &user, const DataType::NormalUser &newUser) override;
 
-    std::vector<NormalUser> listUsers() override;
-};
+        std::vector<DataType::NormalUser> listUsers() override;
+    };
+}
 
 
 #endif

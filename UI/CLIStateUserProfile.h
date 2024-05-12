@@ -10,18 +10,20 @@
 #include "CLIUserInterface.h"
 #include "DataType/NormalUser.h"
 
-class CLIStateUserProfile : public ICLIState {
-public:
-    CLIStateUserProfile(CLIUserInterface &userInterface, NormalUser user);
+namespace UI {
+    class CLIStateUserProfile : public ICLIState {
+    public:
+        CLIStateUserProfile(CLIUserInterface &userInterface, DataType::NormalUser user);
 
-    void displayMenu() override;
+        void displayMenu() override;
 
-    void handleUserInput() override;
+        void handleUserInput() override;
 
-private:
-    CLIUserInterface &userInterface;
-    NormalUser user;
-};
+    private:
+        CLIUserInterface &userInterface;
+        DataType::NormalUser user;
+    };
+}
 
 
 #endif //E_COMMERCE_CLISTATEUSERPROFILE_H

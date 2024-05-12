@@ -11,19 +11,21 @@
 #include "../DataAccess/IUserRepository.h"
 
 
-class StorageService : public SingletonTemplate<StorageService> {
-public:
-    [[nodiscard]] IProductRepository &getProductRepository() const;
+namespace Service {
+    class StorageService : public SingletonTemplate<StorageService> {
+    public:
+        [[nodiscard]] DataAccess::IProductRepository &getProductRepository() const;
 
-    [[nodiscard]] IUserRepository &getUserRepository() const;
+        [[nodiscard]] DataAccess::IUserRepository &getUserRepository() const;
 
-    void setProductRepository(IProductRepository &productRepository);
+        void setProductRepository(DataAccess::IProductRepository &productRepository);
 
-    void setUserRepository(IUserRepository &userRepository);
+        void setUserRepository(DataAccess::IUserRepository &userRepository);
 
-private:
-    IProductRepository *productRepository;
-    IUserRepository *userRepository;
-};
+    private:
+        DataAccess::IProductRepository *productRepository;
+        DataAccess::IUserRepository *userRepository;
+    };
+}
 
 #endif //E_COMMERCE_STORAGESERVICE_H

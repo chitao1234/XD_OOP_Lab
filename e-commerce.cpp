@@ -4,12 +4,12 @@
 #include "Service/StorageService.h"
 
 int main() {
-    MapUserRepository userRepository = MapUserRepository();
-    MapProductRepository productRepository = MapProductRepository();
-    StorageService::getInstance()->setUserRepository(userRepository);
-    StorageService::getInstance()->setProductRepository(productRepository);
+    DataAccess::MapUserRepository userRepository = DataAccess::MapUserRepository();
+    DataAccess::MapProductRepository productRepository = DataAccess::MapProductRepository();
+    Service::StorageService::getInstance()->setUserRepository(userRepository);
+    Service::StorageService::getInstance()->setProductRepository(productRepository);
 
-    CLIUserInterface userInterface;
+    UI::CLIUserInterface userInterface;
 
     userInterface.start();
     return 0;

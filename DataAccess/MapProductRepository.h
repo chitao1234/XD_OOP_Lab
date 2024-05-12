@@ -8,27 +8,29 @@
 #include "IProductRepository.h"
 #include "IProductDao.h"
 
-class MapProductRepository : public IProductRepository {
-public:
-    MapProductRepository();
+namespace DataAccess {
+    class MapProductRepository : public IProductRepository {
+    public:
+        MapProductRepository();
 
-    ~MapProductRepository();
+        ~MapProductRepository();
 
-    bool addProduct(std::string name, std::string description, double price, long remainingStock) override;
+        bool addProduct(std::string name, std::string description, double price, long remainingStock) override;
 
-    std::optional<Product> getProduct(uint64_t productId) override;
+        std::optional <DataType::Product> getProduct(uint64_t productId) override;
 
-    bool updateProduct(const Product &product) override;
+        bool updateProduct(const DataType::Product &product) override;
 
-    bool deleteProduct(uint64_t productId) override;
+        bool deleteProduct(uint64_t productId) override;
 
-    std::vector<Product> listProducts() override;
+        std::vector <DataType::Product> listProducts() override;
 
-    std::vector<Product> searchProducts(std::string keyword) override;
+        std::vector <DataType::Product> searchProducts(std::string keyword) override;
 
-private:
-    IProductDao *productDao;
-};
+    private:
+        IProductDao *productDao;
+    };
+}
 
 
 #endif //E_COMMERCE_MAPPRODUCTREPOSITORY_H

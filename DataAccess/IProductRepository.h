@@ -9,22 +9,23 @@
 #include <vector>
 #include <optional>
 
-class IProductRepository {
-public:
-    ~IProductRepository() = default;
+namespace DataAccess {
+    class IProductRepository {
+    public:
+        ~IProductRepository() = default;
 
-    virtual bool addProduct(std::string name, std::string description, double price, long remainingStock) = 0;
+        virtual bool addProduct(std::string name, std::string description, double price, long remainingStock) = 0;
 
-    virtual std::optional<Product> getProduct(uint64_t productId) = 0;
+        virtual std::optional<DataType::Product> getProduct(uint64_t productId) = 0;
 
-    virtual bool updateProduct(const Product &product) = 0;
+        virtual bool updateProduct(const DataType::Product &product) = 0;
 
-    virtual bool deleteProduct(uint64_t productId) = 0;
+        virtual bool deleteProduct(uint64_t productId) = 0;
 
-    virtual std::vector<Product> listProducts() = 0;
+        virtual std::vector<DataType::Product> listProducts() = 0;
 
-    virtual std::vector<Product> searchProducts(std::string keyword) = 0;
-};
-
+        virtual std::vector<DataType::Product> searchProducts(std::string keyword) = 0;
+    };
+}
 
 #endif //E_COMMERCE_IPRODUCTREPOSITORY_H

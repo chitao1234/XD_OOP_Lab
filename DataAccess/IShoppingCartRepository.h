@@ -9,20 +9,22 @@
 #include "../DataType/Product.h"
 
 
-class IShoppingCartRepository {
-public:
-    virtual ~IShoppingCartRepository() = default;
+namespace DataAccess {
+    class IShoppingCartRepository {
+    public:
+        virtual ~IShoppingCartRepository() = default;
 
-    virtual std::vector<std::pair<Product, long>> listProducts() = 0;
+        virtual std::vector<std::pair<DataType::Product, long>> listProducts() = 0;
 
-    virtual void addProduct(uint64_t productId, long quantity) = 0;
+        virtual void addProduct(uint64_t productId, long quantity) = 0;
 
-    virtual void removeProduct(uint64_t productId) = 0;
+        virtual void removeProduct(uint64_t productId) = 0;
 
-    virtual void updateProductQuantity(uint64_t productId, long quantity) = 0;
+        virtual void updateProductQuantity(uint64_t productId, long quantity) = 0;
 
-    virtual void clearCart() = 0;
-};
+        virtual void clearCart() = 0;
+    };
+}
 
 
 #endif //E_COMMERCE_ISHOPPINGCARTREPOSITORY_H

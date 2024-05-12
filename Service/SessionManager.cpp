@@ -7,36 +7,42 @@
 #include "../DataAccess/ShoppingCartRepository.h"
 #include "StorageService.h"
 
-SessionManager::SessionManager() : currentUser(), shoppingCartRepository(nullptr) {}
+namespace Service {
+    using DataAccess::IShoppingCartRepository;
+    using DataAccess::ShoppingCartRepository;
+    using DataType::NormalUser;
+
+    SessionManager::SessionManager() : currentUser(), shoppingCartRepository(nullptr) {}
 
 
-void SessionManager::loginUser(const NormalUser &user) {
-    currentUser = user;
-    shoppingCartRepository = new ShoppingCartRepository(StorageService::getInstance()->getProductRepository(),
-                                                        user.getUsername());
-}
-
-void SessionManager::logoutUser() {
-    currentUser = std::nullopt;
-    delete shoppingCartRepository;
-    shoppingCartRepository = nullptr;
-}
-
-bool SessionManager::getLoginStatus() const {
-    return currentUser.has_value();
-}
-
-std::optional<NormalUser> SessionManager::getCurrentUser() const {
-    return currentUser;
-}
-
-IShoppingCartRepository &SessionManager::getShoppingCartRepository() const {
-    if (!shoppingCartRepository) {
-        throw std::runtime_error("User not logged in");
+    void SessionManager::loginUser(const NormalUser &user) {
+        currentUser = user;
+        shoppingCartRepository = new ShoppingCartRepository(StorageService::getInstance()->getProductRepository(),
+                                                            user.getUsername());
     }
-    return *shoppingCartRepository;
-}
 
-SessionManager::~SessionManager() {
-    delete shoppingCartRepository;
+    void SessionManager::logoutUser() {
+        currentUser = std::nullopt;
+        delete shoppingCartRepository;
+        shoppingCartRepository = nullptr;
+    }
+
+    bool SessionManager::getLoginStatus() const {
+        return currentUser.has_value();
+    }
+
+    std::optional<NormalUser> SessionManager::getCurrentUser() const {
+        return currentUser;
+    }
+
+    IShoppingCartRepository &SessionManager::getShoppingCartRepository() const {
+        if (!shoppingCartRepository) {
+            throw std::runtime_error("User not logged in");
+        }
+        return *shoppingCartRepository;
+    }
+
+    SessionManager::~SessionManager() {
+        delete shoppingCartRepository;
+    }
 }

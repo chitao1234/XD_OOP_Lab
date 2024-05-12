@@ -5,20 +5,21 @@
 
 #include "User.h"
 
-class NormalUser : public User {
-public:
-    NormalUser(const std::string &username, const std::string &password, std::string email);
+namespace DataType {
+    class NormalUser : public User {
+    public:
+        NormalUser(const std::string &username, const std::string &password, std::string email);
 
-    [[nodiscard]] std::string getEmail() const;
+        [[nodiscard]] std::string getEmail() const;
 
-    void setEmail(const std::string &email);
+        void setEmail(const std::string &email);
 
-    static NormalUser deserializeUser(const std::string &line);
+        static NormalUser deserializeUser(const std::string &line);
 
-    static std::string serializeUser(const NormalUser &user);
-    // TODO: order product
-private:
-    std::string email;
-};
+        static std::string serializeUser(const NormalUser &user);
+    private:
+        std::string email;
+    };
+}
 
 #endif

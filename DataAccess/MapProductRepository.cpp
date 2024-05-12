@@ -5,47 +5,52 @@
 #include "MapProductRepository.h"
 #include "MapProductDao.h"
 
-MapProductRepository::MapProductRepository() : productDao(new MapProductDao("products.csv")) {}
+namespace DataAccess {
+    using DataType::Product;
 
-MapProductRepository::~MapProductRepository() {
-    delete productDao;
-}
+    MapProductRepository::MapProductRepository() : productDao(new MapProductDao("products.csv")) {}
 
-bool MapProductRepository::addProduct(std::string name, std::string description, double price, long remainingStock) {
-    productDao->addProduct(Product(productDao->nextId(), name, description, price, remainingStock));
-    productDao->save();
-    return true;
-}
-
-std::optional<Product> MapProductRepository::getProduct(uint64_t productId) {
-    if (!productDao->containProduct(productId)) {
-        return std::nullopt;
+    MapProductRepository::~MapProductRepository() {
+        delete productDao;
     }
-    return productDao->getProduct(productId);
-}
 
-bool MapProductRepository::updateProduct(const Product &product) {
-    if (!productDao->containProduct(product.getId())) {
-        return false;
+    bool
+    MapProductRepository::addProduct(std::string name, std::string description, double price, long remainingStock) {
+        productDao->addProduct(Product(productDao->nextId(), name, description, price, remainingStock));
+        productDao->save();
+        return true;
     }
-    productDao->updateProduct(product);
-    productDao->save();
-    return true;
-}
 
-bool MapProductRepository::deleteProduct(uint64_t productId) {
-    if (!productDao->containProduct(productId)) {
-        return false;
+    std::optional <Product> MapProductRepository::getProduct(uint64_t productId) {
+        if (!productDao->containProduct(productId)) {
+            return std::nullopt;
+        }
+        return productDao->getProduct(productId);
     }
-    productDao->removeProduct(productId);
-    productDao->save();
-    return true;
-}
 
-std::vector<Product> MapProductRepository::listProducts() {
-    return productDao->getProducts();
-}
+    bool MapProductRepository::updateProduct(const Product &product) {
+        if (!productDao->containProduct(product.getId())) {
+            return false;
+        }
+        productDao->updateProduct(product);
+        productDao->save();
+        return true;
+    }
 
-std::vector<Product> MapProductRepository::searchProducts(std::string keyword) {
-    return productDao->getProducts(keyword);
+    bool MapProductRepository::deleteProduct(uint64_t productId) {
+        if (!productDao->containProduct(productId)) {
+            return false;
+        }
+        productDao->removeProduct(productId);
+        productDao->save();
+        return true;
+    }
+
+    std::vector <Product> MapProductRepository::listProducts() {
+        return productDao->getProducts();
+    }
+
+    std::vector <Product> MapProductRepository::searchProducts(std::string keyword) {
+        return productDao->getProducts(keyword);
+    }
 }

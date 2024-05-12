@@ -10,17 +10,19 @@
 #include "CLIUserInterface.h"
 #include "DataType/User.h"
 
-class CLIStateUserLoggedIn : public ICLIState {
-public:
-    CLIStateUserLoggedIn(CLIUserInterface &userInterface);
+namespace UI {
+    class CLIStateUserLoggedIn : public ICLIState {
+    public:
+        explicit CLIStateUserLoggedIn(CLIUserInterface &userInterface);
 
-    void displayMenu() override;
+        void displayMenu() override;
 
-    void handleUserInput() override;
+        void handleUserInput() override;
 
-private:
-    CLIUserInterface &userInterface;
-};
+    private:
+        CLIUserInterface &userInterface;
+    };
+}
 
 
 #endif //E_COMMERCE_CLISTATEUSERLOGGEDIN_H

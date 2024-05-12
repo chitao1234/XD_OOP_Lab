@@ -9,30 +9,33 @@
 #include <vector>
 #include "../DataType/Product.h"
 
-class IProductDao {
-public:
-    virtual ~IProductDao() = default;
+namespace DataAccess {
 
-    virtual bool containProduct(uint64_t id) = 0;
+    class IProductDao {
+    public:
+        virtual ~IProductDao() = default;
 
-    virtual void addProduct(const Product &product) = 0;
+        virtual bool containProduct(uint64_t id) = 0;
 
-    virtual void removeProduct(uint64_t id) = 0;
+        virtual void addProduct(const DataType::Product &product) = 0;
 
-    virtual void updateProduct(const Product &product) = 0;
+        virtual void removeProduct(uint64_t id) = 0;
 
-    virtual Product getProduct(uint64_t id) = 0;
+        virtual void updateProduct(const DataType::Product &product) = 0;
 
-    virtual std::vector<Product> getProducts() = 0;
+        virtual DataType::Product getProduct(uint64_t id) = 0;
 
-    virtual std::vector<Product> getProducts(std::string query) = 0;
+        virtual std::vector<DataType::Product> getProducts() = 0;
 
-    virtual uint64_t nextId() = 0;
+        virtual std::vector<DataType::Product> getProducts(std::string query) = 0;
 
-    virtual void save() = 0;
+        virtual uint64_t nextId() = 0;
 
-    virtual bool load() = 0;
-};
+        virtual void save() = 0;
+
+        virtual bool load() = 0;
+    };
+}
 
 
 #endif //E_COMMERCE_IPRODUCTDAO_H

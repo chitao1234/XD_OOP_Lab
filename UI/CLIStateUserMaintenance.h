@@ -8,20 +8,23 @@
 #include "ICLIState.h"
 #include "CLIUserInterface.h"
 
-class CLIStateUserMaintenance : public ICLIState {
-public:
-    explicit CLIStateUserMaintenance(CLIUserInterface &userInterface);
+namespace UI {
+    class CLIStateUserMaintenance : public ICLIState {
+    public:
+        explicit CLIStateUserMaintenance(CLIUserInterface &userInterface);
 
-    void displayMenu() override;
+        void displayMenu() override;
 
-    void handleUserInput() override;
-private:
-    void listUsers();
+        void handleUserInput() override;
 
-    std::optional<NormalUser> readUser();
+    private:
+        void listUsers();
 
-    CLIUserInterface &userInterface;
-};
+        std::optional<DataType::NormalUser> readUser();
+
+        CLIUserInterface &userInterface;
+    };
+}
 
 
 #endif //E_COMMERCE_CLISTATEUSERMAINTENANCE_H

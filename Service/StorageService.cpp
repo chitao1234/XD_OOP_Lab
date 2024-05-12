@@ -5,22 +5,27 @@
 #include <stdexcept>
 #include "StorageService.h"
 
-IProductRepository &StorageService::getProductRepository() const {
-    if (!productRepository)
-        throw std::runtime_error("Product repository not set");
-    return *productRepository;
-}
+namespace Service {
+    using DataAccess::IUserRepository;
+    using DataAccess::IProductRepository;
 
-IUserRepository &StorageService::getUserRepository() const {
-    if (!userRepository)
-        throw std::runtime_error("User repository not set");
-    return *userRepository;
-}
+    IProductRepository &StorageService::getProductRepository() const {
+        if (!productRepository)
+            throw std::runtime_error("Product repository not set");
+        return *productRepository;
+    }
 
-void StorageService::setProductRepository(IProductRepository &productRepository) {
-    this->productRepository = &productRepository;
-}
+    IUserRepository &StorageService::getUserRepository() const {
+        if (!userRepository)
+            throw std::runtime_error("User repository not set");
+        return *userRepository;
+    }
 
-void StorageService::setUserRepository(IUserRepository &userRepository) {
-    this->userRepository = &userRepository;
+    void StorageService::setProductRepository(IProductRepository &productRepository) {
+        this->productRepository = &productRepository;
+    }
+
+    void StorageService::setUserRepository(IUserRepository &userRepository) {
+        this->userRepository = &userRepository;
+    }
 }

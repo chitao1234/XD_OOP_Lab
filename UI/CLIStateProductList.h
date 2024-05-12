@@ -11,18 +11,20 @@
 #include "DataType/Product.h"
 #include "ProductDisplay.h"
 
-class CLIStateProductList : public ICLIState {
-public:
-    CLIStateProductList(CLIUserInterface &userInterface, const std::vector<Product> &products);
+namespace UI {
+    class CLIStateProductList : public ICLIState {
+    public:
+        CLIStateProductList(CLIUserInterface &userInterface, const std::vector<DataType::Product> &products);
 
-    void displayMenu() override;
+        void displayMenu() override;
 
-    void handleUserInput() override;
+        void handleUserInput() override;
 
-private:
-    CLIUserInterface &userInterface;
-    ProductDisplay productDisplay;
-};
+    private:
+        CLIUserInterface &userInterface;
+        ProductDisplay productDisplay;
+    };
+}
 
 
 #endif //E_COMMERCE_CLISTATEPRODUCTLIST_H

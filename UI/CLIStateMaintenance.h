@@ -8,17 +8,19 @@
 #include "ICLIState.h"
 #include "CLIUserInterface.h"
 
-class CLIStateMaintenance : public ICLIState {
-public:
-    explicit CLIStateMaintenance(CLIUserInterface &userInterface);
+namespace UI {
+    class CLIStateMaintenance : public ICLIState {
+    public:
+        explicit CLIStateMaintenance(CLIUserInterface &userInterface);
 
-    void displayMenu() override;
+        void displayMenu() override;
 
-    void handleUserInput() override;
+        void handleUserInput() override;
 
-private:
-    CLIUserInterface &userInterface;
-};
+    private:
+        CLIUserInterface &userInterface;
+    };
+}
 
 
 #endif //E_COMMERCE_CLISTATEMAINTENANCE_H

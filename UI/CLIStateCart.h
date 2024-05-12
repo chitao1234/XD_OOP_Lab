@@ -9,19 +9,21 @@
 #include "CLIUserInterface.h"
 #include "ProductDisplay.h"
 
-class CLIStateCart : public ICLIState {
-public:
-    CLIStateCart(CLIUserInterface &userInterface);
+namespace UI {
+    class CLIStateCart : public ICLIState {
+    public:
+        explicit CLIStateCart(CLIUserInterface &userInterface);
 
-    void displayMenu() override;
+        void displayMenu() override;
 
-    void handleUserInput() override;
+        void handleUserInput() override;
 
-private:
-    CLIUserInterface &userInterface;
-    ProductDisplay productDisplay;
-    std::vector<std::pair<Product, long>> selected;
-};
+    private:
+        CLIUserInterface &userInterface;
+        ProductDisplay productDisplay;
+        std::vector<std::pair<DataType::Product, long>> selected;
+    };
+}
 
 
 #endif //E_COMMERCE_CLISTATECART_H

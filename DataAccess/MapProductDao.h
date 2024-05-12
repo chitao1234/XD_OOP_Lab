@@ -9,37 +9,38 @@
 #include "IProductDao.h"
 
 
-class MapProductDao : public IProductDao {
-public:
-    explicit MapProductDao(std::string filename);
+namespace DataAccess {
+    class MapProductDao : public IProductDao {
+    public:
+        explicit MapProductDao(std::string filename);
 
-    ~MapProductDao() override;
+        ~MapProductDao() override;
 
-    bool containProduct(uint64_t id) override;
+        bool containProduct(uint64_t id) override;
 
-    void addProduct(const Product &product) override;
+        void addProduct(const DataType::Product &product) override;
 
-    void removeProduct(uint64_t id) override;
+        void removeProduct(uint64_t id) override;
 
-    void updateProduct(const Product &product) override;
+        void updateProduct(const DataType::Product &product) override;
 
-    Product getProduct(uint64_t id) override;
+        DataType::Product getProduct(uint64_t id) override;
 
-    std::vector<Product> getProducts() override;
+        std::vector <DataType::Product> getProducts() override;
 
-    std::vector<Product> getProducts(std::string query) override;
+        std::vector <DataType::Product> getProducts(std::string query) override;
 
-    uint64_t nextId() override;
+        uint64_t nextId() override;
 
-    void save() override;
+        void save() override;
 
-    bool load() override;
+        bool load() override;
 
-private:
-    uint64_t lastId;
-    std::string filename;
-    std::map<uint64_t, Product> products;
-};
-
+    private:
+        uint64_t lastId;
+        std::string filename;
+        std::map <uint64_t, DataType::Product> products;
+    };
+}
 
 #endif //E_COMMERCE_MAPPRODUCTDAO_H

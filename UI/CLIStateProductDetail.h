@@ -9,17 +9,20 @@
 #include "DataType/Product.h"
 #include "CLIUserInterface.h"
 
-class CLIStateProductDetail : public ICLIState {
-public:
-    CLIStateProductDetail(CLIUserInterface &userInterface, Product product);
+namespace UI {
+    class CLIStateProductDetail : public ICLIState {
+    public:
+        CLIStateProductDetail(CLIUserInterface &userInterface, DataType::Product product);
 
-    void displayMenu() override;
+        void displayMenu() override;
 
-    void handleUserInput() override;
-private:
-    CLIUserInterface &userInterface;
-    Product product;
-};
+        void handleUserInput() override;
+
+    private:
+        CLIUserInterface &userInterface;
+        DataType::Product product;
+    };
+}
 
 
 #endif //E_COMMERCE_CLISTATEPRODUCTDETAIL_H
