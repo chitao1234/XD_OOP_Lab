@@ -46,7 +46,6 @@ namespace UI {
                 break;
             }
             case 2:
-                // TODO: buy
                 std::cout << "Bought" << std::endl;
                 break;
             case 3:

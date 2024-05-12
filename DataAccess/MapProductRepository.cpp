@@ -32,6 +32,9 @@ namespace DataAccess {
         if (!productDao->containProduct(product.getId())) {
             return false;
         }
+        if (product.getRemainingStock() < 0) {
+            return false;
+        }
         productDao->updateProduct(product);
         productDao->save();
         return true;

@@ -64,8 +64,10 @@ namespace UI {
                     break;
                 }
                 std::cout << "Product Info:\n";
-                std::cout << product->getId() << " " << product->getName() << " " << product->getPrice() << " "
-                          << product->getRemainingStock() << std::endl;
+                std::cout << "ID: " << product->getId() << '\n'
+                          << "Name: " << product->getName() << '\n'
+                          << "Price: " << product->getPrice() << '\n'
+                          << "Description: " << product->getDescription() << std::endl;
                 std::string name;
                 double price;
                 std::string description;

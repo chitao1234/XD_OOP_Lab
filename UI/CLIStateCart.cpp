@@ -16,8 +16,16 @@ namespace UI {
         productDisplay.setProducts(SessionManager::getInstance()->getShoppingCartRepository().listProducts());
         std::cout << "Cart List:\n";
         productDisplay.listProducts(ProductDisplay::BRIEF_WITH_NUMBER);
+        std::cout << "Total Price: "
+                  << SessionManager::getInstance()->getPurchaseService().calculateTotalPrice(
+                          SessionManager::getInstance()->getShoppingCartRepository().listProducts()
+                  )
+                  << "\n\n";
         std::cout << "Selected:\n";
         ProductDisplay(selected).listProducts(ProductDisplay::BRIEF_WITH_NUMBER);
+        std::cout << "Selected Price: "
+                  << SessionManager::getInstance()->getPurchaseService().calculateTotalPrice(selected)
+                  << "\n\n";
         std::cout << std::endl;
         std::cout << "Cart Menu\n"
                      "1. Checkout\n"
@@ -33,12 +41,31 @@ namespace UI {
         std::cin >> choice;
         switch (choice) {
             case 1: {
-                // TODO: checkout
                 std::cout << "Checking out..." << std::endl;
-                for (const auto &product: selected) {
-                    SessionManager::getInstance()->getShoppingCartRepository().removeProduct(product.first.getId());
+                if (selected.empty()) {
+                    std::cout << "No product selected" << std::endl;
+                    break;
                 }
-                selected.clear();
+
+                ProductDisplay(selected).listProducts(ProductDisplay::BRIEF_WITH_NUMBER);
+                std::cout << "Total Price: "
+                          << SessionManager::getInstance()->getPurchaseService().calculateTotalPrice(selected)
+                          << std::endl;
+                std::cout << "Confirm? (y/n): ";
+                char confirm;
+                std::cin >> confirm;
+                if (confirm != 'y' && confirm != 'Y') {
+                    std::cout << "Checkout cancelled" << std::endl;
+                    break;
+                }
+
+                if (Service::PurchaseResult result = SessionManager::getInstance()->getPurchaseService().purchase(selected)) {
+                    std::cout << "Checkout successful" << std::endl;
+                    selected.clear();
+                } else {
+                    std::cout << "Checkout failed, reason: " << result.message << std::endl;
+                }
+
                 break;
             }
             case 2: {
