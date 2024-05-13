@@ -7,8 +7,9 @@
 
 #include <optional>
 #include "SingletonTemplate.h"
-#include "../DataAccess/IProductRepository.h"
-#include "../DataAccess/IUserRepository.h"
+#include "DataAccess/IProductRepository.h"
+#include "DataAccess/IUserRepository.h"
+#include "DataAccess/ICouponRepository.h"
 
 
 namespace Service {
@@ -18,13 +19,17 @@ namespace Service {
 
         [[nodiscard]] DataAccess::IUserRepository &getUserRepository() const;
 
+        [[nodiscard]] DataAccess::ICouponRepository &getCouponRepository() const;
+
         void setProductRepository(DataAccess::IProductRepository &productRepository);
 
         void setUserRepository(DataAccess::IUserRepository &userRepository);
 
+        void setCouponRepository(DataAccess::ICouponRepository &couponRepository);
     private:
         DataAccess::IProductRepository *productRepository;
         DataAccess::IUserRepository *userRepository;
+        DataAccess::ICouponRepository *couponRepository;
     };
 }
 

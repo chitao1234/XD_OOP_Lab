@@ -8,6 +8,7 @@
 namespace Service {
     using DataAccess::IUserRepository;
     using DataAccess::IProductRepository;
+    using DataAccess::ICouponRepository;
 
     IProductRepository &StorageService::getProductRepository() const {
         if (!productRepository)
@@ -21,11 +22,21 @@ namespace Service {
         return *userRepository;
     }
 
+    ICouponRepository &StorageService::getCouponRepository() const {
+        if (!couponRepository)
+            throw std::runtime_error("Coupon repository not set");
+        return *couponRepository;
+    }
+
     void StorageService::setProductRepository(IProductRepository &productRepository) {
         this->productRepository = &productRepository;
     }
 
     void StorageService::setUserRepository(IUserRepository &userRepository) {
         this->userRepository = &userRepository;
+    }
+
+    void StorageService::setCouponRepository(ICouponRepository &couponRepository) {
+        this->couponRepository = &couponRepository;
     }
 }
