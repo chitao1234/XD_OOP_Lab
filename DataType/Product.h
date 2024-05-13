@@ -23,6 +23,10 @@ public:
 
     [[nodiscard]] long getRemainingStock() const;
 
+    [[nodiscard]] double getDiscount() const;
+
+    [[nodiscard]] double getActualPrice() const;
+
     void setName(std::string name);
 
     void setDescription(std::string description);
@@ -31,18 +35,20 @@ public:
 
     void setRemainingStock(long remainingStock);
 
+    void setDiscount(double discount);
+
     static std::string serialize(const Product &product);
 
     static Product deserialize(const std::string &line);
 
     bool operator==(const Product &product) const;
-
 private:
     uint64_t id;
     std::string name;
     std::string description;
     double price;
     long remainingStock;
+    double discount;
 };
 }
 

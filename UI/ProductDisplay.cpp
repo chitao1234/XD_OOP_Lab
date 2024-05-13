@@ -19,27 +19,26 @@ namespace UI {
         int i = 1;
         switch (displayType) {
             case BRIEF:
-                std::cout << "Index\tName\tPrice" << std::endl;
+                std::cout << "Index\tName\tActualPrice" << std::endl;
                 for (const auto &product: products) {
-                    std::cout << i++ << "\t" << product.first.getName() << "\t" << product.first.getPrice()
+                    std::cout << i++ << "\t" << product.first.getName() << "\t" << product.first.getActualPrice()
                               << std::endl;
                 }
                 break;
             case BRIEF_WITH_NUMBER:
-                std::cout << "Index Name Price Number" << std::endl;
+                std::cout << "Index\tName\tActualPrice\tNumber" << std::endl;
                 for (const auto &product: products) {
-                    std::cout << i++ << "\t" << product.first.getName() << "\t" << product.first.getPrice() << "\t"
+                    std::cout << i++ << "\t" << product.first.getName() << "\t" << product.first.getActualPrice() << "\t"
                               << product.second
                               << std::endl;
                 }
                 break;
             case DETAILED_WITH_STOCK:
-                std::cout << "ID Name Price Stock" << std::endl;
+                std::cout << "ID\tName\tPrice\tStock\tDiscount" << std::endl;
                 for (const auto &product: products) {
                     std::cout << product.first.getId() << "\t" << product.first.getName() << "\t"
                               << product.first.getPrice()
-                              << "\t"
-                              << product.second << std::endl;
+                              << "\t" << product.second << '\t' << product.first.getDiscount() << std::endl;
                 }
                 break;
         }

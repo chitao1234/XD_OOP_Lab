@@ -17,12 +17,14 @@ namespace UI {
     }
 
     void CLIStateProductMaintenance::displayMenu() {
+        productDisplay.setProducts(StorageService::getInstance()->getProductRepository().listProducts());
         std::cout << "Product Maintenance" << std::endl;
         std::cout << "1. List products\n"
                      "2. Add product\n"
                      "3. Edit product\n"
                      "4. Delete product\n"
-                     "5. Back\n"
+                     "5. Set product discount\n"
+                     "6. Back\n"
                      "Enter your choice: ";
     }
 
@@ -67,7 +69,8 @@ namespace UI {
                 std::cout << "ID: " << product->getId() << '\n'
                           << "Name: " << product->getName() << '\n'
                           << "Price: " << product->getPrice() << '\n'
-                          << "Description: " << product->getDescription() << std::endl;
+                          << "Description: " << product->getDescription() << '\n'
+                          << "Discount: " << product->getDiscount() << std::endl;
                 std::string name;
                 double price;
                 std::string description;
@@ -102,6 +105,25 @@ namespace UI {
                 break;
             }
             case 5: {
+                productDisplay.listProducts(ProductDisplay::DETAILED_WITH_STOCK);
+                int productId;
+                std::cout << "Enter product id: ";
+                std::cin >> productId;
+                IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
+                std::optional<Product> product = productRepository.getProduct(productId);
+                if (!product.has_value()) {
+                    std::cout << "Product not found" << std::endl;
+                    break;
+                }
+                double discount;
+                std::cout << "Enter discount: ";
+                std::cin >> discount;
+                product->setDiscount(discount);
+                productRepository.updateProduct(*product);
+                std::cout << "Discount set" << std::endl;
+                break;
+            }
+            case 6: {
                 userInterface.popState();
                 break;
             }

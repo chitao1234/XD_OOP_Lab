@@ -18,6 +18,8 @@ namespace Service {
 
     void SessionManager::loginUser(const NormalUser &user) {
         currentUser = user;
+        delete shoppingCartRepository;
+        delete purchaseService;
         shoppingCartRepository = new ShoppingCartRepository(StorageService::getInstance()->getProductRepository(),
                                                             user.getUsername());
         purchaseService = new PurchaseService(*shoppingCartRepository, StorageService::getInstance()->getCouponRepository());
@@ -27,6 +29,8 @@ namespace Service {
         currentUser = std::nullopt;
         delete shoppingCartRepository;
         shoppingCartRepository = nullptr;
+        delete purchaseService;
+        purchaseService = nullptr;
     }
 
     bool SessionManager::getLoginStatus() const {

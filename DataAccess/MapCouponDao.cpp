@@ -72,7 +72,7 @@ namespace DataAccess {
             return false;
         }
         coupons.clear();
-        nextIdValue = 0;
+        nextIdValue = 1;
         std::string line;
         while (std::getline(file, line)) {
             DataType::Coupon coupon = DataType::Coupon::deserialize(line);

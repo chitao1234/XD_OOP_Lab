@@ -23,6 +23,8 @@ namespace Service {
         PurchaseResult purchase(const std::vector<std::pair<DataType::Product, long>> &productList,
                                 const std::optional<DataType::Coupon> &coupon);
 
+        PurchaseResult purchase(const DataType::Product &product);
+
         double calculateTotalPrice(const std::vector<std::pair<DataType::Product, long>> &productList,
                                    const std::optional<DataType::Coupon> &coupon);
 

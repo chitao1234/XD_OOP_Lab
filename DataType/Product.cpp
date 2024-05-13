@@ -14,7 +14,8 @@ namespace DataType {
                                             name(std::move(name)),
                                             description(std::move(description)),
                                             price(price),
-                                            remainingStock(remainingStock) {}
+                                            remainingStock(remainingStock),
+                                            discount(1) {}
 
     uint64_t Product::getId() const {
         return id;
@@ -30,6 +31,10 @@ namespace DataType {
 
     double Product::getPrice() const {
         return price;
+    }
+
+    double Product::getActualPrice() const {
+        return price * discount;
     }
 
     void Product::setName(std::string name) {
@@ -50,19 +55,27 @@ namespace DataType {
         oss << product.getName() << ',';
         oss << product.getDescription() << ',';
         oss << product.getPrice() << ',';
-        oss << product.getRemainingStock();
+        oss << product.getRemainingStock() << ',';
+        oss << product.getDiscount();
         return oss.str();
     }
 
     Product Product::deserialize(const std::string &line) {
         std::istringstream iss(line);
-        std::string id, name, description, price, remainingStock;
+        std::string id, name, description, price, remainingStock, discount;
         std::getline(iss, id, ',');
         std::getline(iss, name, ',');
         std::getline(iss, description, ',');
         std::getline(iss, price, ',');
         std::getline(iss, remainingStock, ',');
-        return {std::stoul(id), name, description, std::stod(price), std::stol(remainingStock)};
+        std::getline(iss, discount, ',');
+        Product product = {std::stoul(id),
+                           name,
+                           description,
+                           std::stod(price),
+                           std::stol(remainingStock)};
+        product.setDiscount(std::stod(discount));
+        return product;
     }
 
     long Product::getRemainingStock() const {
@@ -76,6 +89,15 @@ namespace DataType {
     bool Product::operator==(const Product &product) const {
         return id == product.id && name == product.name && description == product.description &&
                price == product.price &&
-               remainingStock == product.remainingStock;
+               remainingStock == product.remainingStock &&
+               discount == product.discount;
+    }
+
+    double Product::getDiscount() const {
+        return discount;
+    }
+
+    void Product::setDiscount(double discount) {
+        this->discount = discount;
     }
 }

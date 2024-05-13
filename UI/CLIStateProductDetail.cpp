@@ -6,16 +6,19 @@
 #include <utility>
 #include "CLIStateProductDetail.h"
 #include "Service/SessionManager.h"
+#include "Service/StorageService.h"
 
 namespace UI {
     using Service::SessionManager;
+    using Service::StorageService;
     using DataAccess::IShoppingCartRepository;
     using DataType::Product;
 
     void CLIStateProductDetail::displayMenu() {
         std::cout << "Product Detail" << std::endl;
         std::cout << "Name: " << product.getName() << std::endl;
-        std::cout << "Price: " << product.getPrice() << std::endl;
+        std::cout << "Original Price: " << product.getPrice() << std::endl;
+        std::cout << "Actual Price after Discount: " << product.getActualPrice() << std::endl;
         std::cout << "Description: " << product.getDescription() << std::endl;
         std::cout << "1. Add to cart\n"
                      "2. Buy\n"
@@ -45,9 +48,20 @@ namespace UI {
                 std::cout << "Added to cart" << std::endl;
                 break;
             }
-            case 2:
-                std::cout << "Bought" << std::endl;
+            case 2: {
+                if (!SessionManager::getInstance()->getLoginStatus()) {
+                    std::cout << "Please login first" << std::endl;
+                    break;
+                }
+                IShoppingCartRepository &cart = SessionManager::getInstance()->getShoppingCartRepository();
+                if (Service::PurchaseService(cart, StorageService::getInstance()->getCouponRepository()).purchase(
+                        product)) {
+                    std::cout << "Bought" << std::endl;
+                } else {
+                    std::cout << "Failed to buy" << std::endl;
+                }
                 break;
+            }
             case 3:
                 userInterface.popState();
                 break;
