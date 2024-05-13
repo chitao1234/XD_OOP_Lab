@@ -26,6 +26,10 @@ namespace DataAccess {
 
         void clearCart() override;
 
+        bool exportToFile(std::string filename) override;
+
+        bool importFromFile(std::string filename) override;
+
     private:
         std::string username;
         IProductRepository &productRepository;

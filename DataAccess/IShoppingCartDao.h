@@ -25,7 +25,11 @@ namespace DataAccess {
 
         virtual void save() = 0;
 
+        virtual bool exportToFile(std::string username, std::string filename) = 0;
+
         virtual bool load() = 0;
+
+        virtual bool importFromFile(std::string username, std::string filename) = 0;
     };
 }
 

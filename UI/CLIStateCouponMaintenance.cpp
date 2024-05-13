@@ -57,13 +57,16 @@ namespace UI {
                 displayCouponList();
                 std::string username;
                 uint64_t couponId;
-                std::cout << "Enter username: ";
+                std::cout << "Enter username (use RANDOM for random user): ";
                 std::cin >> username;
+                if (username == "RANDOM") {
+                    username = Service::StorageService::getInstance()->getUserRepository().getRandomUser().getUsername();
+                }
                 displayUserCouponList(username);
                 std::cout << "Enter coupon id: ";
                 std::cin >> couponId;
                 couponRepository.addCouponToUser(username, couponId);
-                std::cout << "Coupon added to user" << std::endl;
+                std::cout << "Coupon added to user " << username << std::endl;
                 break;
             }
             case 3: {

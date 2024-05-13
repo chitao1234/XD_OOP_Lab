@@ -26,6 +26,8 @@ namespace DataAccess {
         virtual bool replaceUser(const DataType::NormalUser &user, const DataType::NormalUser &newUser) = 0;
 
         virtual std::vector<DataType::NormalUser> listUsers() = 0;
+
+        virtual DataType::NormalUser getRandomUser() = 0;
     };
 }
 

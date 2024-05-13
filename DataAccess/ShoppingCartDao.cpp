@@ -46,6 +46,16 @@ namespace DataAccess {
         carts[username].clear();
     }
 
+    bool ShoppingCartDao::exportToFile(std::string username, std::string filename_) {
+        std::ofstream ofs(filename_);
+        if (!ofs) return false;
+        for (const auto &product: carts[username]) {
+            ofs << username << ',' << product.first << ',' << product.second << '\n';
+        }
+        ofs.close();
+        return true;
+    }
+
     void ShoppingCartDao::save() {
         std::ofstream ofs(filename);
         for (const auto &cart: carts) {
@@ -54,6 +64,26 @@ namespace DataAccess {
             }
         }
         ofs.close();
+    }
+
+    bool ShoppingCartDao::importFromFile(std::string username, std::string filename_) {
+        std::ifstream ifs(filename_);
+        if (!ifs) return false;
+        carts[username].clear();
+        std::string line;
+        while (std::getline(ifs, line)) {
+            std::istringstream iss(line);
+            std::string currentUsername;
+            uint64_t productId;
+            long quantity;
+            std::getline(iss, currentUsername, ',');
+            iss >> productId;
+            iss.ignore(1);
+            iss >> quantity;
+            carts[currentUsername].emplace_back(productId, quantity);
+        }
+        ifs.close();
+        return true;
     }
 
     bool ShoppingCartDao::load() {

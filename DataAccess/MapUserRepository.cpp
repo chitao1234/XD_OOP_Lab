@@ -89,4 +89,12 @@ namespace DataAccess {
     std::vector<NormalUser> MapUserRepository::listUsers() {
         return userDao->listUsers();
     }
+
+    DataType::NormalUser MapUserRepository::getRandomUser() {
+        std::vector<NormalUser> users = userDao->listUsers();
+        if (users.empty()) {
+            throw std::runtime_error("No user in the repository");
+        }
+        return users[rand() % users.size()];
+    }
 }

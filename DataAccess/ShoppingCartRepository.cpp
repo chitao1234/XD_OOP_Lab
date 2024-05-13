@@ -52,4 +52,12 @@ namespace DataAccess {
         shoppingCartDao->clearCart(username);
         shoppingCartDao->save();
     }
+
+    bool ShoppingCartRepository::exportToFile(std::string filename) {
+        return shoppingCartDao->exportToFile(username, std::move(filename));
+    }
+
+    bool ShoppingCartRepository::importFromFile(std::string filename) {
+        return shoppingCartDao->importFromFile(username, std::move(filename));
+    }
 }

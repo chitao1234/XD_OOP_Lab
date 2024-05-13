@@ -38,7 +38,9 @@ namespace UI {
                      "4. Manage\n"
                      "5. List Coupon\n"
                      "6. Redeem Coupon from Code\n"
-                     "7. Back\n"
+                     "7. Export to File\n"
+                     "8. Import from File\n"
+                     "9. Back\n"
                      "Enter your choice: ";
     }
 
@@ -133,7 +135,29 @@ namespace UI {
                 }
                 break;
             }
-            case 7:
+            case 7: {
+                std::string filename;
+                std::cout << "Enter filename: ";
+                std::cin >> filename;
+                if (SessionManager::getInstance()->getShoppingCartRepository().exportToFile(filename)) {
+                    std::cout << "Exported to " << filename << std::endl;
+                } else {
+                    std::cout << "Export failed" << std::endl;
+                }
+                break;
+            }
+            case 8: {
+                std::string filename;
+                std::cout << "Enter filename: ";
+                std::cin >> filename;
+                if (SessionManager::getInstance()->getShoppingCartRepository().importFromFile(filename)) {
+                    std::cout << "Imported from " << filename << std::endl;
+                } else {
+                    std::cout << "Import failed" << std::endl;
+                }
+                break;
+            }
+            case 9:
                 userInterface.popState();
                 break;
             default:

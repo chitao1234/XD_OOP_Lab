@@ -29,6 +29,10 @@ namespace DataAccess {
 
         void save() override;
 
+        bool exportToFile(std::string username, std::string filename) override;
+
+        bool importFromFile(std::string username, std::string filename) override;
+
         bool load() override;
 
     private:

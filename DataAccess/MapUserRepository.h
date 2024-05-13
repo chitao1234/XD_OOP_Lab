@@ -35,6 +35,8 @@ namespace DataAccess {
         bool replaceUser(const DataType::NormalUser &user, const DataType::NormalUser &newUser) override;
 
         std::vector<DataType::NormalUser> listUsers() override;
+
+        DataType::NormalUser getRandomUser() override;
     };
 }
 

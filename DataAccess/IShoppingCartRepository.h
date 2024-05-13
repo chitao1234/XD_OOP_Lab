@@ -23,6 +23,10 @@ namespace DataAccess {
         virtual void updateProductQuantity(uint64_t productId, long quantity) = 0;
 
         virtual void clearCart() = 0;
+
+        virtual bool exportToFile(std::string filename) = 0;
+
+        virtual bool importFromFile(std::string filename) = 0;
     };
 }
 
