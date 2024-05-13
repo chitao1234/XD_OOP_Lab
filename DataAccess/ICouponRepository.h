@@ -20,6 +20,8 @@ namespace DataAccess {
 
         virtual void addCouponToUser(std::string username, uint64_t couponId) = 0;
 
+        virtual bool addCouponToUser(std::string username, std::string couponCode) = 0;
+
         virtual void removeCoupon(uint64_t couponId) = 0;
 
         virtual void removeCouponFromUser(std::string username, uint64_t couponId) = 0;

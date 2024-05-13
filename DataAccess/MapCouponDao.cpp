@@ -81,4 +81,26 @@ namespace DataAccess {
         }
         return true;
     }
+
+    bool MapCouponDao::containCoupon(std::string code) {
+        if (code.empty()) return false;
+        for (const auto &pair: coupons) {
+            if (pair.second.getCode() == code) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    DataType::Coupon MapCouponDao::getCoupon(std::string code) {
+        if (code.empty()) {
+            throw std::invalid_argument("Code cannot be empty");
+        }
+        for (const auto &pair: coupons) {
+            if (pair.second.getCode() == code) {
+                return pair.second;
+            }
+        }
+        throw std::runtime_error("Coupon not found");
+    }
 } // DataAccess

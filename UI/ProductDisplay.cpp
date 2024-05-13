@@ -108,6 +108,7 @@ namespace UI {
                 }
                 if (productNumber < 0 || static_cast<size_t>(productNumber) >= size()) {
                     std::cout << "Invalid product number" << std::endl;
+                    continue;
                 }
                 result.push_back(products[productNumber]);
                 if (single) break;

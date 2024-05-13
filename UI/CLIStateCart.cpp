@@ -7,24 +7,28 @@
 #include "CLIStateCart.h"
 #include "CLIStateCartMaintenance.h"
 #include "Service/SessionManager.h"
+#include "Service/StorageService.h"
 
 namespace UI {
     using Service::SessionManager;
+    using Service::StorageService;
     using DataType::Product;
 
     void CLIStateCart::displayMenu() {
         productDisplay.setProducts(SessionManager::getInstance()->getShoppingCartRepository().listProducts());
         std::cout << "Cart List:\n";
         productDisplay.listProducts(ProductDisplay::BRIEF_WITH_NUMBER);
-        std::cout << "Total Price: "
+        std::cout << "Total Price (No coupon): "
                   << SessionManager::getInstance()->getPurchaseService().calculateTotalPrice(
-                          SessionManager::getInstance()->getShoppingCartRepository().listProducts()
+                          SessionManager::getInstance()->getShoppingCartRepository().listProducts(),
+                          std::nullopt
                   )
                   << "\n\n";
         std::cout << "Selected:\n";
         ProductDisplay(selected).listProducts(ProductDisplay::BRIEF_WITH_NUMBER);
-        std::cout << "Selected Price: "
-                  << SessionManager::getInstance()->getPurchaseService().calculateTotalPrice(selected)
+        std::cout << "Selected Price (No coupon): "
+                  << SessionManager::getInstance()->getPurchaseService().calculateTotalPrice(selected,
+                                                                                             std::nullopt)
                   << "\n\n";
         std::cout << std::endl;
         std::cout << "Cart Menu\n"
@@ -32,7 +36,9 @@ namespace UI {
                      "2. Select\n"
                      "3. Deselect\n"
                      "4. Manage\n"
-                     "5. Back\n"
+                     "5. List Coupon\n"
+                     "6. Redeem Coupon from Code\n"
+                     "7. Back\n"
                      "Enter your choice: ";
     }
 
@@ -48,8 +54,17 @@ namespace UI {
                 }
 
                 ProductDisplay(selected).listProducts(ProductDisplay::BRIEF_WITH_NUMBER);
+
+                std::optional<DataType::Coupon> coupon = displayCoupons(true);
+                if (coupon.has_value()) {
+                    std::cout << "Coupon selected: " << coupon.value().getName() << " (" << coupon.value().getCode()
+                              << "): Type: "
+                              << DataType::Coupon::typeToString(coupon.value().getType()) << " Discount: "
+                              << coupon.value().getValue() << std::endl;
+                }
+
                 std::cout << "Total Price: "
-                          << SessionManager::getInstance()->getPurchaseService().calculateTotalPrice(selected)
+                          << SessionManager::getInstance()->getPurchaseService().calculateTotalPrice(selected, coupon)
                           << std::endl;
                 std::cout << "Confirm? (y/n): ";
                 char confirm;
@@ -59,7 +74,8 @@ namespace UI {
                     break;
                 }
 
-                if (Service::PurchaseResult result = SessionManager::getInstance()->getPurchaseService().purchase(selected)) {
+                if (Service::PurchaseResult result = SessionManager::getInstance()->getPurchaseService().purchase(
+                        selected, coupon)) {
                     std::cout << "Checkout successful" << std::endl;
                     selected.clear();
                 } else {
@@ -99,7 +115,25 @@ namespace UI {
                 userInterface.pushState(new CLIStateCartMaintenance(userInterface, product.value()));
                 break;
             }
-            case 5:
+            case 5: {
+                displayCoupons(false);
+                break;
+            }
+            case 6: {
+                std::string code;
+                std::cout << "Enter coupon code: ";
+                std::cin >> code;
+                if (StorageService::getInstance()
+                        ->getCouponRepository().addCouponToUser(
+                        SessionManager::getInstance()->getCurrentUser().value().getUsername(),
+                        code)) {
+                    std::cout << "Coupon redeemed." << std::endl;
+                } else {
+                    std::cout << "Invalid code." << std::endl;
+                }
+                break;
+            }
+            case 7:
                 userInterface.popState();
                 break;
             default:
@@ -111,5 +145,34 @@ namespace UI {
     CLIStateCart::CLIStateCart(CLIUserInterface &userInterface) :
             userInterface(userInterface),
             productDisplay(SessionManager::getInstance()->getShoppingCartRepository().listProducts()) {
+    }
+
+    std::optional<DataType::Coupon> CLIStateCart::displayCoupons(bool select) {
+        std::vector<DataType::Coupon> coupons = StorageService::getInstance()
+                ->getCouponRepository().getUserCoupons(
+                SessionManager::getInstance()->getCurrentUser().value().getUsername());
+        std::cout << "Coupon List:\n";
+        if (coupons.empty()) {
+            std::cout << "No coupon available" << std::endl;
+            return std::nullopt;
+        }
+        int index = 1;
+        for (const auto &coupon: coupons) {
+            std::cout << index++ << ". " << coupon.getName() << " (" << coupon.getCode() << "): Type: "
+                      << DataType::Coupon::typeToString(coupon.getType()) << " Discount: "
+                      << coupon.getValue() << std::endl;
+        }
+        if (select) {
+            std::cout << "Select a coupon: ";
+            int choice;
+            std::cin >> choice;
+            if (choice < 1 || static_cast<size_t>(choice) > coupons.size()) {
+                std::cout << "Invalid choice" << std::endl;
+                return std::nullopt;
+            }
+            return coupons[choice - 1];
+        } else {
+            return std::nullopt;
+        }
     }
 }

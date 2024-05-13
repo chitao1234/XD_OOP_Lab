@@ -20,7 +20,7 @@ namespace Service {
         currentUser = user;
         shoppingCartRepository = new ShoppingCartRepository(StorageService::getInstance()->getProductRepository(),
                                                             user.getUsername());
-        purchaseService = new PurchaseService(*shoppingCartRepository);
+        purchaseService = new PurchaseService(*shoppingCartRepository, StorageService::getInstance()->getCouponRepository());
     }
 
     void SessionManager::logoutUser() {

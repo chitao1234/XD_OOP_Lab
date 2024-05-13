@@ -51,4 +51,12 @@ namespace DataAccess {
     std::vector<DataType::Coupon> CouponRepository::getCoupons() {
         return couponDao->getCoupons();
     }
+
+    bool CouponRepository::addCouponToUser(std::string username, std::string couponCode) {
+        if (!couponDao->containCoupon(couponCode)) return false;
+        auto coupon = couponDao->getCoupon(couponCode);
+        userCouponDao->addCoupon(username, coupon.getId());
+        userCouponDao->save();
+        return true;
+    }
 } // DataAccess

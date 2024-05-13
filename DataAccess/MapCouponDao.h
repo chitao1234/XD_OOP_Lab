@@ -18,6 +18,8 @@ namespace DataAccess {
 
         bool containCoupon(uint64_t id) override;
 
+        bool containCoupon(std::string code) override;
+
         void addCoupon(const DataType::Coupon &coupon) override;
 
         void removeCoupon(uint64_t id) override;
@@ -25,6 +27,8 @@ namespace DataAccess {
         void updateCoupon(const DataType::Coupon &coupon) override;
 
         DataType::Coupon getCoupon(uint64_t id) override;
+
+        DataType::Coupon getCoupon(std::string code) override;
 
         std::vector<DataType::Coupon> getCoupons() override;
 

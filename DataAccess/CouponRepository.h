@@ -24,6 +24,8 @@ namespace DataAccess {
 
         void addCouponToUser(std::string username, uint64_t couponId) override;
 
+        bool addCouponToUser(std::string username, std::string couponCode) override;
+
         void removeCoupon(uint64_t couponId) override;
 
         void removeCouponFromUser(std::string username, uint64_t couponId) override;

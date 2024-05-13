@@ -22,8 +22,10 @@ namespace DataAccess {
     }
 
     void UserCouponDao::removeCoupon(std::string username, uint64_t id) {
-        userCoupons[username].erase(std::remove(userCoupons[username].begin(), userCoupons[username].end(), id),
-                                    userCoupons[username].end());
+        auto it = std::find(userCoupons[username].begin(), userCoupons[username].end(), id);
+        if (it != userCoupons[username].end()) {
+            userCoupons[username].erase(it);
+        }
     }
 
     std::vector<uint64_t> UserCouponDao::getCoupons(std::string username) {

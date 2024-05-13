@@ -31,9 +31,11 @@ namespace UI {
         DataAccess::ICouponRepository &couponRepository = Service::StorageService::getInstance()->getCouponRepository();
         switch (choice) {
             case 1: {
-                std::string code;
+                std::string code, name;
                 double discount;
                 int type;
+                std::cout << "Enter coupon name: ";
+                std::cin >> name;
                 std::cout << "1. Percentage discount\n"
                              "2. Fixed discount\n"
                              "Enter coupon type: ";
@@ -47,7 +49,7 @@ namespace UI {
                 std::cout << "Enter discount: ";
                 std::cin >> discount;
                 couponRepository.addCoupon(
-                        {Coupon::Type(type), discount, code});
+                        {name, Coupon::Type(type), discount, code});
                 std::cout << "Coupon added" << std::endl;
                 break;
             }
@@ -107,10 +109,10 @@ namespace UI {
         }
     }
 
-    void CLIStateCouponMaintenance::displayCouponList() {
-        auto coupons = Service::StorageService::getInstance()->getCouponRepository().getCoupons();
-        for (auto &coupon: coupons) {
+    void CLIStateCouponMaintenance::displayCouponList(const std::vector<DataType::Coupon> &couponList) {
+        for (auto &coupon: couponList) {
             std::cout << "Coupon ID: " << coupon.getId() << std::endl;
+            std::cout << "Coupon Name: " << coupon.getName() << std::endl;
             std::cout << "Coupon Code: " << coupon.getCode() << std::endl;
             std::cout << "Coupon Type: " << Coupon::typeToString(coupon.getType())
                       << std::endl;
@@ -119,15 +121,13 @@ namespace UI {
         }
     }
 
+    void CLIStateCouponMaintenance::displayCouponList() {
+        auto coupons = Service::StorageService::getInstance()->getCouponRepository().getCoupons();
+        displayCouponList(coupons);
+    }
+
     void CLIStateCouponMaintenance::displayUserCouponList(const std::string &username) {
         auto coupons = Service::StorageService::getInstance()->getCouponRepository().getUserCoupons(username);
-        for (auto &coupon: coupons) {
-            std::cout << "Coupon ID: " << coupon.getId() << std::endl;
-            std::cout << "Coupon Code: " << coupon.getCode() << std::endl;
-            std::cout << "Coupon Type: " << Coupon::typeToString(coupon.getType())
-                      << std::endl;
-            std::cout << "Coupon Discount: " << coupon.getValue() << std::endl;
-            std::cout << std::endl;
-        }
+        displayCouponList(coupons);
     }
 } // UI

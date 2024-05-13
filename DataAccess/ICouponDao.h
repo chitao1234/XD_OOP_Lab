@@ -16,6 +16,8 @@ namespace DataAccess {
 
         virtual bool containCoupon(uint64_t id) = 0;
 
+        virtual bool containCoupon(std::string code) = 0;
+
         virtual void addCoupon(const DataType::Coupon &coupon) = 0;
 
         virtual void removeCoupon(uint64_t id) = 0;
@@ -23,6 +25,8 @@ namespace DataAccess {
         virtual void updateCoupon(const DataType::Coupon &coupon) = 0;
 
         virtual DataType::Coupon getCoupon(uint64_t id) = 0;
+
+        virtual DataType::Coupon getCoupon(std::string code) = 0;
 
         virtual std::vector<DataType::Coupon> getCoupons() = 0;
 

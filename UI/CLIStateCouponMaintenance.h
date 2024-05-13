@@ -7,6 +7,7 @@
 
 #include "ICLIState.h"
 #include "CLIUserInterface.h"
+#include "DataType/Coupon.h"
 
 namespace UI {
 
@@ -18,6 +19,8 @@ namespace UI {
 
         void handleUserInput() override;
     private:
+        void displayCouponList(const std::vector<DataType::Coupon> &couponList);
+
         void displayCouponList();
 
         void displayUserCouponList(const std::string &username);

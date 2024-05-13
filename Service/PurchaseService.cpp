@@ -8,12 +8,14 @@
 
 namespace Service {
 
-    PurchaseService::PurchaseService(DataAccess::IShoppingCartRepository &shoppingCartRepository)
-            : shoppingCartRepository(shoppingCartRepository) {
+    PurchaseService::PurchaseService(DataAccess::IShoppingCartRepository &shoppingCartRepository,
+                                     DataAccess::ICouponRepository &couponRepository)
+            : shoppingCartRepository(shoppingCartRepository), couponRepository(couponRepository) {
     }
 
 
-    PurchaseResult PurchaseService::purchase(const std::vector<std::pair<DataType::Product, long>> &productList) {
+    PurchaseResult PurchaseService::purchase(const std::vector<std::pair<DataType::Product, long>> &productList,
+                                             const std::optional<DataType::Coupon> &coupon) {
         DataAccess::IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
         for (const auto &product: productList) {
             // Check is stock is enough
@@ -29,13 +31,21 @@ namespace Service {
             productRepository.updateProduct(newProduct);
         }
 
+        if (coupon.has_value()) {
+            couponRepository.removeCoupon(coupon.value().getId());
+        }
+
         return PurchaseResult::success();
     }
 
-    double PurchaseService::calculateTotalPrice(const std::vector<std::pair<DataType::Product, long>> &productList) {
+    double PurchaseService::calculateTotalPrice(const std::vector<std::pair<DataType::Product, long>> &productList,
+                                                const std::optional<DataType::Coupon> &coupon) {
         double totalPrice = 0;
         for (const auto &product: productList) {
             totalPrice += product.first.getPrice() * static_cast<double>(product.second);
+        }
+        if (coupon.has_value()) {
+            totalPrice = coupon.value().apply(totalPrice);
         }
         return totalPrice;
     }

@@ -7,19 +7,28 @@
 
 #include "DataAccess/IShoppingCartRepository.h"
 #include "DataType/Product.h"
+#include "DataType/Coupon.h"
 #include "PurchaseResult.h"
+#include "DataAccess/ICouponRepository.h"
+
+#include <optional>
 
 namespace Service {
 
     class PurchaseService {
     public:
-        explicit PurchaseService(DataAccess::IShoppingCartRepository &shoppingCartRepository);
+        explicit PurchaseService(DataAccess::IShoppingCartRepository &shoppingCartRepository,
+                                 DataAccess::ICouponRepository &couponRepository);
 
-        PurchaseResult purchase(const std::vector<std::pair<DataType::Product, long>>& productList);
+        PurchaseResult purchase(const std::vector<std::pair<DataType::Product, long>> &productList,
+                                const std::optional<DataType::Coupon> &coupon);
 
-        double calculateTotalPrice(const std::vector<std::pair<DataType::Product, long>>& productList);
+        double calculateTotalPrice(const std::vector<std::pair<DataType::Product, long>> &productList,
+                                   const std::optional<DataType::Coupon> &coupon);
+
     private:
         DataAccess::IShoppingCartRepository &shoppingCartRepository;
+        DataAccess::ICouponRepository &couponRepository;
     };
 
 } // Service

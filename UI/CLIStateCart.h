@@ -8,6 +8,7 @@
 #include "ICLIState.h"
 #include "CLIUserInterface.h"
 #include "ProductDisplay.h"
+#include "DataType/Coupon.h"
 
 namespace UI {
     class CLIStateCart : public ICLIState {
@@ -22,6 +23,8 @@ namespace UI {
         CLIUserInterface &userInterface;
         ProductDisplay productDisplay;
         std::vector<std::pair<DataType::Product, long>> selected;
+
+        std::optional<DataType::Coupon> displayCoupons(bool select);
     };
 }
 
