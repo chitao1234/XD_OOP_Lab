@@ -8,7 +8,9 @@
 namespace DataAccess {
     using DataType::Product;
 
-    MapProductRepository::MapProductRepository() : productDao(new MapProductDao("products.csv")) {}
+    MapProductRepository::MapProductRepository(IDaoFactory &daoFactory)
+            : productDao(daoFactory.getProductDao()) {}
+
 
     MapProductRepository::~MapProductRepository() {
         delete productDao;
@@ -21,7 +23,7 @@ namespace DataAccess {
         return true;
     }
 
-    std::optional <Product> MapProductRepository::getProduct(uint64_t productId) {
+    std::optional<Product> MapProductRepository::getProduct(uint64_t productId) {
         if (!productDao->containProduct(productId)) {
             return std::nullopt;
         }
@@ -49,11 +51,11 @@ namespace DataAccess {
         return true;
     }
 
-    std::vector <Product> MapProductRepository::listProducts() {
+    std::vector<Product> MapProductRepository::listProducts() {
         return productDao->getProducts();
     }
 
-    std::vector <Product> MapProductRepository::searchProducts(std::string keyword) {
+    std::vector<Product> MapProductRepository::searchProducts(std::string keyword) {
         return productDao->getProducts(keyword);
     }
 }

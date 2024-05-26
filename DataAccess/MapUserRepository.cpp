@@ -4,8 +4,9 @@ namespace DataAccess {
     using DataType::NormalUser;
     using DataType::AdminUser;
 
-    MapUserRepository::MapUserRepository() : userDao(new MapUserDao<NormalUser>("users.csv")),
-                                             adminDao(new MapUserDao<AdminUser>("admin.csv")) {}
+    MapUserRepository::MapUserRepository(IDaoFactory &daoFactory) :
+            userDao(daoFactory.getUserDao()),
+            adminDao(daoFactory.getAdminDao()) {}
 
     MapUserRepository::~MapUserRepository() {
         delete userDao;

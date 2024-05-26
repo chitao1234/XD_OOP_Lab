@@ -2,6 +2,7 @@
 #define IUSERDAO_H
 
 #include <string>
+#include <vector>
 
 namespace DataAccess {
     template<typename T>

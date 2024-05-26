@@ -7,11 +7,12 @@
 
 #include "IProductRepository.h"
 #include "IProductDao.h"
+#include "IDaoFactory.h"
 
 namespace DataAccess {
     class MapProductRepository : public IProductRepository {
     public:
-        MapProductRepository();
+        MapProductRepository(IDaoFactory &daoFactory);
 
         ~MapProductRepository();
 

@@ -8,6 +8,7 @@
 #include "ICouponRepository.h"
 #include "IUserCouponDao.h"
 #include "ICouponDao.h"
+#include "IDaoFactory.h"
 
 namespace DataAccess {
 
@@ -16,7 +17,7 @@ namespace DataAccess {
         ICouponDao *couponDao;
         IUserCouponDao *userCouponDao;
     public:
-        CouponRepository();
+        CouponRepository(IDaoFactory &daoFactory);
 
         ~CouponRepository() override;
 

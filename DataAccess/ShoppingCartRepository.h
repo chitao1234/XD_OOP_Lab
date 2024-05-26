@@ -8,11 +8,12 @@
 #include "IShoppingCartRepository.h"
 #include "IProductRepository.h"
 #include "IShoppingCartDao.h"
+#include "IDaoFactory.h"
 
 namespace DataAccess {
     class ShoppingCartRepository : public IShoppingCartRepository {
     public:
-        explicit ShoppingCartRepository(IProductRepository &productRepository, std::string username);
+        explicit ShoppingCartRepository(IDaoFactory &daoFactory, IProductRepository &productRepository, std::string username);
 
         ~ShoppingCartRepository() override;
 

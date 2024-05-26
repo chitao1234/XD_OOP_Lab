@@ -18,9 +18,9 @@ namespace DataAccess {
         return products;
     }
 
-    ShoppingCartRepository::ShoppingCartRepository(IProductRepository &productRepository, std::string username)
+    ShoppingCartRepository::ShoppingCartRepository(IDaoFactory &daoFactory, IProductRepository &productRepository, std::string username)
             : username(std::move(username)), productRepository(productRepository),
-              shoppingCartDao(new ShoppingCartDao("shopping_cart.csv")) {
+              shoppingCartDao(daoFactory.getShoppingCartDao()) {
     }
 
     ShoppingCartRepository::~ShoppingCartRepository() {

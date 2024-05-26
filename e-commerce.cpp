@@ -3,14 +3,18 @@
 #include "DataAccess/MapProductRepository.h"
 #include "Service/StorageService.h"
 #include "DataAccess/CouponRepository.h"
+#include "DataAccess/MapDaoFactory.h"
 
 int main() {
-    DataAccess::MapUserRepository userRepository = DataAccess::MapUserRepository();
-    DataAccess::MapProductRepository productRepository = DataAccess::MapProductRepository();
-    DataAccess::CouponRepository couponRepository = DataAccess::CouponRepository();
-    Service::StorageService::getInstance()->setUserRepository(userRepository);
-    Service::StorageService::getInstance()->setProductRepository(productRepository);
-    Service::StorageService::getInstance()->setCouponRepository(couponRepository);
+    DataAccess::MapDaoFactory daoFactory = DataAccess::MapDaoFactory();
+    DataAccess::MapUserRepository userRepository = DataAccess::MapUserRepository(daoFactory);
+    DataAccess::MapProductRepository productRepository = DataAccess::MapProductRepository(daoFactory);
+    DataAccess::CouponRepository couponRepository = DataAccess::CouponRepository(daoFactory);
+    Service::StorageService *storageService = Service::StorageService::getInstance();
+    storageService->setDaoFactory(daoFactory);
+    storageService->setUserRepository(userRepository);
+    storageService->setProductRepository(productRepository);
+    storageService->setCouponRepository(couponRepository);
 
     UI::CLIUserInterface userInterface;
 

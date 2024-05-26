@@ -10,6 +10,7 @@
 #include "DataAccess/IProductRepository.h"
 #include "DataAccess/IUserRepository.h"
 #include "DataAccess/ICouponRepository.h"
+#include "DataAccess/IDaoFactory.h"
 
 
 namespace Service {
@@ -21,15 +22,20 @@ namespace Service {
 
         [[nodiscard]] DataAccess::ICouponRepository &getCouponRepository() const;
 
+        [[nodiscard]] DataAccess::IDaoFactory &getDaoFactory() const;
+
         void setProductRepository(DataAccess::IProductRepository &productRepository);
 
         void setUserRepository(DataAccess::IUserRepository &userRepository);
 
         void setCouponRepository(DataAccess::ICouponRepository &couponRepository);
+
+        void setDaoFactory(DataAccess::IDaoFactory &daoFactory);
     private:
         DataAccess::IProductRepository *productRepository;
         DataAccess::IUserRepository *userRepository;
         DataAccess::ICouponRepository *couponRepository;
+        DataAccess::IDaoFactory *daoFactory;
     };
 }
 

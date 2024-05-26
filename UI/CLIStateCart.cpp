@@ -81,7 +81,7 @@ namespace UI {
                     std::cout << "Checkout successful" << std::endl;
                     selected.clear();
                 } else {
-                    std::cout << "Checkout failed, reason: " << result.message << std::endl;
+                    std::cout << "Checkout failed, reason: " << result.getMessage() << std::endl;
                 }
 
                 break;

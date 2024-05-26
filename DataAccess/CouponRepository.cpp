@@ -7,9 +7,9 @@
 #include "MapCouponDao.h"
 
 namespace DataAccess {
-    CouponRepository::CouponRepository() :
-            couponDao(new MapCouponDao("coupon.csv")),
-            userCouponDao(new UserCouponDao("user_coupon.csv")) {
+    CouponRepository::CouponRepository(IDaoFactory &daoFactory) :
+            couponDao(daoFactory.getCouponDao()),
+            userCouponDao(daoFactory.getUserCouponDao()) {
     }
 
     CouponRepository::~CouponRepository() {

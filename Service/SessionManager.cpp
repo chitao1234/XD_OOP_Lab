@@ -20,9 +20,12 @@ namespace Service {
         currentUser = user;
         delete shoppingCartRepository;
         delete purchaseService;
-        shoppingCartRepository = new ShoppingCartRepository(StorageService::getInstance()->getProductRepository(),
+        StorageService *storageService = StorageService::getInstance();
+        shoppingCartRepository = new ShoppingCartRepository(storageService->getDaoFactory(),
+                                                            storageService->getProductRepository(),
                                                             user.getUsername());
-        purchaseService = new PurchaseService(*shoppingCartRepository, StorageService::getInstance()->getCouponRepository());
+        purchaseService = new PurchaseService(*shoppingCartRepository,
+                                              storageService->getCouponRepository());
     }
 
     void SessionManager::logoutUser() {

@@ -39,4 +39,14 @@ namespace Service {
     void StorageService::setCouponRepository(ICouponRepository &couponRepository) {
         this->couponRepository = &couponRepository;
     }
+
+    DataAccess::IDaoFactory &StorageService::getDaoFactory() const {
+        if (!daoFactory)
+            throw std::runtime_error("DAO factory not set");
+        return *daoFactory;
+    }
+
+    void StorageService::setDaoFactory(DataAccess::IDaoFactory &daoFactory) {
+        this->daoFactory = &daoFactory;
+    }
 }

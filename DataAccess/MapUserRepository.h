@@ -6,6 +6,7 @@
 #include "MapUserDao.h"
 #include "IUserRepository.h"
 #include "../DataType/NormalUser.h"
+#include "IDaoFactory.h"
 
 namespace DataAccess {
     class MapUserRepository : public IUserRepository {
@@ -14,7 +15,7 @@ namespace DataAccess {
         IUserDao<DataType::AdminUser> *adminDao;
 
     public:
-        MapUserRepository();
+        MapUserRepository(IDaoFactory &daoFactory);
 
         ~MapUserRepository() override;
 

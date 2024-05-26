@@ -5,11 +5,27 @@
 #include "PurchaseResult.h"
 
 namespace Service {
+    PurchaseResult::ErrorType PurchaseResult::getErrorType() const {
+        return errorType;
+    }
+
     PurchaseResult PurchaseResult::success() {
-        return {false, PurchaseResult::ErrorType::UNKNOWN, ""};
+        PurchaseResult result;
+        result.isError = false;
+        result.errorType = ErrorType::UNKNOWN;
+        result.message = "";
+        return result;
     }
 
     PurchaseResult PurchaseResult::stockNotEnough(const std::string& productName) {
-        return {true, PurchaseResult::ErrorType::STOCK_NOT_ENOUGH, "Stock of " + productName + " is not enough"};
+        PurchaseResult result;
+        result.isError = true;
+        result.errorType = ErrorType::STOCK_NOT_ENOUGH;
+        result.message = "Stock of " + productName + " is not enough";
+        return result;
+    }
+
+    std::string PurchaseResult::getMessage() const {
+        return message;
     }
 }
