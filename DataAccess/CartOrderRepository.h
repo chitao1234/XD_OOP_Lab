@@ -2,10 +2,10 @@
 // Created by chi on 24/05/05.
 //
 
-#ifndef E_COMMERCE_SHOPPINGCARTREPOSITORY_H
-#define E_COMMERCE_SHOPPINGCARTREPOSITORY_H
+#ifndef E_COMMERCE_CARTORDERREPOSITORY_H
+#define E_COMMERCE_CARTORDERREPOSITORY_H
 
-#include "IShoppingCartRepository.h"
+#include "ICartOrderRepository.h"
 #include "IProductRepository.h"
 #include "IShoppingCartDao.h"
 #include "IDaoFactory.h"
@@ -13,11 +13,11 @@
 #include "IProductOrderDao.h"
 
 namespace DataAccess {
-    class ShoppingCartRepository : public IShoppingCartRepository {
+    class CartOrderRepository : public ICartOrderRepository {
     public:
-        ShoppingCartRepository(IDaoFactory &daoFactory, IProductRepository &productRepository, std::string username);
+        CartOrderRepository(IDaoFactory &daoFactory, IProductRepository &productRepository, std::string username);
 
-        ~ShoppingCartRepository() override;
+        ~CartOrderRepository() override;
 
         std::vector <std::pair<DataType::Product, long>> listProducts() override;
 
@@ -35,7 +35,7 @@ namespace DataAccess {
 
         void addOrder(std::vector<std::pair<DataType::Product, long>> products, double price) override;
 
-        DataType::FullOrder getFullOrder(uint64_t orderId);
+        DataType::FullOrder getFullOrder(const DataType::Order& order) override;
 
         std::vector<DataType::FullOrder> filterOrders(
                 std::optional<std::string> keyword,
@@ -52,4 +52,4 @@ namespace DataAccess {
 }
 
 
-#endif //E_COMMERCE_SHOPPINGCARTREPOSITORY_H
+#endif //E_COMMERCE_CARTORDERREPOSITORY_H

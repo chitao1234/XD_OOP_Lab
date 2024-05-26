@@ -6,7 +6,7 @@
 #include "MapProductRepository.h"
 #include "MapUserRepository.h"
 #include "CouponRepository.h"
-#include "ShoppingCartRepository.h"
+#include "CartOrderRepository.h"
 
 namespace DataAccess {
     IProductRepository *MapRepositoryFactory::getProductRepository() {
@@ -21,9 +21,9 @@ namespace DataAccess {
         return new CouponRepository(daoFactory);
     }
 
-    IShoppingCartRepository *
-    MapRepositoryFactory::getShoppingCartRepository(IProductRepository &productRepository, std::string username) {
-        return new ShoppingCartRepository(daoFactory, productRepository, username);
+    ICartOrderRepository *
+    MapRepositoryFactory::getCartOrderRepository(IProductRepository &productRepository, std::string username) {
+        return new CartOrderRepository(daoFactory, productRepository, username);
     }
 
     MapRepositoryFactory::MapRepositoryFactory(IDaoFactory &daoFactory) : daoFactory(daoFactory) {}

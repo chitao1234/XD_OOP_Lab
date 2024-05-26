@@ -8,6 +8,7 @@
 #include "CLIStateCartMaintenance.h"
 #include "Service/SessionManager.h"
 #include "Service/StorageService.h"
+#include "CLIStateOrderHistory.h"
 
 namespace UI {
     using Service::SessionManager;
@@ -15,12 +16,12 @@ namespace UI {
     using DataType::Product;
 
     void CLIStateCart::displayMenu() {
-        productDisplay.setProducts(SessionManager::getInstance()->getShoppingCartRepository().listProducts());
+        productDisplay.setProducts(SessionManager::getInstance()->getCartOrderRepository().listProducts());
         std::cout << "Cart List:\n";
         productDisplay.listProducts(ProductDisplay::BRIEF_WITH_NUMBER);
         std::cout << "Total Price (No coupon): "
                   << SessionManager::getInstance()->getPurchaseService().calculateTotalPrice(
-                          SessionManager::getInstance()->getShoppingCartRepository().listProducts(),
+                          SessionManager::getInstance()->getCartOrderRepository().listProducts(),
                           std::nullopt
                   )
                   << "\n\n";
@@ -35,12 +36,13 @@ namespace UI {
                      "1. Checkout\n"
                      "2. Select\n"
                      "3. Deselect\n"
-                     "4. Manage\n"
+                     "4. Manage Item\n"
                      "5. List Coupon\n"
                      "6. Redeem Coupon from Code\n"
                      "7. Export to File\n"
                      "8. Import from File\n"
-                     "9. Back\n"
+                     "9. Check History\n"
+                     "10. Back\n"
                      "Enter your choice: ";
     }
 
@@ -139,7 +141,7 @@ namespace UI {
                 std::string filename;
                 std::cout << "Enter filename: ";
                 std::cin >> filename;
-                if (SessionManager::getInstance()->getShoppingCartRepository().exportToFile(filename)) {
+                if (SessionManager::getInstance()->getCartOrderRepository().exportToFile(filename)) {
                     std::cout << "Exported to " << filename << std::endl;
                 } else {
                     std::cout << "Export failed" << std::endl;
@@ -150,7 +152,7 @@ namespace UI {
                 std::string filename;
                 std::cout << "Enter filename: ";
                 std::cin >> filename;
-                if (SessionManager::getInstance()->getShoppingCartRepository().importFromFile(filename)) {
+                if (SessionManager::getInstance()->getCartOrderRepository().importFromFile(filename)) {
                     std::cout << "Imported from " << filename << std::endl;
                 } else {
                     std::cout << "Import failed" << std::endl;
@@ -158,6 +160,9 @@ namespace UI {
                 break;
             }
             case 9:
+                userInterface.pushState(new CLIStateOrderHistory(userInterface));
+                break;
+            case 10:
                 userInterface.popState();
                 break;
             default:
@@ -168,7 +173,7 @@ namespace UI {
 
     CLIStateCart::CLIStateCart(CLIUserInterface &userInterface) :
             userInterface(userInterface),
-            productDisplay(SessionManager::getInstance()->getShoppingCartRepository().listProducts()) {
+            productDisplay(SessionManager::getInstance()->getCartOrderRepository().listProducts()) {
     }
 
     std::optional<DataType::Coupon> CLIStateCart::displayCoupons(bool select) {

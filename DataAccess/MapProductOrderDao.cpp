@@ -64,10 +64,11 @@ namespace DataAccess {
         orderProductMap.clear();
         std::string line;
         while (std::getline(file, line)) {
+            std::istringstream iss(line);
             std::string orderId, productId, quantity;
-            std::getline(std::istringstream(line), orderId, ',');
-            std::getline(std::istringstream(line), productId, ',');
-            std::getline(std::istringstream(line), quantity, ',');
+            std::getline(iss, orderId, ',');
+            std::getline(iss, productId, ',');
+            std::getline(iss, quantity, ',');
             orderProductMap[std::stoull(orderId)].emplace_back(std::stoull(productId), std::stol(quantity));
         }
         return true;

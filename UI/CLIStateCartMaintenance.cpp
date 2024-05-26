@@ -30,7 +30,7 @@ namespace UI {
                 long quantity;
                 std::cout << "Enter new quantity: ";
                 std::cin >> quantity;
-                SessionManager::getInstance()->getShoppingCartRepository()
+                SessionManager::getInstance()->getCartOrderRepository()
                         .updateProductQuantity(product.first.getId(), quantity);
                 product.second = quantity;
                 break;
@@ -42,7 +42,7 @@ namespace UI {
                 if (confirm != 'y' && confirm != 'Y') {
                     break;
                 }
-                SessionManager::getInstance()->getShoppingCartRepository()
+                SessionManager::getInstance()->getCartOrderRepository()
                         .removeProduct(product.first.getId());
                 userInterface.popState();
                 break;

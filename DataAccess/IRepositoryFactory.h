@@ -8,7 +8,7 @@
 #include "IProductRepository.h"
 #include "IUserRepository.h"
 #include "ICouponRepository.h"
-#include "IShoppingCartRepository.h"
+#include "ICartOrderRepository.h"
 
 namespace DataAccess {
 
@@ -22,8 +22,8 @@ namespace DataAccess {
 
         virtual ICouponRepository *getCouponRepository() = 0;
 
-        virtual IShoppingCartRepository *
-        getShoppingCartRepository(IProductRepository &productRepository, std::string username) = 0;
+        virtual ICartOrderRepository *
+        getCartOrderRepository(IProductRepository &productRepository, std::string username) = 0;
     };
 
 } // DataAccess

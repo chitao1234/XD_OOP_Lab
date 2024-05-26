@@ -9,9 +9,9 @@
 
 namespace Service {
 
-    PurchaseService::PurchaseService(DataAccess::IShoppingCartRepository &shoppingCartRepository,
+    PurchaseService::PurchaseService(DataAccess::ICartOrderRepository &cartOrderRepository,
                                      DataAccess::ICouponRepository &couponRepository)
-            : shoppingCartRepository(shoppingCartRepository), couponRepository(couponRepository) {
+            : cartOrderRepository(cartOrderRepository), couponRepository(couponRepository) {
     }
 
 
@@ -26,10 +26,10 @@ namespace Service {
         }
 
         // now we can proceed with the purchase
-        shoppingCartRepository.addOrder(productList, calculateTotalPrice(productList, coupon));
+        cartOrderRepository.addOrder(productList, calculateTotalPrice(productList, coupon));
 
         for (const auto &product: productList) {
-            shoppingCartRepository.removeProduct(product.first.getId());
+            cartOrderRepository.removeProduct(product.first.getId());
             DataType::Product newProduct = productRepository.getProduct(product.first.getId()).value();
             newProduct.setRemainingStock(newProduct.getRemainingStock() - product.second);
             productRepository.updateProduct(newProduct);
@@ -57,7 +57,7 @@ namespace Service {
 
     PurchaseResult PurchaseService::purchase(const DataType::Product &product) {
         DataAccess::IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
-        shoppingCartRepository.removeProduct(product.getId());
+        cartOrderRepository.removeProduct(product.getId());
         DataType::Product newProduct = productRepository.getProduct(product.getId()).value();
         newProduct.setRemainingStock(newProduct.getRemainingStock() - 1);
         productRepository.updateProduct(newProduct);

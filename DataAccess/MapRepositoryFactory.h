@@ -20,8 +20,8 @@ namespace DataAccess {
 
         ICouponRepository *getCouponRepository() override;
 
-        IShoppingCartRepository *
-        getShoppingCartRepository(IProductRepository &productRepository, std::string username) override;
+        ICartOrderRepository *
+        getCartOrderRepository(IProductRepository &productRepository, std::string username) override;
 
     private:
         IDaoFactory &daoFactory;

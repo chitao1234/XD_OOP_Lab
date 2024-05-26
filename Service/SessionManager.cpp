@@ -4,33 +4,33 @@
 
 #include <stdexcept>
 #include "SessionManager.h"
-#include "DataAccess/ShoppingCartRepository.h"
+#include "DataAccess/CartOrderRepository.h"
 #include "StorageService.h"
 #include "PurchaseService.h"
 
 namespace Service {
-    using DataAccess::IShoppingCartRepository;
-    using DataAccess::ShoppingCartRepository;
+    using DataAccess::ICartOrderRepository;
+    using DataAccess::CartOrderRepository;
     using DataType::NormalUser;
 
-    SessionManager::SessionManager() : currentUser(), shoppingCartRepository(nullptr), purchaseService(nullptr) {}
+    SessionManager::SessionManager() : currentUser(), cartOrderRepository(nullptr), purchaseService(nullptr) {}
 
 
     void SessionManager::loginUser(const NormalUser &user) {
         currentUser = user;
-        delete shoppingCartRepository;
+        delete cartOrderRepository;
         delete purchaseService;
         StorageService *storageService = StorageService::getInstance();
-        shoppingCartRepository = storageService->getRepositoryFactory().getShoppingCartRepository(
+        cartOrderRepository = storageService->getRepositoryFactory().getCartOrderRepository(
                 storageService->getProductRepository(), user.getUsername());
-        purchaseService = new PurchaseService(*shoppingCartRepository,
+        purchaseService = new PurchaseService(*cartOrderRepository,
                                               storageService->getCouponRepository());
     }
 
     void SessionManager::logoutUser() {
         currentUser = std::nullopt;
-        delete shoppingCartRepository;
-        shoppingCartRepository = nullptr;
+        delete cartOrderRepository;
+        cartOrderRepository = nullptr;
         delete purchaseService;
         purchaseService = nullptr;
     }
@@ -43,15 +43,15 @@ namespace Service {
         return currentUser;
     }
 
-    IShoppingCartRepository &SessionManager::getShoppingCartRepository() const {
-        if (!shoppingCartRepository) {
+    ICartOrderRepository &SessionManager::getCartOrderRepository() const {
+        if (!cartOrderRepository) {
             throw std::runtime_error("User not logged in");
         }
-        return *shoppingCartRepository;
+        return *cartOrderRepository;
     }
 
     SessionManager::~SessionManager() {
-        delete shoppingCartRepository;
+        delete cartOrderRepository;
         delete purchaseService;
     }
 

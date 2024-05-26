@@ -4,13 +4,13 @@
 
 #include <stdexcept>
 #include <utility>
-#include "ShoppingCartRepository.h"
+#include "CartOrderRepository.h"
 #include "ShoppingCartDao.h"
 
 namespace DataAccess {
     using DataType::Product;
 
-    std::vector<std::pair<Product, long>> ShoppingCartRepository::listProducts() {
+    std::vector<std::pair<Product, long>> CartOrderRepository::listProducts() {
         std::vector<std::pair<Product, long>> products;
         for (auto &productId: shoppingCartDao->listProductIds(username)) {
             products.emplace_back(productRepository.getProduct(productId.first).value(), productId.second);
@@ -18,34 +18,34 @@ namespace DataAccess {
         return products;
     }
 
-    ShoppingCartRepository::ShoppingCartRepository(IDaoFactory &daoFactory,
-                                                   IProductRepository &productRepository,
-                                                   std::string username)
+    CartOrderRepository::CartOrderRepository(IDaoFactory &daoFactory,
+                                             IProductRepository &productRepository,
+                                             std::string username)
             : username(std::move(username)),
               productRepository(productRepository),
               shoppingCartDao(daoFactory.getShoppingCartDao()),
               orderDao(daoFactory.getOrderDao()),
               productOrderDao(daoFactory.getProductOrderDao()) {}
 
-    ShoppingCartRepository::~ShoppingCartRepository() {
+    CartOrderRepository::~CartOrderRepository() {
         delete shoppingCartDao;
         delete orderDao;
         delete productOrderDao;
     }
 
-    void ShoppingCartRepository::addProduct(uint64_t productId, long quantity) {
+    void CartOrderRepository::addProduct(uint64_t productId, long quantity) {
         long originalQuantity = shoppingCartDao->getProductQuantity(username, productId);
         if (originalQuantity < 0) originalQuantity = 0;
         shoppingCartDao->updateProductQuantity(username, productId, originalQuantity + quantity);
         shoppingCartDao->save();
     }
 
-    void ShoppingCartRepository::removeProduct(uint64_t productId) {
+    void CartOrderRepository::removeProduct(uint64_t productId) {
         shoppingCartDao->removeProduct(username, productId);
         shoppingCartDao->save();
     }
 
-    void ShoppingCartRepository::updateProductQuantity(uint64_t productId, long quantity) {
+    void CartOrderRepository::updateProductQuantity(uint64_t productId, long quantity) {
         if (quantity <= 0) {
             shoppingCartDao->removeProduct(username, productId);
         } else {
@@ -54,20 +54,20 @@ namespace DataAccess {
         shoppingCartDao->save();
     }
 
-    void ShoppingCartRepository::clearCart() {
+    void CartOrderRepository::clearCart() {
         shoppingCartDao->clearCart(username);
         shoppingCartDao->save();
     }
 
-    bool ShoppingCartRepository::exportToFile(std::string filename) {
+    bool CartOrderRepository::exportToFile(std::string filename) {
         return shoppingCartDao->exportToFile(username, std::move(filename));
     }
 
-    bool ShoppingCartRepository::importFromFile(std::string filename) {
+    bool CartOrderRepository::importFromFile(std::string filename) {
         return shoppingCartDao->importFromFile(username, std::move(filename));
     }
 
-    void ShoppingCartRepository::addOrder(std::vector<std::pair<DataType::Product, long>> products, double price) {
+    void CartOrderRepository::addOrder(std::vector<std::pair<DataType::Product, long>> products, double price) {
         DataType::Order order = {orderDao->nextId(),
                                  username,
                                  price,
@@ -80,31 +80,38 @@ namespace DataAccess {
                                                product.first.getId(),
                                                product.second);
         }
+        orderDao->save();
+        productOrderDao->save();
     }
 
-    DataType::FullOrder ShoppingCartRepository::getFullOrder(uint64_t orderId) {
-        DataType::Order order = orderDao->getOrder(orderId);
+    DataType::FullOrder CartOrderRepository::getFullOrder(const DataType::Order& order) {
         std::vector<std::pair<Product, long>> products;
-        for (auto &product: productOrderDao->getProducts(orderId)) {
+        for (auto &product: productOrderDao->getProducts(order.getPurchaseId())) {
             products.emplace_back(productRepository.getProduct(product.first).value(), product.second);
         }
         return {order, products};
     }
 
-    std::vector<DataType::FullOrder> ShoppingCartRepository::filterOrders(
+    std::vector<DataType::FullOrder> CartOrderRepository::filterOrders(
             std::optional<std::string> keyword,
             std::optional<std::chrono::system_clock::time_point> start,
             std::optional<std::chrono::system_clock::time_point> end) {
         auto orders = orderDao->filterOrders(username);
         std::vector<DataType::FullOrder> result;
         for (auto &order: orders) {
-            DataType::FullOrder fullOrder = getFullOrder(order.getPurchaseId());
+            DataType::FullOrder fullOrder = getFullOrder(order);
 
             if (keyword.has_value()) {
+                bool found = false;
                 for (auto &product: fullOrder.getProducts()) {
-                    if (product.first.getName().find(keyword.value()) == std::string::npos) {
-                        continue;
+                    if (product.first.getName().find(keyword.value()) != std::string::npos) {
+                        found = true;
+                        break;
                     }
+                }
+                // reach here means no product in the order contains the keyword
+                if (!found) {
+                    continue;
                 }
             }
 

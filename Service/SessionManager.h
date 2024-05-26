@@ -8,7 +8,7 @@
 
 #include <optional>
 #include "DataType/NormalUser.h"
-#include "DataAccess/IShoppingCartRepository.h"
+#include "DataAccess/ICartOrderRepository.h"
 #include "SingletonTemplate.h"
 #include "PurchaseService.h"
 
@@ -19,7 +19,7 @@ namespace Service {
         friend class SingletonTemplate<SessionManager>;
 
         std::optional <DataType::NormalUser> currentUser;
-        DataAccess::IShoppingCartRepository *shoppingCartRepository;
+        DataAccess::ICartOrderRepository *cartOrderRepository;
         PurchaseService *purchaseService;
 
         SessionManager();
@@ -36,7 +36,7 @@ namespace Service {
 
         [[nodiscard]] std::optional <DataType::NormalUser> getCurrentUser() const;
 
-        [[nodiscard]] DataAccess::IShoppingCartRepository &getShoppingCartRepository() const;
+        [[nodiscard]] DataAccess::ICartOrderRepository &getCartOrderRepository() const;
 
         [[ nodiscard]] PurchaseService &getPurchaseService() const;
     };

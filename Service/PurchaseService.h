@@ -5,7 +5,7 @@
 #ifndef E_COMMERCE_PURCHASESERVICE_H
 #define E_COMMERCE_PURCHASESERVICE_H
 
-#include "DataAccess/IShoppingCartRepository.h"
+#include "DataAccess/ICartOrderRepository.h"
 #include "DataType/Product.h"
 #include "DataType/Coupon.h"
 #include "PurchaseResult.h"
@@ -17,7 +17,7 @@ namespace Service {
 
     class PurchaseService {
     public:
-        explicit PurchaseService(DataAccess::IShoppingCartRepository &shoppingCartRepository,
+        explicit PurchaseService(DataAccess::ICartOrderRepository &cartOrderRepository,
                                  DataAccess::ICouponRepository &couponRepository);
 
         PurchaseResult purchase(const std::vector<std::pair<DataType::Product, long>> &productList,
@@ -29,7 +29,7 @@ namespace Service {
                                    const std::optional<DataType::Coupon> &coupon);
 
     private:
-        DataAccess::IShoppingCartRepository &shoppingCartRepository;
+        DataAccess::ICartOrderRepository &cartOrderRepository;
         DataAccess::ICouponRepository &couponRepository;
     };
 

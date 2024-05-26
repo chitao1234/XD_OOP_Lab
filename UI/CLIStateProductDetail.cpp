@@ -11,7 +11,7 @@
 namespace UI {
     using Service::SessionManager;
     using Service::StorageService;
-    using DataAccess::IShoppingCartRepository;
+    using DataAccess::ICartOrderRepository;
     using DataType::Product;
 
     void CLIStateProductDetail::displayMenu() {
@@ -40,7 +40,7 @@ namespace UI {
                     std::cout << "Please login first" << std::endl;
                     break;
                 }
-                IShoppingCartRepository &cart = SessionManager::getInstance()->getShoppingCartRepository();
+                ICartOrderRepository &cart = SessionManager::getInstance()->getCartOrderRepository();
                 std::cout << "Enter quantity: ";
                 long quantity;
                 std::cin >> quantity;
@@ -53,7 +53,7 @@ namespace UI {
                     std::cout << "Please login first" << std::endl;
                     break;
                 }
-                IShoppingCartRepository &cart = SessionManager::getInstance()->getShoppingCartRepository();
+                ICartOrderRepository &cart = SessionManager::getInstance()->getCartOrderRepository();
                 if (Service::PurchaseService(cart, StorageService::getInstance()->getCouponRepository()).purchase(
                         product)) {
                     std::cout << "Bought" << std::endl;

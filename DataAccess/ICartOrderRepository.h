@@ -2,8 +2,8 @@
 // Created by chi on 24/05/05.
 //
 
-#ifndef E_COMMERCE_ISHOPPINGCARTREPOSITORY_H
-#define E_COMMERCE_ISHOPPINGCARTREPOSITORY_H
+#ifndef E_COMMERCE_ICARTORDERREPOSITORY_H
+#define E_COMMERCE_ICARTORDERREPOSITORY_H
 
 #include <vector>
 #include <chrono>
@@ -14,9 +14,9 @@
 
 
 namespace DataAccess {
-    class IShoppingCartRepository {
+    class ICartOrderRepository {
     public:
-        virtual ~IShoppingCartRepository() = default;
+        virtual ~ICartOrderRepository() = default;
 
         virtual std::vector<std::pair<DataType::Product, long>> listProducts() = 0;
 
@@ -34,6 +34,8 @@ namespace DataAccess {
 
         virtual void addOrder(std::vector<std::pair<DataType::Product, long>> products, double price) = 0;
 
+        virtual DataType::FullOrder getFullOrder(const DataType::Order &order) = 0;
+
         virtual std::vector<DataType::FullOrder> filterOrders(
                 std::optional<std::string> keyword,
                 std::optional<std::chrono::system_clock::time_point> start,
@@ -42,4 +44,4 @@ namespace DataAccess {
 }
 
 
-#endif //E_COMMERCE_ISHOPPINGCARTREPOSITORY_H
+#endif //E_COMMERCE_ICARTORDERREPOSITORY_H
