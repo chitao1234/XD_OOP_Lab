@@ -21,9 +21,8 @@ namespace Service {
         delete shoppingCartRepository;
         delete purchaseService;
         StorageService *storageService = StorageService::getInstance();
-        shoppingCartRepository = new ShoppingCartRepository(storageService->getDaoFactory(),
-                                                            storageService->getProductRepository(),
-                                                            user.getUsername());
+        shoppingCartRepository = storageService->getRepositoryFactory().getShoppingCartRepository(
+                storageService->getProductRepository(), user.getUsername());
         purchaseService = new PurchaseService(*shoppingCartRepository,
                                               storageService->getCouponRepository());
     }
