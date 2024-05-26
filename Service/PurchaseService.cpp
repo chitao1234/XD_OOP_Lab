@@ -25,6 +25,9 @@ namespace Service {
             }
         }
 
+        // now we can proceed with the purchase
+        shoppingCartRepository.addOrder(productList, calculateTotalPrice(productList, coupon));
+
         for (const auto &product: productList) {
             shoppingCartRepository.removeProduct(product.first.getId());
             DataType::Product newProduct = productRepository.getProduct(product.first.getId()).value();

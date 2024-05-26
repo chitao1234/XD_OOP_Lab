@@ -6,7 +6,11 @@
 #define E_COMMERCE_ISHOPPINGCARTREPOSITORY_H
 
 #include <vector>
-#include "../DataType/Product.h"
+#include <chrono>
+#include <optional>
+#include <string>
+#include "DataType/Product.h"
+#include "DataType/FullOrder.h"
 
 
 namespace DataAccess {
@@ -27,6 +31,13 @@ namespace DataAccess {
         virtual bool exportToFile(std::string filename) = 0;
 
         virtual bool importFromFile(std::string filename) = 0;
+
+        virtual void addOrder(std::vector<std::pair<DataType::Product, long>> products, double price) = 0;
+
+        virtual std::vector<DataType::FullOrder> filterOrders(
+                std::optional<std::string> keyword,
+                std::optional<std::chrono::system_clock::time_point> start,
+                std::optional<std::chrono::system_clock::time_point> end) = 0;
     };
 }
 

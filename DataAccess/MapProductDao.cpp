@@ -67,6 +67,9 @@ namespace DataAccess {
 
     void MapProductDao::save() {
         std::ofstream file(filename);
+        if (!file.is_open()) {
+            throw std::runtime_error("Cannot open file " + filename);
+        }
         for (const auto &pair: products) {
             file << Product::serialize(pair.second) << '\n';
         }

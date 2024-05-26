@@ -2,22 +2,22 @@
 // Created by chi on 24/05/12.
 //
 
-#ifndef E_COMMERCE_USERCOUPONDAO_H
-#define E_COMMERCE_USERCOUPONDAO_H
+#ifndef E_COMMERCE_MAPUSERCOUPONDAO_H
+#define E_COMMERCE_MAPUSERCOUPONDAO_H
 
 #include <map>
 #include "IUserCouponDao.h"
 
 namespace DataAccess {
 
-    class UserCouponDao : public IUserCouponDao {
+    class MapUserCouponDao : public IUserCouponDao {
     private:
         std::string filename;
         std::map<std::string, std::vector<uint64_t>> userCoupons;
     public:
-        explicit UserCouponDao(std::string filename);
+        explicit MapUserCouponDao(std::string filename);
 
-        ~UserCouponDao() override;
+        ~MapUserCouponDao() override;
 
         void addCoupon(std::string username, uint64_t id) override;
 
@@ -34,4 +34,4 @@ namespace DataAccess {
 
 } // DataAccess
 
-#endif //E_COMMERCE_USERCOUPONDAO_H
+#endif //E_COMMERCE_MAPUSERCOUPONDAO_H

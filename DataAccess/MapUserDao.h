@@ -82,7 +82,10 @@ namespace DataAccess {
 
     template<typename T>
     void MapUserDao<T>::save() {
-        std::ofstream file(filename.c_str());
+        std::ofstream file(filename);
+        if (!file.is_open()) {
+            throw std::runtime_error("Cannot open file " + filename);
+        }
         for (typename std::map<std::string, T>::const_iterator iter = users.begin(); iter != users.end(); ++iter) {
             file << T::serializeUser(iter->second) << '\n';
         }

@@ -23,6 +23,10 @@ namespace DataAccess {
         IUserCouponDao *getUserCouponDao() override;
 
         IShoppingCartDao *getShoppingCartDao() override;
+
+        IOrderDao *getOrderDao() override;
+
+        IProductOrderDao *getProductOrderDao() override;
     };
 
 } // DataAccess

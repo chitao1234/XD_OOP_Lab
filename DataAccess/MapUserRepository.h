@@ -2,10 +2,10 @@
 #define MAPUSERREPOSITORY_H
 
 #include <vector>
-#include "../DataType/AdminUser.h"
+#include "DataType/AdminUser.h"
 #include "MapUserDao.h"
 #include "IUserRepository.h"
-#include "../DataType/NormalUser.h"
+#include "DataType/NormalUser.h"
 #include "IDaoFactory.h"
 
 namespace DataAccess {
@@ -15,7 +15,7 @@ namespace DataAccess {
         IUserDao<DataType::AdminUser> *adminDao;
 
     public:
-        MapUserRepository(IDaoFactory &daoFactory);
+        explicit MapUserRepository(IDaoFactory &daoFactory);
 
         ~MapUserRepository() override;
 

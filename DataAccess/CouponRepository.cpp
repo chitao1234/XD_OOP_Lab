@@ -3,7 +3,7 @@
 //
 
 #include "CouponRepository.h"
-#include "UserCouponDao.h"
+#include "MapUserCouponDao.h"
 #include "MapCouponDao.h"
 
 namespace DataAccess {

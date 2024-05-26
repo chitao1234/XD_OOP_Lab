@@ -7,7 +7,7 @@
 
 
 #include <vector>
-#include "../DataType/Product.h"
+#include "DataType/Product.h"
 
 namespace UI {
     class ProductDisplay {

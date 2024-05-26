@@ -17,7 +17,7 @@ namespace DataAccess {
         ICouponDao *couponDao;
         IUserCouponDao *userCouponDao;
     public:
-        CouponRepository(IDaoFactory &daoFactory);
+        explicit CouponRepository(IDaoFactory &daoFactory);
 
         ~CouponRepository() override;
 

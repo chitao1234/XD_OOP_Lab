@@ -2,7 +2,7 @@
 #define IUSERREPOSITORY_H
 
 #include <optional>
-#include "../DataType/NormalUser.h"
+#include "DataType/NormalUser.h"
 
 namespace DataAccess {
     class IUserRepository {

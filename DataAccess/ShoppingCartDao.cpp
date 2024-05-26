@@ -58,6 +58,9 @@ namespace DataAccess {
 
     void ShoppingCartDao::save() {
         std::ofstream ofs(filename);
+        if (!ofs.is_open()) {
+            throw std::runtime_error("Cannot open file " + filename);
+        }
         for (const auto &cart: carts) {
             for (const auto &product: cart.second) {
                 ofs << cart.first << ',' << product.first << ',' << product.second << '\n';

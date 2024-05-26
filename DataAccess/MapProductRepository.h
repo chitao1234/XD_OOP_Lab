@@ -12,7 +12,7 @@
 namespace DataAccess {
     class MapProductRepository : public IProductRepository {
     public:
-        MapProductRepository(IDaoFactory &daoFactory);
+        explicit MapProductRepository(IDaoFactory &daoFactory);
 
         ~MapProductRepository();
 

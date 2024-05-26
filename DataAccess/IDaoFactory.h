@@ -13,6 +13,8 @@
 #include "ICouponDao.h"
 #include "IShoppingCartDao.h"
 #include "IUserCouponDao.h"
+#include "IOrderDao.h"
+#include "IProductOrderDao.h"
 
 namespace DataAccess {
     class IDaoFactory {
@@ -30,6 +32,10 @@ namespace DataAccess {
         virtual IUserCouponDao *getUserCouponDao() = 0;
 
         virtual IShoppingCartDao *getShoppingCartDao() = 0;
+
+        virtual IOrderDao *getOrderDao() = 0;
+
+        virtual IProductOrderDao *getProductOrderDao() = 0;
     };
 }
 
