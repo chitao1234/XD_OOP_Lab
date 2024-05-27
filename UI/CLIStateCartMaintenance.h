@@ -11,7 +11,7 @@
 namespace UI {
     class CLIStateCartMaintenance : public ICLIState {
     public:
-        explicit CLIStateCartMaintenance(CLIUserInterface &userInterface, std::pair<DataType::Product, long> product);
+        explicit CLIStateCartMaintenance(CLIUserInterface &userInterface, std::pair<DataType::FullProduct, long> product);
 
         void displayMenu() override;
 
@@ -19,7 +19,7 @@ namespace UI {
 
     private:
         CLIUserInterface &userInterface;
-        std::pair<DataType::Product, long> product;
+        std::pair<DataType::FullProduct, long> product;
     };
 }
 

@@ -22,7 +22,7 @@ namespace UI {
     private:
         CLIUserInterface &userInterface;
         ProductDisplay productDisplay;
-        std::vector<std::pair<DataType::Product, long>> selected;
+        std::vector<std::pair<DataType::FullProduct, long>> selected;
 
         std::optional<DataType::Coupon> displayCoupons(bool select);
     };

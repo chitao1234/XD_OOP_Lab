@@ -19,7 +19,7 @@ namespace DataAccess {
 
         ~CartOrderRepository() override;
 
-        std::vector <std::pair<DataType::Product, long>> listProducts() override;
+        std::vector <std::pair<DataType::FullProduct, long>> listProducts() override;
 
         void addProduct(uint64_t productId, long quantity) override;
 
@@ -33,7 +33,7 @@ namespace DataAccess {
 
         bool importFromFile(std::string filename) override;
 
-        void addOrder(std::vector<std::pair<DataType::Product, long>> products, double price) override;
+        void addOrder(std::vector<std::pair<DataType::FullProduct, long>> products, double price) override;
 
         DataType::FullOrder getFullOrder(const DataType::Order& order) override;
 

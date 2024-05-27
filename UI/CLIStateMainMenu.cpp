@@ -16,7 +16,6 @@ namespace UI {
     using DataAccess::IProductRepository;
     using DataAccess::IUserRepository;
     using DataType::NormalUser;
-    using DataType::Product;
 
     void CLIStateMainMenu::displayMenu() {
         std::cout << "1. Login\n"
@@ -70,7 +69,7 @@ namespace UI {
             }
             case 3: {
                 IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
-                std::vector<Product> products = productRepository.listProducts();
+                std::vector<DataType::FullProduct> products = productRepository.listProducts();
                 std::cout << "View products...\n";
                 userInterface.pushState(new CLIStateProductList(userInterface, products));
                 break;

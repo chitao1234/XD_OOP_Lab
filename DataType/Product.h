@@ -9,47 +9,58 @@
 #include <cstdint>
 
 namespace DataType {
-class Product {
-public:
-    Product(uint64_t id, std::string name, std::string description, double price, long remainingStock);
+    class Product {
+    public:
+        Product(uint64_t id,
+                std::string name,
+                std::string description,
+                double price,
+                long remainingStock,
+                uint64_t categoryId);
 
-    [[nodiscard]] uint64_t getId() const;
+        [[nodiscard]] uint64_t getId() const;
 
-    [[nodiscard]] std::string getName() const;
+        [[nodiscard]] std::string getName() const;
 
-    [[nodiscard]] std::string getDescription() const;
+        [[nodiscard]] std::string getDescription() const;
 
-    [[nodiscard]] double getPrice() const;
+        [[nodiscard]] double getPrice() const;
 
-    [[nodiscard]] long getRemainingStock() const;
+        [[nodiscard]] long getRemainingStock() const;
 
-    [[nodiscard]] double getDiscount() const;
+        [[nodiscard]] double getDiscount() const;
 
-    [[nodiscard]] double getActualPrice() const;
+        [[nodiscard]] double getActualPrice() const;
 
-    void setName(std::string name);
+        [[nodiscard]] uint64_t getCategoryId() const;
 
-    void setDescription(std::string description);
+        void setName(std::string name);
 
-    void setPrice(double price);
+        void setDescription(std::string description);
 
-    void setRemainingStock(long remainingStock);
+        void setPrice(double price);
 
-    void setDiscount(double discount);
+        void setRemainingStock(long remainingStock);
 
-    static std::string serialize(const Product &product);
+        void setDiscount(double discount);
 
-    static Product deserialize(const std::string &line);
+        void setCategoryId(uint64_t categoryId);
 
-    bool operator==(const Product &product) const;
-private:
-    uint64_t id;
-    std::string name;
-    std::string description;
-    double price;
-    long remainingStock;
-    double discount;
-};
+        static std::string serialize(const Product &product);
+
+        static Product deserialize(const std::string &line);
+
+        bool operator==(const Product &product) const;
+
+    private:
+        uint64_t id;
+        std::string name;
+        std::string description;
+        double price;
+        long remainingStock;
+        double discount;
+        uint64_t categoryId;
+    };
 }
 
 #endif //E_COMMERCE_PRODUCT_H

@@ -6,19 +6,19 @@
 #define E_COMMERCE_FULLORDER_H
 
 #include "Order.h"
-#include "Product.h"
+#include "FullProduct.h"
 #include <vector>
 
 namespace DataType {
 
     class FullOrder : public Order {
     public:
-        FullOrder(Order order, std::vector<std::pair<Product, long>> products);
+        FullOrder(Order order, std::vector<std::pair<FullProduct, long>> products);
 
-        [[nodiscard]] std::vector<std::pair<Product, long>> getProducts() const;
+        [[nodiscard]] std::vector<std::pair<FullProduct, long>> getProducts() const;
 
     private:
-        std::vector<std::pair<Product, long>> productList;
+        std::vector<std::pair<FullProduct, long>> productList;
     };
 
 } // DataType

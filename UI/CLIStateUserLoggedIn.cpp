@@ -29,9 +29,10 @@ namespace UI {
         Util::cinWrapper >> choice;
         switch (choice) {
             case 1:
-                userInterface.pushState(
-                        new CLIStateProductList(userInterface,
-                                                StorageService::getInstance()->getProductRepository().listProducts()));
+                userInterface.pushState(new CLIStateProductList(
+                        userInterface,
+                        StorageService::getInstance()
+                                ->getProductRepository().listProducts()));
                 break;
             case 2:
                 userInterface.pushState(new CLIStateCart(userInterface));

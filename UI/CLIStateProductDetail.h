@@ -12,7 +12,7 @@
 namespace UI {
     class CLIStateProductDetail : public ICLIState {
     public:
-        CLIStateProductDetail(CLIUserInterface &userInterface, DataType::Product product);
+        CLIStateProductDetail(CLIUserInterface &userInterface, DataType::FullProduct product);
 
         void displayMenu() override;
 
@@ -20,7 +20,7 @@ namespace UI {
 
     private:
         CLIUserInterface &userInterface;
-        DataType::Product product;
+        DataType::FullProduct product;
     };
 }
 

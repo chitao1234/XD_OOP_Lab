@@ -9,9 +9,9 @@
 
 namespace UI {
     using Service::SessionManager;
-    using DataType::Product;
 
-    CLIStateCartMaintenance::CLIStateCartMaintenance(CLIUserInterface &userInterface, std::pair<Product, long> product)
+    CLIStateCartMaintenance::CLIStateCartMaintenance(CLIUserInterface &userInterface,
+                                                     std::pair<DataType::FullProduct, long> product)
             : userInterface(userInterface), product(std::move(product)) {
     }
 

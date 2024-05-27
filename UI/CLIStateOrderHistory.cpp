@@ -49,20 +49,40 @@ namespace UI {
                         startInput,
                         endInput
                 );
+                std::map<std::string, double> priceByCategory;
+                double totalPrice = 0;
                 for (const auto &order: orders) {
+                    double OrderOriginalPrice = 0;
                     std::cout << "Order ID: " << order.getPurchaseId() << std::endl;
-                    std::cout << "Username: " << order.getUsername() << std::endl;
                     std::cout << "Total: " << order.getPrice() << std::endl;
+
+                    for (const auto &item: order.getProducts()) {
+                        OrderOriginalPrice += item.first.getActualPrice() * item.second;
+                    }
+
+                    double discountRatio = order.getPrice() / OrderOriginalPrice;
+                    totalPrice += OrderOriginalPrice * discountRatio;
+                    std::cout << "Total Before Discount: " << OrderOriginalPrice << std::endl;
+
                     auto time = std::chrono::system_clock::to_time_t(order.getPurchaseTime());
                     std::cout << "Time: " << std::ctime(&time) << std::endl;
+
                     std::cout << "Items: " << std::endl;
-                    if (order.getProducts().empty()) {
-                        std::cout << "  No items" << std::endl;
-                    }
                     for (const auto &item: order.getProducts()) {
-                        std::cout << "  " << item.first.getName() << " x" << item.second << std::endl;
+                        std::cout << "  " << item.first.getName()
+                                  << " x" << item.second
+                                  << " Original Price: " << item.first.getActualPrice()
+                                  << " Real Price: " << item.first.getActualPrice() * discountRatio
+                                  << std::endl;
+                        priceByCategory[item.first.getCategory()] +=
+                                item.first.getActualPrice() * item.second * discountRatio;
                     }
                     std::cout << std::endl;
+                }
+
+                std::cout << "Total Price for All Orders: " << totalPrice << std::endl;
+                for (const auto &categoryPrice: priceByCategory) {
+                    std::cout << "Category " << categoryPrice.first << " Total: " << categoryPrice.second << std::endl;
                 }
                 break;
             }

@@ -12,7 +12,7 @@ namespace DataAccess {
 
     class MapCouponDao : public ICouponDao {
     public:
-        MapCouponDao(std::string filename);
+        explicit MapCouponDao(std::string filename);
 
         ~MapCouponDao() override;
 

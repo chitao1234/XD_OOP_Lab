@@ -15,6 +15,7 @@
 #include "IUserCouponDao.h"
 #include "IOrderDao.h"
 #include "IProductOrderDao.h"
+#include "ICategoryDao.h"
 
 namespace DataAccess {
     class IDaoFactory {
@@ -36,6 +37,8 @@ namespace DataAccess {
         virtual IOrderDao *getOrderDao() = 0;
 
         virtual IProductOrderDao *getProductOrderDao() = 0;
+
+        virtual ICategoryDao *getCategoryDao() = 0;
     };
 }
 

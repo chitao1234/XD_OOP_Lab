@@ -8,9 +8,7 @@
 #include "Service/StorageService.h"
 
 namespace UI {
-    using DataType::Product;
-
-    CLIStateProductList::CLIStateProductList(CLIUserInterface &userInterface, const std::vector<Product> &products)
+    CLIStateProductList::CLIStateProductList(CLIUserInterface &userInterface, const std::vector<DataType::FullProduct> &products)
             : userInterface(userInterface), productDisplay(products) {
     }
 
@@ -19,7 +17,7 @@ namespace UI {
     }
 
     void CLIStateProductList::handleUserInput() {
-        std::optional<Product> product = productDisplay.selectProduct(ProductDisplay::BRIEF);
+        std::optional<DataType::FullProduct> product = productDisplay.selectProduct(ProductDisplay::BRIEF);
         if (!product.has_value()) {
             userInterface.popState();
         } else {

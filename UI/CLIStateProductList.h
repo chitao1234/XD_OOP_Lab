@@ -14,7 +14,7 @@
 namespace UI {
     class CLIStateProductList : public ICLIState {
     public:
-        CLIStateProductList(CLIUserInterface &userInterface, const std::vector<DataType::Product> &products);
+        CLIStateProductList(CLIUserInterface &userInterface, const std::vector<DataType::FullProduct> &products);
 
         void displayMenu() override;
 

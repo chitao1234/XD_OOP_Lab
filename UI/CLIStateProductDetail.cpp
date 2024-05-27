@@ -13,7 +13,6 @@ namespace UI {
     using Service::SessionManager;
     using Service::StorageService;
     using DataAccess::ICartOrderRepository;
-    using DataType::Product;
 
     void CLIStateProductDetail::displayMenu() {
         std::cout << "Product Detail" << std::endl;
@@ -21,13 +20,14 @@ namespace UI {
         std::cout << "Original Price: " << product.getPrice() << std::endl;
         std::cout << "Actual Price after Discount: " << product.getActualPrice() << std::endl;
         std::cout << "Description: " << product.getDescription() << std::endl;
+        std::cout << "Category: " << product.getCategory() << std::endl;
         std::cout << "1. Add to cart\n"
                      "2. Buy\n"
                      "3. Back\n"
                      "Enter your choice: ";
     }
 
-    CLIStateProductDetail::CLIStateProductDetail(CLIUserInterface &userInterface, Product product) : userInterface(
+    CLIStateProductDetail::CLIStateProductDetail(CLIUserInterface &userInterface, DataType::FullProduct product) : userInterface(
             userInterface), product(std::move(product)) {
 
     }

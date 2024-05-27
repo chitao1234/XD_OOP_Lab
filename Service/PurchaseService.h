@@ -20,12 +20,12 @@ namespace Service {
         explicit PurchaseService(DataAccess::ICartOrderRepository &cartOrderRepository,
                                  DataAccess::ICouponRepository &couponRepository);
 
-        PurchaseResult purchase(const std::vector<std::pair<DataType::Product, long>> &productList,
+        PurchaseResult purchase(const std::vector<std::pair<DataType::FullProduct, long>> &productList,
                                 const std::optional<DataType::Coupon> &coupon);
 
-        PurchaseResult purchase(const DataType::Product &product);
+        PurchaseResult purchase(const DataType::FullProduct &product);
 
-        double calculateTotalPrice(const std::vector<std::pair<DataType::Product, long>> &productList,
+        double calculateTotalPrice(const std::vector<std::pair<DataType::FullProduct, long>> &productList,
                                    const std::optional<DataType::Coupon> &coupon);
 
     private:

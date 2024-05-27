@@ -9,7 +9,7 @@
 #include <chrono>
 #include <optional>
 #include <string>
-#include "DataType/Product.h"
+#include "DataType/FullProduct.h"
 #include "DataType/FullOrder.h"
 
 
@@ -18,7 +18,7 @@ namespace DataAccess {
     public:
         virtual ~ICartOrderRepository() = default;
 
-        virtual std::vector<std::pair<DataType::Product, long>> listProducts() = 0;
+        virtual std::vector<std::pair<DataType::FullProduct, long>> listProducts() = 0;
 
         virtual void addProduct(uint64_t productId, long quantity) = 0;
 
@@ -32,7 +32,7 @@ namespace DataAccess {
 
         virtual bool importFromFile(std::string filename) = 0;
 
-        virtual void addOrder(std::vector<std::pair<DataType::Product, long>> products, double price) = 0;
+        virtual void addOrder(std::vector<std::pair<DataType::FullProduct, long>> products, double price) = 0;
 
         virtual DataType::FullOrder getFullOrder(const DataType::Order &order) = 0;
 

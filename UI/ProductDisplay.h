@@ -7,7 +7,7 @@
 
 
 #include <vector>
-#include "DataType/Product.h"
+#include "DataType/FullProduct.h"
 
 namespace UI {
     class ProductDisplay {
@@ -18,32 +18,32 @@ namespace UI {
             DETAILED_WITH_STOCK,
         };
 
-        explicit ProductDisplay(const std::vector<DataType::Product> &products);
+        explicit ProductDisplay(const std::vector<DataType::FullProduct> &products);
 
-        explicit ProductDisplay(const std::vector<std::pair<DataType::Product, long>> &products);
+        explicit ProductDisplay(const std::vector<std::pair<DataType::FullProduct, long>> &products);
 
         [[nodiscard]] size_t size() const;
 
-        std::optional<DataType::Product> selectProduct(DisplayType displayType);
+        std::optional<DataType::FullProduct> selectProduct(DisplayType displayType);
 
-        std::vector<DataType::Product> selectProducts(DisplayType displayType);
+        std::vector<DataType::FullProduct> selectProducts(DisplayType displayType);
 
-        std::optional<std::pair<DataType::Product, long>> selectProductWithNumber(DisplayType displayType);
+        std::optional<std::pair<DataType::FullProduct, long>> selectProductWithNumber(DisplayType displayType);
 
-        std::vector<std::pair<DataType::Product, long>> selectProductsWithNumber(DisplayType displayType);
+        std::vector<std::pair<DataType::FullProduct, long>> selectProductsWithNumber(DisplayType displayType);
 
         ProductDisplay searchProduct(std::string keyword);
 
-        void setProducts(const std::vector<DataType::Product> &products);
+        void setProducts(const std::vector<DataType::FullProduct> &products);
 
-        void setProducts(const std::vector<std::pair<DataType::Product, long>> &products);
+        void setProducts(const std::vector<std::pair<DataType::FullProduct, long>> &products);
 
         void listProducts(DisplayType displayType);
 
     private:
-        std::vector<std::pair<DataType::Product, long>> products;
+        std::vector<std::pair<DataType::FullProduct, long>> products;
 
-        std::vector<std::pair<DataType::Product, long>> interactiveSelect(DisplayType displayType, bool single);
+        std::vector<std::pair<DataType::FullProduct, long>> interactiveSelect(DisplayType displayType, bool single);
     };
 }
 

@@ -10,6 +10,7 @@
 #include "MapUserCouponDao.h"
 #include "MapOrderDao.h"
 #include "MapProductOrderDao.h"
+#include "MapCategoryDao.h"
 
 namespace DataAccess {
     IUserDao<DataType::NormalUser> *MapDaoFactory::getUserDao() {
@@ -42,5 +43,9 @@ namespace DataAccess {
 
     IProductOrderDao *MapDaoFactory::getProductOrderDao() {
         return new MapProductOrderDao("product_order.csv");
+    }
+
+    ICategoryDao *MapDaoFactory::getCategoryDao() {
+        return new MapCategoryDao("category.csv");
     }
 } // DataAccess

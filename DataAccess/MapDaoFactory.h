@@ -27,6 +27,8 @@ namespace DataAccess {
         IOrderDao *getOrderDao() override;
 
         IProductOrderDao *getProductOrderDao() override;
+
+        ICategoryDao *getCategoryDao() override;
     };
 
 } // DataAccess

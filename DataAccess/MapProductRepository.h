@@ -16,20 +16,25 @@ namespace DataAccess {
 
         ~MapProductRepository();
 
-        bool addProduct(std::string name, std::string description, double price, long remainingStock) override;
+        bool addProduct(std::string name,
+                        std::string description,
+                        double price,
+                        long remainingStock,
+                        std::string category) override;
 
-        std::optional <DataType::Product> getProduct(uint64_t productId) override;
+        std::optional<DataType::FullProduct> getProduct(uint64_t productId) override;
 
-        bool updateProduct(const DataType::Product &product) override;
+        bool updateProduct(const DataType::FullProduct &product) override;
 
         bool deleteProduct(uint64_t productId) override;
 
-        std::vector <DataType::Product> listProducts() override;
+        std::vector<DataType::FullProduct> listProducts() override;
 
-        std::vector <DataType::Product> searchProducts(std::string keyword) override;
+        std::vector<DataType::FullProduct> searchProducts(std::string keyword) override;
 
     private:
         IProductDao *productDao;
+        ICategoryDao *categoryDao;
     };
 }
 

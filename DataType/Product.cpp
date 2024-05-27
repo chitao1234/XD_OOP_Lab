@@ -10,12 +10,15 @@ namespace DataType {
                      std::string name,
                      std::string description,
                      double price,
-                     long remainingStock) : id(id),
-                                            name(std::move(name)),
-                                            description(std::move(description)),
-                                            price(price),
-                                            remainingStock(remainingStock),
-                                            discount(1) {}
+                     long remainingStock,
+                     uint64_t categoryId)
+            : id(id),
+              name(std::move(name)),
+              description(std::move(description)),
+              price(price),
+              remainingStock(remainingStock),
+              discount(1),
+              categoryId(categoryId) {}
 
     uint64_t Product::getId() const {
         return id;
@@ -56,24 +59,27 @@ namespace DataType {
         oss << product.getDescription() << ',';
         oss << product.getPrice() << ',';
         oss << product.getRemainingStock() << ',';
-        oss << product.getDiscount();
+        oss << product.getDiscount() << ',';
+        oss << product.getCategoryId();
         return oss.str();
     }
 
     Product Product::deserialize(const std::string &line) {
         std::istringstream iss(line);
-        std::string id, name, description, price, remainingStock, discount;
+        std::string id, name, description, price, remainingStock, discount, categoryId;
         std::getline(iss, id, ',');
         std::getline(iss, name, ',');
         std::getline(iss, description, ',');
         std::getline(iss, price, ',');
         std::getline(iss, remainingStock, ',');
         std::getline(iss, discount, ',');
-        Product product = {std::stoul(id),
+        std::getline(iss, categoryId, ',');
+        Product product = {std::stoull(id),
                            name,
                            description,
                            std::stod(price),
-                           std::stol(remainingStock)};
+                           std::stol(remainingStock),
+                           std::stoull(categoryId)};
         product.setDiscount(std::stod(discount));
         return product;
     }
@@ -90,7 +96,8 @@ namespace DataType {
         return id == product.id && name == product.name && description == product.description &&
                price == product.price &&
                remainingStock == product.remainingStock &&
-               discount == product.discount;
+               discount == product.discount &&
+               categoryId == product.categoryId;
     }
 
     double Product::getDiscount() const {
@@ -99,5 +106,13 @@ namespace DataType {
 
     void Product::setDiscount(double discount) {
         this->discount = discount;
+    }
+
+    uint64_t Product::getCategoryId() const {
+        return categoryId;
+    }
+
+    void Product::setCategoryId(uint64_t categoryId) {
+        this->categoryId = categoryId;
     }
 }

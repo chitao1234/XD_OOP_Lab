@@ -15,7 +15,7 @@ namespace Service {
     }
 
 
-    PurchaseResult PurchaseService::purchase(const std::vector<std::pair<DataType::Product, long>> &productList,
+    PurchaseResult PurchaseService::purchase(const std::vector<std::pair<DataType::FullProduct, long>> &productList,
                                              const std::optional<DataType::Coupon> &coupon) {
         DataAccess::IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
         for (const auto &product: productList) {
@@ -30,7 +30,7 @@ namespace Service {
 
         for (const auto &product: productList) {
             cartOrderRepository.removeProduct(product.first.getId());
-            DataType::Product newProduct = productRepository.getProduct(product.first.getId()).value();
+            DataType::FullProduct newProduct = productRepository.getProduct(product.first.getId()).value();
             newProduct.setRemainingStock(newProduct.getRemainingStock() - product.second);
             productRepository.updateProduct(newProduct);
         }
@@ -43,7 +43,7 @@ namespace Service {
         return PurchaseResult::success();
     }
 
-    double PurchaseService::calculateTotalPrice(const std::vector<std::pair<DataType::Product, long>> &productList,
+    double PurchaseService::calculateTotalPrice(const std::vector<std::pair<DataType::FullProduct, long>> &productList,
                                                 const std::optional<DataType::Coupon> &coupon) {
         double totalPrice = 0;
         for (const auto &product: productList) {
@@ -55,10 +55,10 @@ namespace Service {
         return totalPrice;
     }
 
-    PurchaseResult PurchaseService::purchase(const DataType::Product &product) {
+    PurchaseResult PurchaseService::purchase(const DataType::FullProduct &product) {
         DataAccess::IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
         cartOrderRepository.removeProduct(product.getId());
-        DataType::Product newProduct = productRepository.getProduct(product.getId()).value();
+        DataType::FullProduct newProduct = productRepository.getProduct(product.getId()).value();
         newProduct.setRemainingStock(newProduct.getRemainingStock() - 1);
         productRepository.updateProduct(newProduct);
         return PurchaseResult::success();

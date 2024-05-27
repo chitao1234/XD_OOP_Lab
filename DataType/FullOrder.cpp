@@ -4,14 +4,13 @@
 
 #include "FullOrder.h"
 
-#include <utility>
 
 namespace DataType {
-    FullOrder::FullOrder(Order order, std::vector<std::pair<Product, long>> products)
+    FullOrder::FullOrder(Order order, std::vector<std::pair<FullProduct, long>> products)
             : Order(std::move(order)),
               productList(std::move(products)) {}
 
-    std::vector<std::pair<Product, long>> FullOrder::getProducts() const {
+    std::vector<std::pair<FullProduct, long>> FullOrder::getProducts() const {
         return productList;
     }
 

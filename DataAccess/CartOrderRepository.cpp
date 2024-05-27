@@ -6,12 +6,11 @@
 #include <utility>
 #include "CartOrderRepository.h"
 #include "ShoppingCartDao.h"
+#include "DataType/FullProduct.h"
 
 namespace DataAccess {
-    using DataType::Product;
-
-    std::vector<std::pair<Product, long>> CartOrderRepository::listProducts() {
-        std::vector<std::pair<Product, long>> products;
+    std::vector<std::pair<DataType::FullProduct, long>> CartOrderRepository::listProducts() {
+        std::vector<std::pair<DataType::FullProduct, long>> products;
         for (auto &productId: shoppingCartDao->listProductIds(username)) {
             products.emplace_back(productRepository.getProduct(productId.first).value(), productId.second);
         }
@@ -67,7 +66,7 @@ namespace DataAccess {
         return shoppingCartDao->importFromFile(username, std::move(filename));
     }
 
-    void CartOrderRepository::addOrder(std::vector<std::pair<DataType::Product, long>> products, double price) {
+    void CartOrderRepository::addOrder(std::vector<std::pair<DataType::FullProduct, long>> products, double price) {
         DataType::Order order = {orderDao->nextId(),
                                  username,
                                  price,
@@ -85,7 +84,7 @@ namespace DataAccess {
     }
 
     DataType::FullOrder CartOrderRepository::getFullOrder(const DataType::Order& order) {
-        std::vector<std::pair<Product, long>> products;
+        std::vector<std::pair<DataType::FullProduct, long>> products;
         for (auto &product: productOrderDao->getProducts(order.getPurchaseId())) {
             products.emplace_back(productRepository.getProduct(product.first).value(), product.second);
         }

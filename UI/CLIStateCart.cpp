@@ -14,7 +14,6 @@
 namespace UI {
     using Service::SessionManager;
     using Service::StorageService;
-    using DataType::Product;
 
     void CLIStateCart::displayMenu() {
         productDisplay.setProducts(SessionManager::getInstance()->getCartOrderRepository().listProducts());
@@ -90,7 +89,7 @@ namespace UI {
                 break;
             }
             case 2: {
-                std::vector<std::pair<Product, long>> append = productDisplay.selectProductsWithNumber(
+                std::vector<std::pair<DataType::FullProduct, long>> append = productDisplay.selectProductsWithNumber(
                         ProductDisplay::BRIEF_WITH_NUMBER);
                 selected.reserve(selected.size() + append.size());
                 for (const auto &product: append) {
@@ -103,7 +102,7 @@ namespace UI {
                 break;
             }
             case 3: {
-                std::vector<std::pair<Product, long>> remove = ProductDisplay(selected).selectProductsWithNumber(
+                std::vector<std::pair<DataType::FullProduct, long>> remove = ProductDisplay(selected).selectProductsWithNumber(
                         ProductDisplay::BRIEF_WITH_NUMBER);
                 for (const auto &product: remove) {
                     selected.erase(std::remove(selected.begin(), selected.end(), product), selected.end());
@@ -111,7 +110,7 @@ namespace UI {
                 break;
             }
             case 4: {
-                std::optional<std::pair<Product, long>> product = productDisplay.selectProductWithNumber(
+                std::optional<std::pair<DataType::FullProduct, long>> product = productDisplay.selectProductWithNumber(
                         ProductDisplay::BRIEF_WITH_NUMBER);
                 if (!product.has_value()) {
                     std::cout << "Invalid choice" << std::endl;

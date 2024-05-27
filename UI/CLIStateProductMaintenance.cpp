@@ -10,7 +10,6 @@
 namespace UI {
     using Service::StorageService;
     using DataAccess::IProductRepository;
-    using DataType::Product;
 
     CLIStateProductMaintenance::CLIStateProductMaintenance(CLIUserInterface &userInterface) :
             userInterface(userInterface),
@@ -43,6 +42,7 @@ namespace UI {
                 double price;
                 std::string description;
                 long stock;
+                std::string category;
                 std::cout << "Enter product name: ";
                 Util::cinWrapper >> name;
                 std::cout << "Enter product price: ";
@@ -51,7 +51,9 @@ namespace UI {
                 Util::cinWrapper >> description;
                 std::cout << "Enter product stock: ";
                 Util::cinWrapper >> stock;
-                productRepository.addProduct(name, description, price, stock);
+                std::cout << "Enter product category:";
+                Util::cinWrapper >> category;
+                productRepository.addProduct(name, description, price, stock, category);
                 std::cout << "Product added" << std::endl;
                 break;
             }
@@ -61,7 +63,7 @@ namespace UI {
                 std::cout << "Enter product id: ";
                 Util::cinWrapper >> productId;
                 IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
-                std::optional<Product> product = productRepository.getProduct(productId);
+                std::optional<DataType::FullProduct> product = productRepository.getProduct(productId);
                 if (!product.has_value()) {
                     std::cout << "Product not found" << std::endl;
                     break;
@@ -111,7 +113,7 @@ namespace UI {
                 std::cout << "Enter product id: ";
                 Util::cinWrapper >> productId;
                 IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
-                std::optional<Product> product = productRepository.getProduct(productId);
+                std::optional<DataType::FullProduct> product = productRepository.getProduct(productId);
                 if (!product.has_value()) {
                     std::cout << "Product not found" << std::endl;
                     break;
