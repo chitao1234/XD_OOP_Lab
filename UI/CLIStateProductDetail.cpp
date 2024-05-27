@@ -7,6 +7,7 @@
 #include "CLIStateProductDetail.h"
 #include "Service/SessionManager.h"
 #include "Service/StorageService.h"
+#include "Util/ErrorCheckingInputStream.h"
 
 namespace UI {
     using Service::SessionManager;
@@ -33,7 +34,7 @@ namespace UI {
 
     void CLIStateProductDetail::handleUserInput() {
         int choice;
-        std::cin >> choice;
+        Util::cinWrapper >> choice;
         switch (choice) {
             case 1: {
                 if (!SessionManager::getInstance()->getLoginStatus()) {
@@ -43,7 +44,7 @@ namespace UI {
                 ICartOrderRepository &cart = SessionManager::getInstance()->getCartOrderRepository();
                 std::cout << "Enter quantity: ";
                 long quantity;
-                std::cin >> quantity;
+                Util::cinWrapper >> quantity;
                 cart.addProduct(product.getId(), quantity);
                 std::cout << "Added to cart" << std::endl;
                 break;

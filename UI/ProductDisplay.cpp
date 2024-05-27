@@ -6,6 +6,7 @@
 #include <optional>
 #include <algorithm>
 #include "ProductDisplay.h"
+#include "Util/ErrorCheckingInputStream.h"
 
 namespace UI {
     using DataType::Product;
@@ -82,13 +83,13 @@ namespace UI {
             listProducts(displayType);
             std::cout << "Enter product number to select, or 's' to search and 'f' to finish: ";
             std::string input;
-            std::cin >> input;
+            Util::cinWrapper >> input;
             if (input == "f") {
                 break;
             } else if (input == "s") {
                 std::string search;
                 std::cout << "Enter search query: ";
-                std::cin >> search;
+                Util::cinWrapper >> search;
                 auto subResult = searchProduct(search).interactiveSelect(displayType, single);
                 result.reserve(result.size() + subResult.size());
                 for (const auto &product: subResult) {

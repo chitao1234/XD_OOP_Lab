@@ -7,6 +7,7 @@
 #include "CLIStateUserProfile.h"
 #include "Service/SessionManager.h"
 #include "Service/StorageService.h"
+#include "Util/ErrorCheckingInputStream.h"
 
 namespace UI {
     using Service::SessionManager;
@@ -24,7 +25,7 @@ namespace UI {
 
     void CLIStateUserProfile::handleUserInput() {
         int choice;
-        std::cin >> choice;
+        Util::cinWrapper >> choice;
         switch (choice) {
             case 1:
                 std::cout << "User name: " << user.getUsername() << std::endl;
@@ -35,7 +36,7 @@ namespace UI {
                 std::string email;
                 std::cout << "Editing profile...\n"
                              "Enter new email: ";
-                std::cin >> email;
+                Util::cinWrapper >> email;
                 user.setEmail(email);
                 userRepository.updateUser(user);
                 SessionManager::getInstance()->loginUser(user);
@@ -46,11 +47,11 @@ namespace UI {
                 std::string oldPassword, newPassword, confirmPassword;
                 std::cout << "Changing password...\n"
                              "Old password: ";
-                std::cin >> oldPassword;
+                Util::cinWrapper >> oldPassword;
                 std::cout << "New password: ";
-                std::cin >> newPassword;
+                Util::cinWrapper >> newPassword;
                 std::cout << "Confirm new password: ";
-                std::cin >> confirmPassword;
+                Util::cinWrapper >> confirmPassword;
                 if (newPassword != confirmPassword) {
                     std::cout << "Passwords do not match.\n";
                     break;

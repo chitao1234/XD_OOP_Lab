@@ -8,6 +8,7 @@
 #include "CLIStateMaintenance.h"
 #include "Service/SessionManager.h"
 #include "Service/StorageService.h"
+#include "Util/ErrorCheckingInputStream.h"
 
 namespace UI {
     using Service::SessionManager;
@@ -27,15 +28,15 @@ namespace UI {
 
     void CLIStateMainMenu::handleUserInput() {
         int choice;
-        std::cin >> choice;
+        Util::cinWrapper >> choice;
         IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
         switch (choice) {
             case 1: {
                 std::string username, password;
                 std::cout << "Username: ";
-                std::cin >> username;
+                Util::cinWrapper >> username;
                 std::cout << "Password: ";
-                std::cin >> password;
+                Util::cinWrapper >> password;
                 if (userRepository.loginAsAdmin(username, password)) {
                     std::cout << "Welcome, admin.\n";
                     userInterface.pushState(new CLIStateMaintenance(userInterface));
@@ -54,11 +55,11 @@ namespace UI {
             case 2: {
                 std::string username, password, email;
                 std::cout << "Enter username: ";
-                std::cin >> username;
+                Util::cinWrapper >> username;
                 std::cout << "Enter password: ";
-                std::cin >> password;
+                Util::cinWrapper >> password;
                 std::cout << "Enter email: ";
-                std::cin >> email;
+                Util::cinWrapper >> email;
                 NormalUser user = NormalUser(username, password, email);
                 if (userRepository.registerUser(user)) {
                     std::cout << "Registration successful.\n";

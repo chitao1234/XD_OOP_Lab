@@ -5,6 +5,7 @@
 #include <iostream>
 #include "CLIStateProductMaintenance.h"
 #include "Service/StorageService.h"
+#include "Util/ErrorCheckingInputStream.h"
 
 namespace UI {
     using Service::StorageService;
@@ -30,7 +31,7 @@ namespace UI {
 
     void CLIStateProductMaintenance::handleUserInput() {
         int choice;
-        std::cin >> choice;
+        Util::cinWrapper >> choice;
         switch (choice) {
             case 1: {
                 productDisplay.listProducts(ProductDisplay::DETAILED_WITH_STOCK);
@@ -43,13 +44,13 @@ namespace UI {
                 std::string description;
                 long stock;
                 std::cout << "Enter product name: ";
-                std::cin >> name;
+                Util::cinWrapper >> name;
                 std::cout << "Enter product price: ";
-                std::cin >> price;
+                Util::cinWrapper >> price;
                 std::cout << "Enter product description: ";
-                std::cin >> description;
+                Util::cinWrapper >> description;
                 std::cout << "Enter product stock: ";
-                std::cin >> stock;
+                Util::cinWrapper >> stock;
                 productRepository.addProduct(name, description, price, stock);
                 std::cout << "Product added" << std::endl;
                 break;
@@ -58,7 +59,7 @@ namespace UI {
                 productDisplay.listProducts(ProductDisplay::DETAILED_WITH_STOCK);
                 int productId;
                 std::cout << "Enter product id: ";
-                std::cin >> productId;
+                Util::cinWrapper >> productId;
                 IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
                 std::optional<Product> product = productRepository.getProduct(productId);
                 if (!product.has_value()) {
@@ -76,13 +77,13 @@ namespace UI {
                 std::string description;
                 long stock;
                 std::cout << "Enter product name: ";
-                std::cin >> name;
+                Util::cinWrapper >> name;
                 std::cout << "Enter product price: ";
-                std::cin >> price;
+                Util::cinWrapper >> price;
                 std::cout << "Enter product description: ";
-                std::cin >> description;
+                Util::cinWrapper >> description;
                 std::cout << "Enter product stock: ";
-                std::cin >> stock;
+                Util::cinWrapper >> stock;
                 product->setName(name);
                 product->setPrice(price);
                 product->setDescription(description);
@@ -95,7 +96,7 @@ namespace UI {
                 productDisplay.listProducts(ProductDisplay::DETAILED_WITH_STOCK);
                 int productId;
                 std::cout << "Enter product id: ";
-                std::cin >> productId;
+                Util::cinWrapper >> productId;
                 IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
                 if (!productRepository.deleteProduct(productId)) {
                     std::cout << "Product not found" << std::endl;
@@ -108,7 +109,7 @@ namespace UI {
                 productDisplay.listProducts(ProductDisplay::DETAILED_WITH_STOCK);
                 int productId;
                 std::cout << "Enter product id: ";
-                std::cin >> productId;
+                Util::cinWrapper >> productId;
                 IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
                 std::optional<Product> product = productRepository.getProduct(productId);
                 if (!product.has_value()) {
@@ -117,7 +118,7 @@ namespace UI {
                 }
                 double discount;
                 std::cout << "Enter discount: ";
-                std::cin >> discount;
+                Util::cinWrapper >> discount;
                 product->setDiscount(discount);
                 productRepository.updateProduct(*product);
                 std::cout << "Discount set" << std::endl;

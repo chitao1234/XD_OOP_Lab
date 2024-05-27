@@ -2,7 +2,7 @@ CXX = clang++
 ROOT_DIR := $(dir $(realpath $(lastword $(MAKEFILE_LIST))))
 CXXFLAGS = -I$(ROOT_DIR) -Wall -Wextra -pedantic -std=c++17 -fsanitize=address,undefined -g
 
-SRC_DIRS := . UI DataType DataAccess Service
+SRC_DIRS := . UI DataType DataAccess Service Util
 
 SOURCES := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.cpp))
 OBJECTS := $(SOURCES:.cpp=.o)

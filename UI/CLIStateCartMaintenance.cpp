@@ -5,6 +5,7 @@
 #include <iostream>
 #include "CLIStateCartMaintenance.h"
 #include "Service/SessionManager.h"
+#include "Util/ErrorCheckingInputStream.h"
 
 namespace UI {
     using Service::SessionManager;
@@ -24,12 +25,12 @@ namespace UI {
 
     void CLIStateCartMaintenance::handleUserInput() {
         int choice;
-        std::cin >> choice;
+        Util::cinWrapper >> choice;
         switch (choice) {
             case 1: {
                 long quantity;
                 std::cout << "Enter new quantity: ";
-                std::cin >> quantity;
+                Util::cinWrapper >> quantity;
                 SessionManager::getInstance()->getCartOrderRepository()
                         .updateProductQuantity(product.first.getId(), quantity);
                 product.second = quantity;
@@ -38,7 +39,7 @@ namespace UI {
             case 2: {
                 std::cout << "Are you sure you want to remove this product from cart? (y/n): ";
                 char confirm;
-                std::cin >> confirm;
+                Util::cinWrapper >> confirm;
                 if (confirm != 'y' && confirm != 'Y') {
                     break;
                 }

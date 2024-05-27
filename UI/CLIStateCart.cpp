@@ -9,6 +9,7 @@
 #include "Service/SessionManager.h"
 #include "Service/StorageService.h"
 #include "CLIStateOrderHistory.h"
+#include "Util/ErrorCheckingInputStream.h"
 
 namespace UI {
     using Service::SessionManager;
@@ -48,7 +49,7 @@ namespace UI {
 
     void CLIStateCart::handleUserInput() {
         int choice;
-        std::cin >> choice;
+        Util::cinWrapper >> choice;
         switch (choice) {
             case 1: {
                 std::cout << "Checking out..." << std::endl;
@@ -72,7 +73,7 @@ namespace UI {
                           << std::endl;
                 std::cout << "Confirm? (y/n): ";
                 char confirm;
-                std::cin >> confirm;
+                Util::cinWrapper >> confirm;
                 if (confirm != 'y' && confirm != 'Y') {
                     std::cout << "Checkout cancelled" << std::endl;
                     break;
@@ -126,7 +127,7 @@ namespace UI {
             case 6: {
                 std::string code;
                 std::cout << "Enter coupon code: ";
-                std::cin >> code;
+                Util::cinWrapper >> code;
                 if (StorageService::getInstance()
                         ->getCouponRepository().addCouponToUser(
                         SessionManager::getInstance()->getCurrentUser().value().getUsername(),
@@ -140,7 +141,7 @@ namespace UI {
             case 7: {
                 std::string filename;
                 std::cout << "Enter filename: ";
-                std::cin >> filename;
+                Util::cinWrapper >> filename;
                 if (SessionManager::getInstance()->getCartOrderRepository().exportToFile(filename)) {
                     std::cout << "Exported to " << filename << std::endl;
                 } else {
@@ -151,7 +152,7 @@ namespace UI {
             case 8: {
                 std::string filename;
                 std::cout << "Enter filename: ";
-                std::cin >> filename;
+                Util::cinWrapper >> filename;
                 if (SessionManager::getInstance()->getCartOrderRepository().importFromFile(filename)) {
                     std::cout << "Imported from " << filename << std::endl;
                 } else {
@@ -194,7 +195,7 @@ namespace UI {
         if (select) {
             std::cout << "Select a coupon: ";
             int choice;
-            std::cin >> choice;
+            Util::cinWrapper >> choice;
             if (choice < 1 || static_cast<size_t>(choice) > coupons.size()) {
                 std::cout << "Invalid choice" << std::endl;
                 return std::nullopt;

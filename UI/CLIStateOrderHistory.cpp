@@ -10,6 +10,7 @@
 #include "CLIStateOrderHistory.h"
 #include "Service/StorageService.h"
 #include "Service/SessionManager.h"
+#include "Util/ErrorCheckingInputStream.h"
 
 namespace UI {
     CLIStateOrderHistory::CLIStateOrderHistory(CLIUserInterface &userInterface)
@@ -27,7 +28,7 @@ namespace UI {
 
     void CLIStateOrderHistory::handleUserInput() {
         int choice;
-        std::cin >> choice;
+        Util::cinWrapper >> choice;
         switch (choice) {
             case 1: {
                 DataAccess::ICartOrderRepository &repository = Service::SessionManager::getInstance()
@@ -66,14 +67,14 @@ namespace UI {
                 break;
             }
             case 2: {
-                std::cin.ignore();
+                Util::cinWrapper.ignore();
                 std::string timeStart, timeEnd;
                 std::cout << "Enter Category (Enter for none): ";
-                std::getline(std::cin, category);
+                std::getline(Util::cinWrapper, category);
                 std::cout << "Enter Start Date (YYYY-MM-DD HH:MM:SS) (Enter for none): ";
-                std::getline(std::cin, timeStart);
+                std::getline(Util::cinWrapper, timeStart);
                 std::cout << "Enter End Date (YYYY-MM-DD HH:MM:SS) (Enter for none): ";
-                std::getline(std::cin, timeEnd);
+                std::getline(Util::cinWrapper, timeEnd);
                 if (!timeStart.empty()) {
                     std::istringstream(timeStart) >> std::get_time(&start, "%Y-%m-%d %H:%M:%S");
                 } else {

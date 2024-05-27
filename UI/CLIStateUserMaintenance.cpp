@@ -5,6 +5,7 @@
 #include <iostream>
 #include "CLIStateUserMaintenance.h"
 #include "Service/StorageService.h"
+#include "Util/ErrorCheckingInputStream.h"
 
 namespace UI {
     using DataAccess::IUserRepository;
@@ -26,7 +27,7 @@ namespace UI {
 
     void CLIStateUserMaintenance::handleUserInput() {
         int choice;
-        std::cin >> choice;
+        Util::cinWrapper >> choice;
         switch (choice) {
             case 1: {
                 listUsers();
@@ -36,11 +37,11 @@ namespace UI {
                 IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
                 std::string username, password, email;
                 std::cout << "Enter username: ";
-                std::cin >> username;
+                Util::cinWrapper >> username;
                 std::cout << "Enter password: ";
-                std::cin >> password;
+                Util::cinWrapper >> password;
                 std::cout << "Enter email: ";
-                std::cin >> email;
+                Util::cinWrapper >> email;
                 NormalUser user = NormalUser(username, password, email);
                 if (userRepository.registerUser(user)) {
                     std::cout << "User added" << std::endl;
@@ -61,11 +62,11 @@ namespace UI {
                 std::cout << user->getUsername() << " " << user->getEmail() << std::endl;
                 std::string newUsername, newPassword, newEmail;
                 std::cout << "Enter new username: ";
-                std::cin >> newUsername;
+                Util::cinWrapper >> newUsername;
                 std::cout << "Enter new password: ";
-                std::cin >> newPassword;
+                Util::cinWrapper >> newPassword;
                 std::cout << "Enter new email: ";
-                std::cin >> newEmail;
+                Util::cinWrapper >> newEmail;
                 NormalUser newUser = {newUsername, newPassword, newEmail};
                 userRepository.replaceUser(user.value(), newUser);
                 std::cout << "User updated" << std::endl;
@@ -107,7 +108,7 @@ namespace UI {
     std::optional<NormalUser> CLIStateUserMaintenance::readUser() {
         std::string username;
         std::cout << "Enter username: ";
-        std::cin >> username;
+        Util::cinWrapper >> username;
         IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
         std::optional<NormalUser> user = userRepository.findUserByUsername(username);
         return user;

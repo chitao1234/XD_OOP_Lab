@@ -7,6 +7,7 @@
 #include "CLIStateProductMaintenance.h"
 #include "CLIStateUserMaintenance.h"
 #include "CLIStateCouponMaintenance.h"
+#include "Util/ErrorCheckingInputStream.h"
 
 namespace UI {
     CLIStateMaintenance::CLIStateMaintenance(CLIUserInterface &userInterface) : userInterface(userInterface) {
@@ -23,7 +24,7 @@ namespace UI {
 
     void CLIStateMaintenance::handleUserInput() {
         int choice;
-        std::cin >> choice;
+        Util::cinWrapper >> choice;
         switch (choice) {
             case 1: {
                 userInterface.pushState(new CLIStateProductMaintenance(userInterface));

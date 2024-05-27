@@ -5,6 +5,7 @@
 #include <iostream>
 #include "CLIStateCouponMaintenance.h"
 #include "Service/StorageService.h"
+#include "Util/ErrorCheckingInputStream.h"
 
 namespace UI {
     using DataType::Coupon;
@@ -27,7 +28,7 @@ namespace UI {
 
     void CLIStateCouponMaintenance::handleUserInput() {
         int choice;
-        std::cin >> choice;
+        Util::cinWrapper >> choice;
         DataAccess::ICouponRepository &couponRepository = Service::StorageService::getInstance()->getCouponRepository();
         switch (choice) {
             case 1: {
@@ -35,19 +36,19 @@ namespace UI {
                 double discount;
                 int type;
                 std::cout << "Enter coupon name: ";
-                std::cin >> name;
+                Util::cinWrapper >> name;
                 std::cout << "1. Percentage discount\n"
                              "2. Fixed discount\n"
                              "Enter coupon type: ";
-                std::cin >> type;
+                Util::cinWrapper >> type;
                 if (type > 2 || type < 1) {
                     std::cout << "Invalid choice" << std::endl;
                     break;
                 }
                 std::cout << "Enter coupon code: ";
-                std::cin >> code;
+                Util::cinWrapper >> code;
                 std::cout << "Enter discount: ";
-                std::cin >> discount;
+                Util::cinWrapper >> discount;
                 couponRepository.addCoupon(
                         {name, Coupon::Type(type), discount, code});
                 std::cout << "Coupon added" << std::endl;
@@ -58,13 +59,13 @@ namespace UI {
                 std::string username;
                 uint64_t couponId;
                 std::cout << "Enter username (use RANDOM for random user): ";
-                std::cin >> username;
+                Util::cinWrapper >> username;
                 if (username == "RANDOM") {
                     username = Service::StorageService::getInstance()->getUserRepository().getRandomUser().getUsername();
                 }
                 displayUserCouponList(username);
                 std::cout << "Enter coupon id: ";
-                std::cin >> couponId;
+                Util::cinWrapper >> couponId;
                 couponRepository.addCouponToUser(username, couponId);
                 std::cout << "Coupon added to user " << username << std::endl;
                 break;
@@ -73,7 +74,7 @@ namespace UI {
                 displayCouponList();
                 uint64_t couponId;
                 std::cout << "Enter coupon id: ";
-                std::cin >> couponId;
+                Util::cinWrapper >> couponId;
                 couponRepository.removeCoupon(couponId);
                 std::cout << "Coupon removed" << std::endl;
                 break;
@@ -82,10 +83,10 @@ namespace UI {
                 std::string username;
                 uint64_t couponId;
                 std::cout << "Enter username: ";
-                std::cin >> username;
+                Util::cinWrapper >> username;
                 displayUserCouponList(username);
                 std::cout << "Enter coupon id: ";
-                std::cin >> couponId;
+                Util::cinWrapper >> couponId;
                 couponRepository.removeCouponFromUser(username, couponId);
                 std::cout << "Coupon removed from user" << std::endl;
                 break;
@@ -97,7 +98,7 @@ namespace UI {
             case 6: {
                 std::string username;
                 std::cout << "Enter username: ";
-                std::cin >> username;
+                Util::cinWrapper >> username;
                 displayUserCouponList(username);
                 break;
             }

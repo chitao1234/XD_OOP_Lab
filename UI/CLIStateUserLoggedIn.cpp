@@ -9,6 +9,7 @@
 #include "CLIStateProductList.h"
 #include "Service/SessionManager.h"
 #include "Service/StorageService.h"
+#include "Util/ErrorCheckingInputStream.h"
 #include "CLIStateCart.h"
 
 namespace UI {
@@ -25,7 +26,7 @@ namespace UI {
 
     void CLIStateUserLoggedIn::handleUserInput() {
         int choice;
-        std::cin >> choice;
+        Util::cinWrapper >> choice;
         switch (choice) {
             case 1:
                 userInterface.pushState(
