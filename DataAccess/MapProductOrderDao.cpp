@@ -7,11 +7,13 @@
 #include "MapProductOrderDao.h"
 
 namespace DataAccess {
+    // 构建时加载数据
     MapProductOrderDao::MapProductOrderDao(std::string filename)
             : filename(std::move(filename)) {
         MapProductOrderDao::load();
     }
 
+    // 析构时保存数据
     MapProductOrderDao::~MapProductOrderDao() {
         MapProductOrderDao::save();
     }
@@ -49,6 +51,8 @@ namespace DataAccess {
         if (!file.is_open()) {
             throw std::runtime_error("Cannot open file " + filename);
         }
+
+        // 采用csv格式保存数据，逗号分隔
         for (const auto &pair: orderProductMap) {
             for (const auto &product: pair.second) {
                 file << pair.first << ',' << product.first << ',' << product.second << '\n';
@@ -61,8 +65,10 @@ namespace DataAccess {
         if (!file.is_open()) {
             return false;
         }
+
         orderProductMap.clear();
         std::string line;
+        // 采用csv格式读取数据
         while (std::getline(file, line)) {
             std::istringstream iss(line);
             std::string orderId, productId, quantity;

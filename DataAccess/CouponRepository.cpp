@@ -3,10 +3,9 @@
 //
 
 #include "CouponRepository.h"
-#include "MapUserCouponDao.h"
-#include "MapCouponDao.h"
 
 namespace DataAccess {
+    // 使用数据访问对象工厂初始化数据访问对象
     CouponRepository::CouponRepository(IDaoFactory &daoFactory) :
             couponDao(daoFactory.getCouponDao()),
             userCouponDao(daoFactory.getUserCouponDao()) {
@@ -18,6 +17,7 @@ namespace DataAccess {
     }
 
     void CouponRepository::addCoupon(DataType::Coupon coupon) {
+        // 重新生成优惠券ID
         coupon.setId(couponDao->nextId());
         couponDao->addCoupon(coupon);
         couponDao->save();
@@ -41,6 +41,7 @@ namespace DataAccess {
     }
 
     std::vector<DataType::Coupon> CouponRepository::getUserCoupons(std::string username) {
+        // 进行多表查询关联操作
         std::vector<DataType::Coupon> coupons;
         for (auto &couponId: userCouponDao->getCoupons(username)) {
             coupons.push_back(couponDao->getCoupon(couponId));

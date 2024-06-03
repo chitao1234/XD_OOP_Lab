@@ -9,10 +9,12 @@
 #include <sstream>
 
 namespace DataAccess {
+    // 构造时加载数据
     MapUserCouponDao::MapUserCouponDao(std::string filename) : filename(std::move(filename)) {
         MapUserCouponDao::load();
     }
 
+    // 析构时保存数据
     MapUserCouponDao::~MapUserCouponDao() {
         MapUserCouponDao::save();
     }
@@ -37,6 +39,7 @@ namespace DataAccess {
         if (!file.is_open()) {
             throw std::runtime_error("Cannot open file " + filename);
         }
+        // 采用csv格式保存数据，逗号分隔
         for (const auto &userCoupon: userCoupons) {
             for (const auto &couponId: userCoupon.second) {
                 file << userCoupon.first << ',' << couponId << '\n';
@@ -48,7 +51,9 @@ namespace DataAccess {
         std::ifstream file(filename);
         if (!file.is_open()) return false;
         userCoupons.clear();
+
         std::string line;
+        // 采用csv格式读取数据
         while (std::getline(file, line)) {
             std::string username, id;
             std::istringstream iss(line);

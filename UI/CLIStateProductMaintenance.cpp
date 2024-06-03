@@ -51,7 +51,7 @@ namespace UI {
                 Util::cinWrapper >> description;
                 std::cout << "Enter product stock: ";
                 Util::cinWrapper >> stock;
-                std::cout << "Enter product category:";
+                std::cout << "Enter product keywordFilter:";
                 Util::cinWrapper >> category;
                 productRepository.addProduct(name, description, price, stock, category);
                 std::cout << "Product added" << std::endl;

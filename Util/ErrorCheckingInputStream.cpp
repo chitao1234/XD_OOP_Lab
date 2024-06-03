@@ -28,5 +28,10 @@ namespace Util {
         return stream.operator!();
     }
 
+    ErrorCheckingInputStream &ErrorCheckingInputStream::ignore(int count, int delim) {
+        stream.ignore(count, delim);
+        return *this;
+    }
+
     ErrorCheckingInputStream cinWrapper(std::cin);
 } // Util

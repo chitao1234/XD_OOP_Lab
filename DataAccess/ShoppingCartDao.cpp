@@ -4,7 +4,6 @@
 
 #include "ShoppingCartDao.h"
 
-#include <utility>
 #include <fstream>
 #include <sstream>
 
@@ -49,6 +48,8 @@ namespace DataAccess {
     bool ShoppingCartDao::exportToFile(std::string username, std::string filename_) {
         std::ofstream ofs(filename_);
         if (!ofs) return false;
+
+        // 采用csv格式保存数据，逗号分隔
         for (const auto &product: carts[username]) {
             ofs << username << ',' << product.first << ',' << product.second << '\n';
         }
@@ -61,6 +62,8 @@ namespace DataAccess {
         if (!ofs.is_open()) {
             throw std::runtime_error("Cannot open file " + filename);
         }
+
+        // 采用csv格式保存数据，逗号分隔
         for (const auto &cart: carts) {
             for (const auto &product: cart.second) {
                 ofs << cart.first << ',' << product.first << ',' << product.second << '\n';
@@ -72,6 +75,8 @@ namespace DataAccess {
     bool ShoppingCartDao::importFromFile(std::string username, std::string filename_) {
         std::ifstream ifs(filename_);
         if (!ifs) return false;
+
+        // 采用csv格式读取数据
         carts[username].clear();
         std::string line;
         while (std::getline(ifs, line)) {
@@ -92,6 +97,8 @@ namespace DataAccess {
     bool ShoppingCartDao::load() {
         std::ifstream ifs(filename);
         if (!ifs) return false;
+
+        // 采用csv格式读取数据
         std::string line;
         while (std::getline(ifs, line)) {
             std::istringstream iss(line);

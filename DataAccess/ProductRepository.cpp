@@ -2,29 +2,27 @@
 // Created by chi on 24/04/29.
 //
 
-#include "MapProductRepository.h"
-
-#include "MapProductDao.h"
+#include "ProductRepository.h"
 
 namespace DataAccess {
-    using DataType::FullProduct;
-
-    MapProductRepository::MapProductRepository(IDaoFactory &daoFactory)
+    // 使用数据访问对象工厂初始化数据访问对象
+    ProductRepository::ProductRepository(IDaoFactory &daoFactory)
             : productDao(daoFactory.getProductDao()),
               categoryDao(daoFactory.getCategoryDao()) {}
 
 
-    MapProductRepository::~MapProductRepository() {
+    ProductRepository::~ProductRepository() {
         delete productDao;
         delete categoryDao;
     }
 
-    bool
-    MapProductRepository::addProduct(std::string name,
-                                     std::string description,
-                                     double price,
-                                     long remainingStock,
-                                     std::string category) {
+    // 添加商品信息和分类信息
+    bool ProductRepository::addProduct(
+            std::string name,
+            std::string description,
+            double price,
+            long remainingStock,
+            std::string category) {
         uint64_t categoryId;
         if (categoryDao->containCategory(category)) {
             categoryId = categoryDao->getId(category);
@@ -39,15 +37,17 @@ namespace DataAccess {
         return true;
     }
 
-    std::optional<FullProduct> MapProductRepository::getProduct(uint64_t productId) {
+    // 关联商品和分类信息
+    std::optional<DataType::FullProduct> ProductRepository::getProduct(uint64_t productId) {
         if (!productDao->containProduct(productId)) {
             return std::nullopt;
         }
         DataType::Product product = productDao->getProduct(productId);
-        return FullProduct{product, categoryDao->getCategory(product.getCategoryId())};
+        return DataType::FullProduct{product, categoryDao->getCategory(product.getCategoryId())};
     }
 
-    bool MapProductRepository::updateProduct(const FullProduct &product) {
+    // 更新商品信息和分类信息
+    bool ProductRepository::updateProduct(const DataType::FullProduct &product) {
         if (!productDao->containProduct(product.getId())) {
             return false;
         }
@@ -56,10 +56,14 @@ namespace DataAccess {
         }
         productDao->updateProduct(product);
         productDao->save();
+
+        categoryDao->removeCategory(product.getCategoryId());
+        categoryDao->addCategory(product.getCategoryId(), product.getCategory());
+        categoryDao->save();
         return true;
     }
 
-    bool MapProductRepository::deleteProduct(uint64_t productId) {
+    bool ProductRepository::deleteProduct(uint64_t productId) {
         if (!productDao->containProduct(productId)) {
             return false;
         }
@@ -68,9 +72,10 @@ namespace DataAccess {
         return true;
     }
 
-    std::vector<FullProduct> MapProductRepository::listProducts() {
+    // 获取所有商品信息和分类信息，并进行关联得到完整商品
+    std::vector<DataType::FullProduct> ProductRepository::listProducts() {
         std::vector<DataType::Product> products = productDao->getProducts();
-        std::vector<FullProduct> result;
+        std::vector<DataType::FullProduct> result;
         result.reserve(products.size());
         for (const auto &product: products) {
             result.emplace_back(product, categoryDao->getCategory(product.getCategoryId()));
@@ -78,12 +83,14 @@ namespace DataAccess {
         return result;
     }
 
-    std::vector<FullProduct> MapProductRepository::searchProducts(std::string keyword) {
+    // 根据关键词搜索商品信息和分类信息，并进行关联得到完整商品
+    std::vector<DataType::FullProduct> ProductRepository::searchProducts(std::string keyword) {
         std::vector<DataType::Product> products = productDao->getProducts(keyword);
-        std::vector<FullProduct> result;
+        std::vector<DataType::FullProduct> result;
         result.reserve(products.size());
         for (const auto &product: products) {
             result.emplace_back(product, categoryDao->getCategory(product.getCategoryId()));
         }
+        return result;
     }
 }

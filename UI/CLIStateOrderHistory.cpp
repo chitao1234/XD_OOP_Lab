@@ -35,8 +35,8 @@ namespace UI {
                         ->getCartOrderRepository();
                 std::optional<std::string> keyword{};
                 std::optional<std::chrono::system_clock::time_point> startInput, endInput;
-                if (!category.empty()) {
-                    keyword = category;
+                if (!keywordFilter.empty()) {
+                    keyword = keywordFilter;
                 }
                 if (start.tm_mday != 0) {
                     startInput = std::chrono::system_clock::from_time_t(std::mktime(&start));
@@ -87,14 +87,14 @@ namespace UI {
                 break;
             }
             case 2: {
-                Util::cinWrapper.ignore();
+                std::cin.ignore(256, '\n');
                 std::string timeStart, timeEnd;
-                std::cout << "Enter Category (Enter for none): ";
-                std::getline(Util::cinWrapper, category);
+                std::cout << "Enter Keyword (Enter for none): ";
+                std::getline(std::cin, keywordFilter);
                 std::cout << "Enter Start Date (YYYY-MM-DD HH:MM:SS) (Enter for none): ";
-                std::getline(Util::cinWrapper, timeStart);
+                std::getline(std::cin, timeStart);
                 std::cout << "Enter End Date (YYYY-MM-DD HH:MM:SS) (Enter for none): ";
-                std::getline(Util::cinWrapper, timeEnd);
+                std::getline(std::cin, timeEnd);
                 if (!timeStart.empty()) {
                     std::istringstream(timeStart) >> std::get_time(&start, "%Y-%m-%d %H:%M:%S");
                 } else {

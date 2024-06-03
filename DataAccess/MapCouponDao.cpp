@@ -7,13 +7,13 @@
 #include "MapCouponDao.h"
 
 namespace DataAccess {
+    // 构造时加载数据
     MapCouponDao::MapCouponDao(std::string filename) : nextIdValue(0), filename(std::move(filename)) {
-        // Load data from file
         MapCouponDao::load();
     }
 
+    // 析构时保存数据
     MapCouponDao::~MapCouponDao() {
-        // Save data to file
         MapCouponDao::save();
     }
 
@@ -62,6 +62,7 @@ namespace DataAccess {
             throw std::runtime_error("Cannot open file " + filename);
         }
         for (const auto &pair: coupons) {
+            // 调用优惠券数据对象的序列化方法
             file << DataType::Coupon::serialize(pair.second) << std::endl;
         }
     }
@@ -75,6 +76,7 @@ namespace DataAccess {
         nextIdValue = 1;
         std::string line;
         while (std::getline(file, line)) {
+            // 调用优惠券数据对象的反序列化方法
             DataType::Coupon coupon = DataType::Coupon::deserialize(line);
             coupons.insert({coupon.getId(), coupon});
             nextIdValue = std::max(nextIdValue, coupon.getId() + 1);
@@ -96,6 +98,7 @@ namespace DataAccess {
         if (code.empty()) {
             throw std::invalid_argument("Code cannot be empty");
         }
+        // 遍历map搜索
         for (const auto &pair: coupons) {
             if (pair.second.getCode() == code) {
                 return pair.second;

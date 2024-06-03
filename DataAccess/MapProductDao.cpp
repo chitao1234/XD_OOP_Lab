@@ -4,17 +4,16 @@
 
 #include "MapProductDao.h"
 
-#include <utility>
 #include <stdexcept>
 #include <fstream>
 
 namespace DataAccess {
-    using DataType::Product;
-
+    // 创建时加载数据
     MapProductDao::MapProductDao(std::string filename) : lastId(0), filename(std::move(filename)) {
         MapProductDao::load();
     }
 
+    // 销毁时保存数据
     MapProductDao::~MapProductDao() {
         MapProductDao::save();
     }
@@ -23,7 +22,7 @@ namespace DataAccess {
         return products.find(id) != products.end();
     }
 
-    void MapProductDao::addProduct(const Product &product) {
+    void MapProductDao::addProduct(const DataType::Product &product) {
         if (containProduct(product.getId())) {
             throw std::runtime_error("Product already exists");
         }
@@ -38,16 +37,16 @@ namespace DataAccess {
         products.erase(id);
     }
 
-    void MapProductDao::updateProduct(const Product &product) {
+    void MapProductDao::updateProduct(const DataType::Product &product) {
         products.at(product.getId()) = product;
     }
 
-    Product MapProductDao::getProduct(uint64_t id) {
+    DataType::Product MapProductDao::getProduct(uint64_t id) {
         return products.at(id);
     }
 
-    std::vector <Product> MapProductDao::getProducts() {
-        std::vector <Product> result;
+    std::vector <DataType::Product> MapProductDao::getProducts() {
+        std::vector <DataType::Product> result;
         result.reserve(products.size());
         for (const auto &pair: products) {
             result.push_back(pair.second);
@@ -55,9 +54,10 @@ namespace DataAccess {
         return result;
     }
 
-    std::vector <Product> MapProductDao::getProducts(std::string query) {
-        std::vector <Product> result;
+    std::vector <DataType::Product> MapProductDao::getProducts(std::string query) {
+        std::vector <DataType::Product> result;
         for (const auto &pair: products) {
+            // 使用商品名进行模糊匹配
             if (pair.second.getName().find(query) != std::string::npos) {
                 result.push_back(pair.second);
             }
@@ -70,8 +70,10 @@ namespace DataAccess {
         if (!file.is_open()) {
             throw std::runtime_error("Cannot open file " + filename);
         }
+
+        // 使用商品的序列化方法保存数据
         for (const auto &pair: products) {
-            file << Product::serialize(pair.second) << '\n';
+            file << DataType::Product::serialize(pair.second) << '\n';
         }
         file.close();
     }
@@ -81,10 +83,12 @@ namespace DataAccess {
         if (file.bad()) {
             return false;
         }
+
         products.clear();
         std::string line;
+        // 使用商品的反序列化方法加载数据
         while (std::getline(file, line)) {
-            Product product = Product::deserialize(line);
+            DataType::Product product = DataType::Product::deserialize(line);
             lastId = std::max(lastId, product.getId());
             products.insert({product.getId(), product});
         }

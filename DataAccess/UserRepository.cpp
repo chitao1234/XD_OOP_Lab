@@ -1,23 +1,23 @@
-#include "MapUserRepository.h"
+#include "UserRepository.h"
 
 namespace DataAccess {
     using DataType::NormalUser;
     using DataType::AdminUser;
 
-    MapUserRepository::MapUserRepository(IDaoFactory &daoFactory) :
+    UserRepository::UserRepository(IDaoFactory &daoFactory) :
             userDao(daoFactory.getUserDao()),
             adminDao(daoFactory.getAdminDao()) {}
 
-    MapUserRepository::~MapUserRepository() {
+    UserRepository::~UserRepository() {
         delete userDao;
         delete adminDao;
     }
 
-    NormalUser MapUserRepository::findUserByUsername(std::string username) {
+    NormalUser UserRepository::findUserByUsername(std::string username) {
         return userDao->getUser(username);
     }
 
-    bool MapUserRepository::registerUser(const NormalUser &user) {
+    bool UserRepository::registerUser(const NormalUser &user) {
         if (!userDao->containUser(user.getUsername()) && userDao->addUser(user)) {
             userDao->save();
             return true;
@@ -26,7 +26,8 @@ namespace DataAccess {
         }
     }
 
-    std::optional<NormalUser> MapUserRepository::login(std::string username, std::string password) {
+    // 不存在用户和密码错误均返回空
+    std::optional<NormalUser> UserRepository::login(std::string username, std::string password) {
         if (!userDao->containUser(username)) {
             return {};
         }
@@ -38,7 +39,7 @@ namespace DataAccess {
         }
     }
 
-    bool MapUserRepository::loginAsAdmin(std::string username, std::string password) {
+    bool UserRepository::loginAsAdmin(std::string username, std::string password) {
         if (!adminDao->containUser(username)) {
             return false;
         }
@@ -46,7 +47,7 @@ namespace DataAccess {
         return user.verifyPassword(password);
     }
 
-    bool MapUserRepository::changePassword(const NormalUser &user, std::string oldPassword, std::string newPassword) {
+    bool UserRepository::changePassword(const NormalUser &user, std::string oldPassword, std::string newPassword) {
         if (user.verifyPassword(oldPassword)) {
             NormalUser newUser = NormalUser(user.getUsername(), newPassword, user.getEmail());
             userDao->updateUser(newUser);
@@ -57,10 +58,14 @@ namespace DataAccess {
         }
     }
 
-    bool MapUserRepository::updateUser(const NormalUser &user) {
+    bool UserRepository::updateUser(const NormalUser &user) {
         // 不支持用户名更改
+        if (!userDao->containUser(user.getUsername())) {
+            return false;
+        }
         NormalUser originalUser = userDao->getUser(user.getUsername());
-        if (originalUser.getUsername() != user.getUsername() || !originalUser.verifyPassword(user.getPasswordHash())) {
+        // 该方法不支持修改密码
+        if (!originalUser.verifyPassword(user.getPasswordHash())) {
             return false;
         }
         userDao->updateUser(user);
@@ -68,7 +73,7 @@ namespace DataAccess {
         return true;
     }
 
-    bool MapUserRepository::deleteUser(std::string username) {
+    bool UserRepository::deleteUser(std::string username) {
         if (!userDao->containUser(username)) {
             return false;
         }
@@ -77,7 +82,8 @@ namespace DataAccess {
         return true;
     }
 
-    bool MapUserRepository::replaceUser(const NormalUser &user, const NormalUser &newUser) {
+    // 使用该方法更换密码
+    bool UserRepository::replaceUser(const NormalUser &user, const NormalUser &newUser) {
         if (!userDao->containUser(user.getUsername())) {
             return false;
         }
@@ -87,11 +93,11 @@ namespace DataAccess {
         return true;
     }
 
-    std::vector<NormalUser> MapUserRepository::listUsers() {
+    std::vector<NormalUser> UserRepository::listUsers() {
         return userDao->listUsers();
     }
 
-    DataType::NormalUser MapUserRepository::getRandomUser() {
+    DataType::NormalUser UserRepository::getRandomUser() {
         std::vector<NormalUser> users = userDao->listUsers();
         if (users.empty()) {
             throw std::runtime_error("No user in the repository");

@@ -9,7 +9,7 @@
 
 namespace Util {
 
-class ErrorCheckingInputStream : public std::istream {
+    class ErrorCheckingInputStream : public std::istream {
     public:
         explicit ErrorCheckingInputStream(std::istream &stream);
 
@@ -25,6 +25,9 @@ class ErrorCheckingInputStream : public std::istream {
         bool eof();
 
         bool operator!();
+
+        ErrorCheckingInputStream &ignore(int count = 1, int delim = EOF);
+
     private:
         std::istream &stream;
     };
@@ -35,7 +38,7 @@ class ErrorCheckingInputStream : public std::istream {
         while (fail()) {
             std::cout << "Invalid input. Please try again: ";
             stream.clear();
-            stream.ignore();
+            stream.ignore(256, '\n');
             stream >> value;
         }
         return *this;

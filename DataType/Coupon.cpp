@@ -3,7 +3,6 @@
 //
 
 #include <sstream>
-#include <utility>
 #include "Coupon.h"
 
 namespace DataType {

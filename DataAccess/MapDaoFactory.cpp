@@ -13,6 +13,8 @@
 #include "MapCategoryDao.h"
 
 namespace DataAccess {
+    // 指定文件名，创建数据访问对象
+
     IUserDao<DataType::NormalUser> *MapDaoFactory::getUserDao() {
         return new MapUserDao<DataType::NormalUser>("users.csv");
     }

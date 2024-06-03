@@ -21,7 +21,7 @@ namespace UI {
     private:
         CLIUserInterface &userInterface;
         std::tm start, end;
-        std::string category;
+        std::string keywordFilter;
     };
 
 } // UI

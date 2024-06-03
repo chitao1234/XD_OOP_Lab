@@ -6,11 +6,12 @@
 #include "MapCategoryDao.h"
 
 namespace DataAccess {
-
+    // 构造时加载数据
     MapCategoryDao::MapCategoryDao(std::string filename) : filename(std::move(filename)) {
         MapCategoryDao::load();
     }
 
+    // 析构时保存数据
     MapCategoryDao::~MapCategoryDao() {
         MapCategoryDao::save();
     }
@@ -31,6 +32,7 @@ namespace DataAccess {
         if (categories.empty()) {
             return 1;
         }
+        // 返回最后一个分类的ID（即最大ID）+1
         return categories.rbegin()->first + 1;
     }
 
@@ -39,6 +41,7 @@ namespace DataAccess {
         if (!file.is_open()) {
             throw std::runtime_error("Cannot open file " + filename);
         }
+        // 采用csv格式保存文件，使用逗号分隔
         for (const auto &category: categories) {
             file << category.first << "," << category.second << std::endl;
         }
@@ -50,7 +53,9 @@ namespace DataAccess {
             return false;
         }
         categories.clear();
+
         std::string category, id;
+        // 采用csv格式保存文件，使用逗号分隔
         while (std::getline(file, id, ',')) {
             std::getline(file, category);
             categories.insert({std::stoull(id), category});
@@ -59,6 +64,7 @@ namespace DataAccess {
     }
 
     uint64_t MapCategoryDao::getId(std::string category) {
+        // 遍历map搜索
         for (const auto &pair: categories) {
             if (pair.second == category) {
                 return pair.first;

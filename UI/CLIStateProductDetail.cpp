@@ -3,7 +3,6 @@
 //
 
 #include <iostream>
-#include <utility>
 #include "CLIStateProductDetail.h"
 #include "Service/SessionManager.h"
 #include "Service/StorageService.h"
