@@ -11,6 +11,7 @@
 #include "DataType/NormalUser.h"
 
 namespace UI {
+    // 用户信息界面类，用于显示用户信息，和更改用户信息，包括更改密码、邮箱等
     class CLIStateUserProfile : public ICLIState {
     public:
         CLIStateUserProfile(CLIUserInterface &userInterface, DataType::NormalUser user);

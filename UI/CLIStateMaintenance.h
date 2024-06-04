@@ -9,6 +9,7 @@
 #include "CLIUserInterface.h"
 
 namespace UI {
+    // 维护界面类，用于实现产品、用户和优惠券的维护功能
     class CLIStateMaintenance : public ICLIState {
     public:
         explicit CLIStateMaintenance(CLIUserInterface &userInterface);

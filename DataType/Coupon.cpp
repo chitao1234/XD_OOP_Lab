@@ -32,6 +32,7 @@ namespace DataType {
     }
 
     std::string Coupon::serialize(const Coupon &coupon) {
+        // 采用CSV格式，分别为名称、ID、类型、值、代码
         return coupon.getName() + ',' + std::to_string(coupon.getId()) + ',' +
                std::to_string(coupon.getType()) + ',' +
                std::to_string(coupon.getValue()) + ',' + coupon.getCode();
@@ -88,6 +89,7 @@ namespace DataType {
             default:
                 throw std::invalid_argument("Invalid type");
         }
+        // 防止折扣后价格为负数
         if (result < 0) {
             result = 0.01;
         }

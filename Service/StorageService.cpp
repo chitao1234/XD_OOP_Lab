@@ -6,23 +6,19 @@
 #include "StorageService.h"
 
 namespace Service {
-    using DataAccess::IUserRepository;
-    using DataAccess::IProductRepository;
-    using DataAccess::ICouponRepository;
-
-    IProductRepository &StorageService::getProductRepository() {
+    DataAccess::IProductRepository &StorageService::getProductRepository() {
         if (!productRepository)
             productRepository = getRepositoryFactory().getProductRepository();
         return *productRepository;
     }
 
-    IUserRepository &StorageService::getUserRepository() {
+    DataAccess::IUserRepository &StorageService::getUserRepository() {
         if (!userRepository)
             userRepository = getRepositoryFactory().getUserRepository();
         return *userRepository;
     }
 
-    ICouponRepository &StorageService::getCouponRepository() {
+    DataAccess::ICouponRepository &StorageService::getCouponRepository() {
         if (!couponRepository)
             couponRepository = getRepositoryFactory().getCouponRepository();
         return *couponRepository;

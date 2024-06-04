@@ -31,6 +31,7 @@ namespace UI {
                 long quantity;
                 std::cout << "Enter new quantity: ";
                 Util::cinWrapper >> quantity;
+                // 使用购物车订单仓储更新商品数量
                 SessionManager::getInstance()->getCartOrderRepository()
                         .updateProductQuantity(product.first.getId(), quantity);
                 product.second = quantity;
@@ -43,6 +44,7 @@ namespace UI {
                 if (confirm != 'y' && confirm != 'Y') {
                     break;
                 }
+                // 使用购物车订单仓储移除商品
                 SessionManager::getInstance()->getCartOrderRepository()
                         .removeProduct(product.first.getId());
                 userInterface.popState();

@@ -17,7 +17,7 @@ namespace Service {
         return result;
     }
 
-    PurchaseResult PurchaseResult::stockNotEnough(const std::string& productName) {
+    PurchaseResult PurchaseResult::stockNotEnough(const std::string &productName) {
         PurchaseResult result;
         result.isError = true;
         result.errorType = ErrorType::STOCK_NOT_ENOUGH;
@@ -27,5 +27,9 @@ namespace Service {
 
     std::string PurchaseResult::getMessage() const {
         return message;
+    }
+
+    PurchaseResult::operator bool() const {
+        return !isError;
     }
 }

@@ -49,6 +49,7 @@ namespace UI {
                 Util::cinWrapper >> code;
                 std::cout << "Enter discount: ";
                 Util::cinWrapper >> discount;
+                // 管理员使用优惠券仓储添加优惠券，无需设定ID，仓储自动分配
                 couponRepository.addCoupon(
                         {name, Coupon::Type(type), discount, code});
                 std::cout << "Coupon added" << std::endl;
@@ -61,7 +62,8 @@ namespace UI {
                 std::cout << "Enter username (use RANDOM for random user): ";
                 Util::cinWrapper >> username;
                 if (username == "RANDOM") {
-                    username = Service::StorageService::getInstance()->getUserRepository().getRandomUser().getUsername();
+                    username = Service::StorageService::getInstance()->getUserRepository()
+                            .getRandomUser().getUsername();
                 }
                 displayUserCouponList(username);
                 std::cout << "Enter coupon id: ";
@@ -113,6 +115,7 @@ namespace UI {
         }
     }
 
+    // 将显示优惠券列表抽象为函数，方便复用
     void CLIStateCouponMaintenance::displayCouponList(const std::vector<DataType::Coupon> &couponList) {
         for (auto &coupon: couponList) {
             std::cout << "Coupon ID: " << coupon.getId() << std::endl;

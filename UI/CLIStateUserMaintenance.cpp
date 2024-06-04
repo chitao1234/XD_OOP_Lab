@@ -8,7 +8,6 @@
 #include "Util/ErrorCheckingInputStream.h"
 
 namespace UI {
-    using DataAccess::IUserRepository;
     using Service::StorageService;
     using DataType::NormalUser;
 
@@ -28,13 +27,13 @@ namespace UI {
     void CLIStateUserMaintenance::handleUserInput() {
         int choice;
         Util::cinWrapper >> choice;
+        DataAccess::IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
         switch (choice) {
             case 1: {
                 listUsers();
                 break;
             }
             case 2: {
-                IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
                 std::string username, password, email;
                 std::cout << "Enter username: ";
                 Util::cinWrapper >> username;
@@ -52,7 +51,6 @@ namespace UI {
             }
             case 3: {
                 listUsers();
-                IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
                 std::optional<NormalUser> user = readUser();
                 if (!user.has_value()) {
                     std::cout << "User not found" << std::endl;
@@ -74,7 +72,6 @@ namespace UI {
             }
             case 4: {
                 listUsers();
-                IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
                 std::optional<NormalUser> user = readUser();
                 if (!user.has_value()) {
                     std::cout << "User not found" << std::endl;
@@ -96,7 +93,7 @@ namespace UI {
     }
 
     void CLIStateUserMaintenance::listUsers() {
-        IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
+        DataAccess::IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
         std::vector<NormalUser> users = userRepository.listUsers();
         std::cout << "Users:\n";
         for (const NormalUser &user: users) {
@@ -109,7 +106,7 @@ namespace UI {
         std::string username;
         std::cout << "Enter username: ";
         Util::cinWrapper >> username;
-        IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
+        DataAccess::IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
         std::optional<NormalUser> user = userRepository.findUserByUsername(username);
         return user;
     }

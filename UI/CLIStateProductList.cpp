@@ -17,6 +17,7 @@ namespace UI {
     }
 
     void CLIStateProductList::handleUserInput() {
+        // 使用ProductDisplay类来显示商品列表和选择商品
         std::optional<DataType::FullProduct> product = productDisplay.selectProduct(ProductDisplay::BRIEF);
         if (!product.has_value()) {
             userInterface.popState();

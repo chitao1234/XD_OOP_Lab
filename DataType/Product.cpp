@@ -53,6 +53,7 @@ namespace DataType {
     }
 
     std::string Product::serialize(const Product &product) {
+        // 采用CSV逗号分隔的方式序列化商品，分别为商品号、名称、描述、价格、库存、折扣、分类号
         std::ostringstream oss;
         oss << product.getId() << ',';
         oss << product.getName() << ',';

@@ -10,7 +10,7 @@
 #include "DataType/Coupon.h"
 
 namespace UI {
-
+    // 优惠券维护界面类，用于实现优惠券维护功能
     class CLIStateCouponMaintenance : public ICLIState {
     public:
         explicit CLIStateCouponMaintenance(CLIUserInterface &userInterface);
@@ -19,6 +19,7 @@ namespace UI {
 
         void handleUserInput() override;
     private:
+        // 显示优惠券列表
         void displayCouponList(const std::vector<DataType::Coupon> &couponList);
 
         void displayCouponList();

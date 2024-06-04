@@ -3,6 +3,7 @@
 
 namespace UI {
     CLIUserInterface::CLIUserInterface() {
+        // 初始化时，将主菜单界面压入状态栈
         pushState(new CLIStateMainMenu(*this));
     }
 
@@ -25,6 +26,7 @@ namespace UI {
 
     void CLIUserInterface::popState() {
         ICLIState *state = states.back();
+        // 做好状态的清理工作
         delete state;
         states.pop_back();
     }

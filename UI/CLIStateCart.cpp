@@ -15,7 +15,9 @@ namespace UI {
     using Service::SessionManager;
     using Service::StorageService;
 
+    // 列出购物车物品，选定物品，和菜单
     void CLIStateCart::displayMenu() {
+        // 购物车物品列表，使用ProductDisplay类展示
         productDisplay.setProducts(SessionManager::getInstance()->getCartOrderRepository().listProducts());
         std::cout << "Cart List:\n";
         productDisplay.listProducts(ProductDisplay::BRIEF_WITH_NUMBER);
@@ -26,12 +28,17 @@ namespace UI {
                   )
                   << "\n\n";
         std::cout << "Selected:\n";
+
+        // 选定的产品列表，使用ProductDisplay类展示
         ProductDisplay(selected).listProducts(ProductDisplay::BRIEF_WITH_NUMBER);
         std::cout << "Selected Price (No coupon): "
-                  << SessionManager::getInstance()->getPurchaseService().calculateTotalPrice(selected,
-                                                                                             std::nullopt)
+                  << SessionManager::getInstance()->getPurchaseService().calculateTotalPrice(
+                          selected,
+                          std::nullopt
+                  )
                   << "\n\n";
         std::cout << std::endl;
+
         std::cout << "Cart Menu\n"
                      "1. Checkout\n"
                      "2. Select\n"
@@ -57,8 +64,10 @@ namespace UI {
                     break;
                 }
 
+                // 购买前先展示选定物品
                 ProductDisplay(selected).listProducts(ProductDisplay::BRIEF_WITH_NUMBER);
 
+                // 展示优惠券列表与选择
                 std::optional<DataType::Coupon> coupon = displayCoupons(true);
                 if (coupon.has_value()) {
                     std::cout << "Coupon selected: " << coupon.value().getName() << " (" << coupon.value().getCode()
@@ -67,6 +76,7 @@ namespace UI {
                               << coupon.value().getValue() << std::endl;
                 }
 
+                // 展示总价，确认购买
                 std::cout << "Total Price: "
                           << SessionManager::getInstance()->getPurchaseService().calculateTotalPrice(selected, coupon)
                           << std::endl;
@@ -78,6 +88,7 @@ namespace UI {
                     break;
                 }
 
+                // 使用购买服务进行购买
                 if (Service::PurchaseResult result = SessionManager::getInstance()->getPurchaseService().purchase(
                         selected, coupon)) {
                     std::cout << "Checkout successful" << std::endl;
@@ -89,6 +100,7 @@ namespace UI {
                 break;
             }
             case 2: {
+                // 选定产品，使用ProductDisplay类进行选择操作
                 std::vector<std::pair<DataType::FullProduct, long>> append = productDisplay.selectProductsWithNumber(
                         ProductDisplay::BRIEF_WITH_NUMBER);
                 selected.reserve(selected.size() + append.size());
@@ -102,7 +114,8 @@ namespace UI {
                 break;
             }
             case 3: {
-                std::vector<std::pair<DataType::FullProduct, long>> remove = ProductDisplay(selected).selectProductsWithNumber(
+                std::vector<std::pair<DataType::FullProduct, long>> remove = ProductDisplay(
+                        selected).selectProductsWithNumber(
                         ProductDisplay::BRIEF_WITH_NUMBER);
                 for (const auto &product: remove) {
                     selected.erase(std::remove(selected.begin(), selected.end(), product), selected.end());
@@ -116,6 +129,7 @@ namespace UI {
                     std::cout << "Invalid choice" << std::endl;
                     break;
                 }
+                // 使用购物车产品维护界面进行产品维护
                 userInterface.pushState(new CLIStateCartMaintenance(userInterface, product.value()));
                 break;
             }
@@ -127,6 +141,7 @@ namespace UI {
                 std::string code;
                 std::cout << "Enter coupon code: ";
                 Util::cinWrapper >> code;
+                // 使用优惠券仓储进行优惠券兑换
                 if (StorageService::getInstance()
                         ->getCouponRepository().addCouponToUser(
                         SessionManager::getInstance()->getCurrentUser().value().getUsername(),

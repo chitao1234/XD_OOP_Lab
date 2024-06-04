@@ -8,12 +8,14 @@
 #include "Product.h"
 
 namespace DataType {
-
+    // 完整商品类，包含商品信息和商品类别名称
     class FullProduct : public Product {
     public:
         FullProduct(Product product, std::string category);
 
         [[nodiscard]] std::string getCategory() const;
+
+        void setCategory(std::string category);
 
     private:
         std::string category;

@@ -10,6 +10,7 @@
 #include "ProductDisplay.h"
 
 namespace UI {
+    // 商品维护界面类，用于添加、修改、删除商品和处理商品折扣活动
     class CLIStateProductMaintenance : public ICLIState {
     public:
         explicit CLIStateProductMaintenance(CLIUserInterface &userInterface);

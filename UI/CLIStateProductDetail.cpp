@@ -11,7 +11,6 @@
 namespace UI {
     using Service::SessionManager;
     using Service::StorageService;
-    using DataAccess::ICartOrderRepository;
 
     void CLIStateProductDetail::displayMenu() {
         std::cout << "Product Detail" << std::endl;
@@ -34,16 +33,18 @@ namespace UI {
     void CLIStateProductDetail::handleUserInput() {
         int choice;
         Util::cinWrapper >> choice;
+        DataAccess::ICartOrderRepository &cart = SessionManager::getInstance()->getCartOrderRepository();
         switch (choice) {
             case 1: {
+                // 如果未登录，提示登录，未登录只能浏览
                 if (!SessionManager::getInstance()->getLoginStatus()) {
                     std::cout << "Please login first" << std::endl;
                     break;
                 }
-                ICartOrderRepository &cart = SessionManager::getInstance()->getCartOrderRepository();
                 std::cout << "Enter quantity: ";
                 long quantity;
                 Util::cinWrapper >> quantity;
+                // 添加商品到购物车，使用购物车仓储
                 cart.addProduct(product.getId(), quantity);
                 std::cout << "Added to cart" << std::endl;
                 break;
@@ -53,7 +54,7 @@ namespace UI {
                     std::cout << "Please login first" << std::endl;
                     break;
                 }
-                ICartOrderRepository &cart = SessionManager::getInstance()->getCartOrderRepository();
+                // 购买商品，使用购买服务
                 if (Service::PurchaseService(cart, StorageService::getInstance()->getCouponRepository()).purchase(
                         product)) {
                     std::cout << "Bought" << std::endl;

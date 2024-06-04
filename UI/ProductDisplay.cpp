@@ -15,7 +15,9 @@ namespace UI {
             std::cout << std::endl;
             return;
         }
+
         int i = 1;
+        // 商品展示部分，根据不同的展示方式展示不同的内容
         switch (displayType) {
             case BRIEF:
                 std::cout << "Index\tName\tActualPrice" << std::endl;
@@ -61,8 +63,8 @@ namespace UI {
         }
     }
 
-    ProductDisplay::ProductDisplay(const std::vector<std::pair<DataType::FullProduct, long>> &products) : products(
-            products) {
+    ProductDisplay::ProductDisplay(const std::vector<std::pair<DataType::FullProduct, long>> &products)
+            : products(products) {
     }
 
     void ProductDisplay::setProducts(const std::vector<std::pair<DataType::FullProduct, long>> &products) {
@@ -70,6 +72,7 @@ namespace UI {
     }
 
     ProductDisplay ProductDisplay::searchProduct(std::string keyword) {
+        // 筛选出包含关键字的产品，返回新的ProductDisplay
         std::vector<std::pair<DataType::FullProduct, long>> result;
         for (const auto &pair: products) {
             if (pair.first.getName().find(keyword) != std::string::npos) {
@@ -93,6 +96,7 @@ namespace UI {
                 std::string search;
                 std::cout << "Enter search query: ";
                 Util::cinWrapper >> search;
+                // 递归搜索产品，使用搜索后的列表进行交互选择，并与之前的结果合并
                 auto subResult = searchProduct(search).interactiveSelect(displayType, single);
                 result.reserve(result.size() + subResult.size());
                 for (const auto &product: subResult) {
@@ -125,6 +129,7 @@ namespace UI {
         return products.size();
     }
 
+    // 几种不同的交互选择方式，适应不同的需求
     std::optional<DataType::FullProduct> ProductDisplay::selectProduct(ProductDisplay::DisplayType displayType) {
         auto result = interactiveSelect(displayType, true);
         if (result.empty()) return std::nullopt;

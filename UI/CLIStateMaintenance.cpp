@@ -10,8 +10,8 @@
 #include "Util/ErrorCheckingInputStream.h"
 
 namespace UI {
-    CLIStateMaintenance::CLIStateMaintenance(CLIUserInterface &userInterface) : userInterface(userInterface) {
-    }
+    CLIStateMaintenance::CLIStateMaintenance(CLIUserInterface &userInterface)
+            : userInterface(userInterface) {}
 
     void CLIStateMaintenance::displayMenu() {
         std::cout << "Maintenance" << std::endl;
@@ -25,6 +25,7 @@ namespace UI {
     void CLIStateMaintenance::handleUserInput() {
         int choice;
         Util::cinWrapper >> choice;
+        // 总菜单，使用各自的界面类进行管理
         switch (choice) {
             case 1: {
                 userInterface.pushState(new CLIStateProductMaintenance(userInterface));

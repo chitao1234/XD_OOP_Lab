@@ -7,6 +7,7 @@ namespace DataType {
     }
 
     NormalUser NormalUser::deserializeUser(const std::string &line) {
+        // 采用CSV逗号分隔的方式解析用户信息，分别为用户名、密码、邮箱
         std::istringstream iss(line);
         std::string username, password, email;
         getline(iss, username, ',');

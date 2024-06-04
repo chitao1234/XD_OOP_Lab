@@ -9,6 +9,7 @@
 #include "CLIUserInterface.h"
 
 namespace UI {
+    // 购物车维护界面类，用于实现购物车商品维护功能
     class CLIStateCartMaintenance : public ICLIState {
     public:
         explicit CLIStateCartMaintenance(CLIUserInterface &userInterface, std::pair<DataType::FullProduct, long> product);

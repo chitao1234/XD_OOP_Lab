@@ -14,17 +14,20 @@
 #include <optional>
 
 namespace Service {
-
+    // 购买服务类，用于处理购买商品的相关操作
     class PurchaseService {
     public:
         explicit PurchaseService(DataAccess::ICartOrderRepository &cartOrderRepository,
                                  DataAccess::ICouponRepository &couponRepository);
 
+        // 购买多个商品，并且可能使用优惠券
         PurchaseResult purchase(const std::vector<std::pair<DataType::FullProduct, long>> &productList,
                                 const std::optional<DataType::Coupon> &coupon);
 
+        // 购买单个商品
         PurchaseResult purchase(const DataType::FullProduct &product);
 
+        // 计算购买商品的总价
         double calculateTotalPrice(const std::vector<std::pair<DataType::FullProduct, long>> &productList,
                                    const std::optional<DataType::Coupon> &coupon);
 

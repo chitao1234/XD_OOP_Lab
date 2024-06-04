@@ -13,9 +13,6 @@
 namespace UI {
     using Service::SessionManager;
     using Service::StorageService;
-    using DataAccess::IProductRepository;
-    using DataAccess::IUserRepository;
-    using DataType::NormalUser;
 
     void CLIStateMainMenu::displayMenu() {
         std::cout << "1. Login\n"
@@ -28,7 +25,7 @@ namespace UI {
     void CLIStateMainMenu::handleUserInput() {
         int choice;
         Util::cinWrapper >> choice;
-        IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
+        DataAccess::IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
         switch (choice) {
             case 1: {
                 std::string username, password;
@@ -36,12 +33,14 @@ namespace UI {
                 Util::cinWrapper >> username;
                 std::cout << "Password: ";
                 Util::cinWrapper >> password;
+
+                // 使用用户仓储登录用户，同时检查是否为管理员
                 if (userRepository.loginAsAdmin(username, password)) {
                     std::cout << "Welcome, admin.\n";
                     userInterface.pushState(new CLIStateMaintenance(userInterface));
                     break;
                 }
-                std::optional<NormalUser> user = userRepository.login(username, password);
+                std::optional<DataType::NormalUser> user = userRepository.login(username, password);
                 if (user.has_value()) {
                     std::cout << "Login successful.\n";
                     SessionManager::getInstance()->loginUser(user.value());
@@ -59,7 +58,7 @@ namespace UI {
                 Util::cinWrapper >> password;
                 std::cout << "Enter email: ";
                 Util::cinWrapper >> email;
-                NormalUser user = NormalUser(username, password, email);
+                DataType::NormalUser user = DataType::NormalUser(username, password, email);
                 if (userRepository.registerUser(user)) {
                     std::cout << "Registration successful.\n";
                 } else {
@@ -68,9 +67,10 @@ namespace UI {
                 break;
             }
             case 3: {
-                IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
+                DataAccess::IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
                 std::vector<DataType::FullProduct> products = productRepository.listProducts();
                 std::cout << "View products...\n";
+                // 跳转到产品列表界面
                 userInterface.pushState(new CLIStateProductList(userInterface, products));
                 break;
             }

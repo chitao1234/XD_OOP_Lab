@@ -30,6 +30,7 @@ namespace DataType {
     }
 
     std::string Order::serialize(const Order &order) {
+        // 采用CSV逗号分隔的方式序列化订单，分别为订单号、用户名、总价、购买时间（采用自纪元以来的毫秒数表示）
         std::ostringstream oss;
         oss << order.getPurchaseId() << ',';
         oss << order.getUsername() << ',';

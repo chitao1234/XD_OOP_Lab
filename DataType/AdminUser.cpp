@@ -7,6 +7,7 @@ namespace DataType {
     }
 
     AdminUser AdminUser::deserializeUser(const std::string &line) {
+        // 采用CSV格式，以逗号分隔
         std::istringstream iss(line);
         std::string username, password, email;
         getline(iss, username, ',');

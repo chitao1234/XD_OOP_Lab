@@ -9,24 +9,23 @@
 #include "PurchaseService.h"
 
 namespace Service {
-    using DataAccess::ICartOrderRepository;
-    using DataAccess::CartOrderRepository;
-    using DataType::NormalUser;
-
     SessionManager::SessionManager() : currentUser(), cartOrderRepository(nullptr), purchaseService(nullptr) {}
 
-
-    void SessionManager::loginUser(const NormalUser &user) {
+    // 登录时初始化购物车订单仓储和购买服务
+    void SessionManager::loginUser(const DataType::NormalUser &user) {
         currentUser = user;
         delete cartOrderRepository;
         delete purchaseService;
         StorageService *storageService = StorageService::getInstance();
         cartOrderRepository = storageService->getRepositoryFactory().getCartOrderRepository(
                 storageService->getProductRepository(), user.getUsername());
-        purchaseService = new PurchaseService(*cartOrderRepository,
-                                              storageService->getCouponRepository());
+        purchaseService = new PurchaseService(
+                *cartOrderRepository,
+                storageService->getCouponRepository()
+        );
     }
 
+    // 注销时删除购物车订单仓储和购买服务
     void SessionManager::logoutUser() {
         currentUser = std::nullopt;
         delete cartOrderRepository;
@@ -39,11 +38,12 @@ namespace Service {
         return currentUser.has_value();
     }
 
-    std::optional<NormalUser> SessionManager::getCurrentUser() const {
+    std::optional<DataType::NormalUser> SessionManager::getCurrentUser() const {
         return currentUser;
     }
 
-    ICartOrderRepository &SessionManager::getCartOrderRepository() const {
+    // 获取购物车订单仓储，如果用户未登录则抛出异常
+    DataAccess::ICartOrderRepository &SessionManager::getCartOrderRepository() const {
         if (!cartOrderRepository) {
             throw std::runtime_error("User not logged in");
         }
@@ -55,6 +55,7 @@ namespace Service {
         delete purchaseService;
     }
 
+    // 获取购买服务，如果用户未登录则抛出异常
     PurchaseService &SessionManager::getPurchaseService() const {
         if (!purchaseService) {
             throw std::runtime_error("User not logged in");

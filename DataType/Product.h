@@ -9,6 +9,7 @@
 #include <cstdint>
 
 namespace DataType {
+    // 非完整商品类，不包含商品分类名称，用于保存到文件
     class Product {
     public:
         Product(uint64_t id,
@@ -46,8 +47,10 @@ namespace DataType {
 
         void setCategoryId(uint64_t categoryId);
 
+        // 序列化商品，用于保存到文件
         static std::string serialize(const Product &product);
 
+        // 反序列化商品，用于从文件中读取
         static Product deserialize(const std::string &line);
 
         bool operator==(const Product &product) const;

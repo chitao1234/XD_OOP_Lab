@@ -12,4 +12,8 @@ namespace DataType {
         return category;
     }
 
+    void FullProduct::setCategory(std::string category) {
+        this->category = std::move(category);
+    }
+
 } // DataType

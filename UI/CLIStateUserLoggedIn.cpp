@@ -4,7 +4,6 @@
 
 #include <iostream>
 #include "CLIStateUserLoggedIn.h"
-#include "CLIStateMainMenu.h"
 #include "CLIStateUserProfile.h"
 #include "CLIStateProductList.h"
 #include "Service/SessionManager.h"

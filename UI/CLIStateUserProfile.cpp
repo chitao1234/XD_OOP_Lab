@@ -11,8 +11,6 @@
 namespace UI {
     using Service::SessionManager;
     using Service::StorageService;
-    using DataAccess::IUserRepository;
-    using DataType::NormalUser;
 
     void CLIStateUserProfile::displayMenu() {
         std::cout << "1. View profile\n"
@@ -25,13 +23,13 @@ namespace UI {
     void CLIStateUserProfile::handleUserInput() {
         int choice;
         Util::cinWrapper >> choice;
+        DataAccess::IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
         switch (choice) {
             case 1:
                 std::cout << "User name: " << user.getUsername() << std::endl;
                 std::cout << "Email: " << user.getEmail() << std::endl;
                 break;
             case 2: {
-                IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
                 std::string email;
                 std::cout << "Editing profile...\n"
                              "Enter new email: ";
@@ -42,7 +40,6 @@ namespace UI {
                 break;
             }
             case 3: {
-                IUserRepository &userRepository = StorageService::getInstance()->getUserRepository();
                 std::string oldPassword, newPassword, confirmPassword;
                 std::cout << "Changing password...\n"
                              "Old password: ";
@@ -76,7 +73,7 @@ namespace UI {
 
     }
 
-    CLIStateUserProfile::CLIStateUserProfile(CLIUserInterface &userInterface, NormalUser user) : userInterface(
-            userInterface), user(std::move(user)) {
+    CLIStateUserProfile::CLIStateUserProfile(CLIUserInterface &userInterface, DataType::NormalUser user)
+            : userInterface(userInterface), user(std::move(user)) {
     }
 }

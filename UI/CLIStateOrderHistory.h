@@ -9,7 +9,7 @@
 #include "CLIUserInterface.h"
 
 namespace UI {
-
+    // 订单历史界面类，用于实现用户订单历史查询功能，同时支持时间和关键字过滤
     class CLIStateOrderHistory : public ICLIState {
     public:
         explicit CLIStateOrderHistory(CLIUserInterface &userInterface);

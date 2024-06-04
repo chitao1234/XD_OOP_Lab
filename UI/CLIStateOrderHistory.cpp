@@ -33,6 +33,7 @@ namespace UI {
             case 1: {
                 DataAccess::ICartOrderRepository &repository = Service::SessionManager::getInstance()
                         ->getCartOrderRepository();
+
                 std::optional<std::string> keyword{};
                 std::optional<std::chrono::system_clock::time_point> startInput, endInput;
                 if (!keywordFilter.empty()) {
@@ -44,11 +45,15 @@ namespace UI {
                 if (end.tm_mday != 0) {
                     endInput = std::chrono::system_clock::from_time_t(std::mktime(&end));
                 }
+
+                // 使用购物车订单仓储过滤订单
                 std::vector<DataType::FullOrder> orders = repository.filterOrders(
                         keyword,
                         startInput,
                         endInput
                 );
+
+                // 计算订单总价和各个类别的总价，输出订单信息
                 std::map<std::string, double> priceByCategory;
                 double totalPrice = 0;
                 for (const auto &order: orders) {
@@ -80,6 +85,7 @@ namespace UI {
                     std::cout << std::endl;
                 }
 
+                // 输出总价和各个类别的总价
                 std::cout << "Total Price for All Orders: " << totalPrice << std::endl;
                 for (const auto &categoryPrice: priceByCategory) {
                     std::cout << "Category " << categoryPrice.first << " Total: " << categoryPrice.second << std::endl;
@@ -87,6 +93,7 @@ namespace UI {
                 break;
             }
             case 2: {
+                // 设置过滤器，时间类过滤器不设置则包含所有时间
                 std::cin.ignore(256, '\n');
                 std::string timeStart, timeEnd;
                 std::cout << "Enter Keyword (Enter for none): ";

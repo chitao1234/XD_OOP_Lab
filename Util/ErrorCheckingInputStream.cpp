@@ -6,8 +6,9 @@
 
 namespace Util {
     ErrorCheckingInputStream::ErrorCheckingInputStream(std::istream &stream)
-            : stream(stream) {}
+            : std::istream(stream.rdbuf()), stream(stream) {}
 
+    // 转发到底层输入流
     bool ErrorCheckingInputStream::good() {
         return stream.good();
     }

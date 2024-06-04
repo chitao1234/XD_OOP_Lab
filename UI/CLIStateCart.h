@@ -11,6 +11,7 @@
 #include "DataType/Coupon.h"
 
 namespace UI {
+    // 购物车界面类，用于实现购物车功能
     class CLIStateCart : public ICLIState {
     public:
         explicit CLIStateCart(CLIUserInterface &userInterface);
@@ -21,7 +22,10 @@ namespace UI {
 
     private:
         CLIUserInterface &userInterface;
+
+        // 使用产品展示类，用于显示产品信息
         ProductDisplay productDisplay;
+
         std::vector<std::pair<DataType::FullProduct, long>> selected;
 
         std::optional<DataType::Coupon> displayCoupons(bool select);

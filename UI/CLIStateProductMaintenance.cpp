@@ -9,7 +9,6 @@
 
 namespace UI {
     using Service::StorageService;
-    using DataAccess::IProductRepository;
 
     CLIStateProductMaintenance::CLIStateProductMaintenance(CLIUserInterface &userInterface) :
             userInterface(userInterface),
@@ -31,13 +30,13 @@ namespace UI {
     void CLIStateProductMaintenance::handleUserInput() {
         int choice;
         Util::cinWrapper >> choice;
+        DataAccess::IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
         switch (choice) {
             case 1: {
                 productDisplay.listProducts(ProductDisplay::DETAILED_WITH_STOCK);
                 break;
             }
             case 2: {
-                IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
                 std::string name;
                 double price;
                 std::string description;
@@ -51,33 +50,37 @@ namespace UI {
                 Util::cinWrapper >> description;
                 std::cout << "Enter product stock: ";
                 Util::cinWrapper >> stock;
-                std::cout << "Enter product keywordFilter:";
+                std::cout << "Enter product category:";
                 Util::cinWrapper >> category;
                 productRepository.addProduct(name, description, price, stock, category);
                 std::cout << "Product added" << std::endl;
                 break;
             }
             case 3: {
+                // 显示商品列表，选择商品
                 productDisplay.listProducts(ProductDisplay::DETAILED_WITH_STOCK);
                 int productId;
                 std::cout << "Enter product id: ";
                 Util::cinWrapper >> productId;
-                IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
                 std::optional<DataType::FullProduct> product = productRepository.getProduct(productId);
                 if (!product.has_value()) {
                     std::cout << "Product not found" << std::endl;
                     break;
                 }
+
+                // 显示商品信息，修改商品信息
                 std::cout << "Product Info:\n";
                 std::cout << "ID: " << product->getId() << '\n'
                           << "Name: " << product->getName() << '\n'
                           << "Price: " << product->getPrice() << '\n'
                           << "Description: " << product->getDescription() << '\n'
-                          << "Discount: " << product->getDiscount() << std::endl;
+                          << "Discount: " << product->getDiscount() << '\n'
+                          << "Category: " << product->getCategory() << std::endl;
                 std::string name;
                 double price;
                 std::string description;
                 long stock;
+                std::string category;
                 std::cout << "Enter product name: ";
                 Util::cinWrapper >> name;
                 std::cout << "Enter product price: ";
@@ -86,10 +89,13 @@ namespace UI {
                 Util::cinWrapper >> description;
                 std::cout << "Enter product stock: ";
                 Util::cinWrapper >> stock;
+                std::cout << "Enter product category:";
+                Util::cinWrapper >> category;
                 product->setName(name);
                 product->setPrice(price);
                 product->setDescription(description);
                 product->setRemainingStock(stock);
+                product->setCategory(category);
                 productRepository.updateProduct(*product);
                 std::cout << "Product updated" << std::endl;
                 break;
@@ -99,7 +105,6 @@ namespace UI {
                 int productId;
                 std::cout << "Enter product id: ";
                 Util::cinWrapper >> productId;
-                IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
                 if (!productRepository.deleteProduct(productId)) {
                     std::cout << "Product not found" << std::endl;
                     break;
@@ -108,11 +113,11 @@ namespace UI {
                 break;
             }
             case 5: {
+                // 实现商品折扣功能
                 productDisplay.listProducts(ProductDisplay::DETAILED_WITH_STOCK);
                 int productId;
                 std::cout << "Enter product id: ";
                 Util::cinWrapper >> productId;
-                IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
                 std::optional<DataType::FullProduct> product = productRepository.getProduct(productId);
                 if (!product.has_value()) {
                     std::cout << "Product not found" << std::endl;

@@ -10,7 +10,7 @@
 #include <chrono>
 
 namespace DataType {
-
+    // 非完整订单类，不包含商品信息
     class Order {
     public:
         Order(uint64_t purchaseId,
@@ -24,10 +24,13 @@ namespace DataType {
 
         [[nodiscard]] double getPrice() const;
 
+        // 采用 C++ 标准库的时间类表示时间
         [[nodiscard]] std::chrono::system_clock::time_point getPurchaseTime() const;
 
+        // 序列化订单，用于保存到文件
         static std::string serialize(const Order &order);
 
+        // 反序列化订单，用于从文件中读取
         static Order deserialize(const std::string &line);
 
         bool operator==(const Order &rhs) const;
