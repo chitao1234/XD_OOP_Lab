@@ -62,16 +62,6 @@ namespace Service {
 
     // 购买单个商品，只需要处理库存问题
     PurchaseResult PurchaseService::purchase(const DataType::FullProduct &product) {
-        DataAccess::IProductRepository &productRepository = StorageService::getInstance()->getProductRepository();
-
-        if (productRepository.getProduct(product.getId()).value().getRemainingStock() < 1) {
-            return PurchaseResult::stockNotEnough(product.getName());
-        }
-
-        cartOrderRepository.removeProduct(product.getId());
-        DataType::FullProduct newProduct = productRepository.getProduct(product.getId()).value();
-        newProduct.setRemainingStock(newProduct.getRemainingStock() - 1);
-        productRepository.updateProduct(newProduct);
-        return PurchaseResult::success();
+        return purchase({{product, 1}}, std::nullopt);
     }
 } // Service

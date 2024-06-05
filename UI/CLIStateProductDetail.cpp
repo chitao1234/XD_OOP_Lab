@@ -33,7 +33,6 @@ namespace UI {
     void CLIStateProductDetail::handleUserInput() {
         int choice;
         Util::cinWrapper >> choice;
-        DataAccess::ICartOrderRepository &cart = SessionManager::getInstance()->getCartOrderRepository();
         switch (choice) {
             case 1: {
                 // 如果未登录，提示登录，未登录只能浏览
@@ -41,6 +40,7 @@ namespace UI {
                     std::cout << "Please login first" << std::endl;
                     break;
                 }
+                DataAccess::ICartOrderRepository &cart = SessionManager::getInstance()->getCartOrderRepository();
                 std::cout << "Enter quantity: ";
                 long quantity;
                 Util::cinWrapper >> quantity;
@@ -54,6 +54,7 @@ namespace UI {
                     std::cout << "Please login first" << std::endl;
                     break;
                 }
+                DataAccess::ICartOrderRepository &cart = SessionManager::getInstance()->getCartOrderRepository();
                 // 购买商品，使用购买服务
                 if (Service::PurchaseService(cart, StorageService::getInstance()->getCouponRepository()).purchase(
                         product)) {

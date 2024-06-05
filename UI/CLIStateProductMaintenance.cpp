@@ -50,7 +50,7 @@ namespace UI {
                 Util::cinWrapper >> description;
                 std::cout << "Enter product stock: ";
                 Util::cinWrapper >> stock;
-                std::cout << "Enter product category:";
+                std::cout << "Enter product category: ";
                 Util::cinWrapper >> category;
                 productRepository.addProduct(name, description, price, stock, category);
                 std::cout << "Product added" << std::endl;
@@ -89,7 +89,7 @@ namespace UI {
                 Util::cinWrapper >> description;
                 std::cout << "Enter product stock: ";
                 Util::cinWrapper >> stock;
-                std::cout << "Enter product category:";
+                std::cout << "Enter product category: ";
                 Util::cinWrapper >> category;
                 product->setName(name);
                 product->setPrice(price);

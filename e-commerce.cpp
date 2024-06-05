@@ -1,8 +1,5 @@
 #include "UI/CLIUserInterface.h"
-#include "DataAccess/UserRepository.h"
-#include "DataAccess/ProductRepository.h"
 #include "Service/StorageService.h"
-#include "DataAccess/CouponRepository.h"
 #include "DataAccess/MapDaoFactory.h"
 #include "DataAccess/RepositoryFactory.h"
 
