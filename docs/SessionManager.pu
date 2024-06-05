@@ -1,0 +1,23 @@
+@startuml
+
+namespace Service {
+    class SessionManager {
+        - currentUser : std::optional<DataType::NormalUser>
+        - cartOrderRepository : DataAccess::ICartOrderRepository*
+        - purchaseService : PurchaseService*
+
+        + loginUser(user : DataType::NormalUser) : void
+        + logoutUser() : void
+        + getLoginStatus() : bool
+        + getCurrentUser() : std::optional<DataType::NormalUser>
+        + getCartOrderRepository() : DataAccess::ICartOrderRepository&
+        + getPurchaseService() : PurchaseService&
+
+        {method} - SessionManager()
+        {method} - ~SessionManager()
+    }
+    SessionManager ..|> SingletonTemplate : Inherits
+}
+
+
+@enduml

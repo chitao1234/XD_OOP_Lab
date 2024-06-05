@@ -1,0 +1,12 @@
+@startuml Service
+namespace Service {
+    class StorageService {
+    }
+
+    class SessionManager {
+    }
+
+    class PurchaseService {
+    }
+}
+@enduml

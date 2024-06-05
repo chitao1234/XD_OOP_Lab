@@ -1,0 +1,32 @@
+@startuml
+
+namespace UI {
+    class CLIUserInterface {
+        -states : std::vector<ICLIState*>
+        +CLIUserInterface()
+        +~CLIUserInterface()
+        +start() : void
+        +pushState(newState : ICLIState*) : void
+        +popState() : void
+        +replaceState(newState : ICLIState*) : void
+    }
+
+    interface ICLIState {
+        +displayMenu() : void
+        +handleUserInput() : void
+        +{abstract} ~ICLIState()
+    }
+
+    class CLIStateMainMenu {
+        -userInterface : CLIUserInterface&
+        +CLIStateMainMenu(userInterface : CLIUserInterface&)
+        +displayMenu() : void
+        +handleUserInput() : void
+    }
+
+    CLIUserInterface "1" *-- "*" ICLIState : states
+    CLIStateMainMenu ..> CLIUserInterface : userInterface
+    CLIStateMainMenu -up-|> ICLIState
+}
+
+@enduml

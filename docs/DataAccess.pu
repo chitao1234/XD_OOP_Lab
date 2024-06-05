@@ -1,0 +1,121 @@
+@startuml DataAccess
+namespace DataAccess {
+    package DaoLayer {
+        interface IShoppingCartDao {
+        }
+
+        interface IProductDao {
+
+        }
+
+        interface ICategoryDao {
+        }
+
+        interface IOrderDao {
+        }
+
+        interface IProductOrderDao {
+        }
+
+        interface ICouponDao {
+        }
+
+        interface IUserCouponDao {
+        }
+
+        interface IUserDao<User> {
+        }
+
+        interface IDaoFactory {
+        }
+
+        class ShoppingCartDao {
+        }
+
+        class MapCategoryDao {
+        }
+
+        class MapCouponDao {
+        }
+
+        class MapProductDao {
+        }
+
+        class MapOrderDao {
+        }
+
+        class MapProductOrderDao {
+        }
+
+        class MapUserCouponDao {
+        }
+
+        class MapUserDao<User> {
+        }
+
+        class MapDaoFactory {
+        }
+
+        IShoppingCartDao <|-- ShoppingCartDao
+        ICategoryDao <|-- MapCategoryDao
+        ICouponDao <|-- MapCouponDao
+        IProductDao <|-- MapProductDao
+        IOrderDao <|-- MapOrderDao
+        IProductOrderDao <|-- MapProductOrderDao
+        IUserCouponDao <|-- MapUserCouponDao
+        IUserDao <|-- MapUserDao
+        IDaoFactory <|-- MapDaoFactory
+    }
+
+    package RepositoryLayer {
+
+        interface ICartOrderRepository {
+        }
+
+        class CartOrderRepository {
+        }
+
+        interface ICouponRepository {
+        }
+
+        class CouponRepository {
+        }
+
+        interface IProductRepository {
+        }
+
+        class ProductRepository {
+        }
+
+        interface IUserRepository {
+        }
+
+        class UserRepository {
+        }
+
+        interface IRepositoryFactory {
+        }
+
+        class RepositoryFactory {
+        }
+
+        ICartOrderRepository <|-- CartOrderRepository
+        ' CartOrderRepository --> IProductRepository
+        ' CartOrderRepository --> IShoppingCartDao
+        ' CartOrderRepository --> IOrderDao
+        ' CartOrderRepository --> IProductOrderDao
+        ' CartOrderRepository --> IDaoFactory
+
+        ICouponRepository <|-- CouponRepository
+        'CouponRepository --> ICouponDao
+        'CouponRepository --> IUserCouponDao
+        'CouponRepository --> IDaoFactory
+
+        IProductRepository <|-- ProductRepository
+        IUserRepository <|-- UserRepository
+        IRepositoryFactory <|-- RepositoryFactory
+    }
+
+    DaoLayer <---- RepositoryLayer
+}
+@enduml

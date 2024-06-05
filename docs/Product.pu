@@ -1,0 +1,92 @@
+@startuml
+
+interface IProductDao {
+  + containProduct(id: uint64_t): bool
+  + addProduct(product: Product): void
+  + removeProduct(id: uint64_t): void
+  + updateProduct(product: Product): void
+  + getProduct(id: uint64_t): Product
+  + getProducts(): vector<Product>
+  + getProducts(query: string): vector<Product>
+  + nextId(): uint64_t
+  + save(): void
+  + load(): bool
+}
+
+class MapProductDao {
+  - lastId: uint64_t
+  - filename: string
+  - products: map<uint64_t, Product>
+  + MapProductDao(filename: string)
+  + ~MapProductDao()
+  + containProduct(id: uint64_t): bool
+  + addProduct(product: Product): void
+  + removeProduct(id: uint64_t): void
+  + updateProduct(product: Product): void
+  + getProduct(id: uint64_t): Product
+  + getProducts(): vector<Product>
+  + getProducts(query: string): vector<Product>
+  + nextId(): uint64_t
+  + save(): void
+  + load(): bool
+}
+
+IProductDao <|-- MapProductDao
+
+interface ICategoryDao {
+  + addCategory(id: uint64_t, category: string): void
+  + removeCategory(id: uint64_t): void
+  + containCategory(category: string): bool
+  + getCategories(): map<uint64_t, string>
+  + getId(category: string): uint64_t
+  + getCategory(id: uint64_t): string
+  + nextId(): uint64_t
+  + save(): void
+  + load(): bool
+}
+
+class MapCategoryDao {
+  - filename: string
+  - categories: map<uint64_t, string>
+  + MapCategoryDao(filename: string)
+  + ~MapCategoryDao()
+  + addCategory(id: uint64_t, category: string): void
+  + removeCategory(id: uint64_t): void
+  + containCategory(category: string): bool
+  + getCategories(): map<uint64_t, string>
+  + getId(category: string): uint64_t
+  + getCategory(id: uint64_t): string
+  + nextId(): uint64_t
+  + save(): void
+  + load(): bool
+}
+
+ICategoryDao <|-- MapCategoryDao
+
+interface IProductRepository {
+  + addProduct(name: string, description: string, price: double, remainingStock: long, category: string): bool
+  + getProduct(productId: uint64_t): optional<FullProduct>
+  + updateProduct(product: FullProduct): bool
+  + deleteProduct(productId: uint64_t): bool
+  + listProducts(): vector<FullProduct>
+  + searchProducts(keyword: string): vector<FullProduct>
+}
+
+class ProductRepository {
+  - productDao: IProductDao*
+  - categoryDao: ICategoryDao*
+  + ProductRepository(daoFactory: IDaoFactory&)
+  + ~ProductRepository()
+  + addProduct(name: string, description: string, price: double, remainingStock: long, category: string): bool
+  + getProduct(productId: uint64_t): optional<FullProduct>
+  + updateProduct(product: FullProduct): bool
+  + deleteProduct(productId: uint64_t): bool
+  + listProducts(): vector<FullProduct>
+  + searchProducts(keyword: string): vector<FullProduct>
+}
+
+IProductRepository <|-- ProductRepository
+ProductRepository --> IProductDao
+ProductRepository --> ICategoryDao
+
+@enduml

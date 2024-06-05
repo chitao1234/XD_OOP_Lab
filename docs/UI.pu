@@ -1,0 +1,50 @@
+@startuml UI
+namespace UI {
+    interface ICLIState {
+    }
+
+    class CLIUserInterface {
+    }
+
+    class CLIStateCart {}
+    class CLIStateCartMaintenance {}
+    class CLIStateCouponMaintenance {}
+    class CLIStateMainMenu {}
+    class CLIStateMaintenance {}
+    class CLIStateOrderHistory {}
+    class CLIStateProductDetail {}
+    class CLIStateProductList {}
+    class CLIStateProductMaintenance {}
+    class CLIStateUserLoggedIn {}
+    class CLIStateUserMaintenance {}
+    class CLIStateUserProfile {}
+
+    ICLIState <|-- CLIStateCart
+    ICLIState <|-- CLIStateCartMaintenance
+    ICLIState <|-- CLIStateCouponMaintenance
+    ICLIState <|-- CLIStateMainMenu
+    ICLIState <|-- CLIStateMaintenance
+    ICLIState <|-- CLIStateOrderHistory
+    ICLIState <|-- CLIStateProductDetail
+    ICLIState <|-- CLIStateProductList
+    ICLIState <|-- CLIStateProductMaintenance
+    ICLIState <|-- CLIStateUserLoggedIn
+    ICLIState <|-- CLIStateUserMaintenance
+    ICLIState <|-- CLIStateUserProfile
+
+    ICLIState --* CLIUserInterface
+
+    CLIStateMainMenu --> CLIStateUserLoggedIn
+    CLIStateMainMenu --> CLIStateProductList
+    CLIStateMainMenu --> CLIStateMaintenance
+    CLIStateUserLoggedIn --> CLIStateUserProfile
+    CLIStateUserLoggedIn --> CLIStateCart
+    CLIStateUserLoggedIn --> CLIStateProductList
+    CLIStateCart --> CLIStateCartMaintenance
+    CLIStateCart --> CLIStateOrderHistory
+    CLIStateProductList --> CLIStateProductDetail
+    CLIStateMaintenance --> CLIStateProductMaintenance
+    CLIStateMaintenance --> CLIStateUserMaintenance
+    CLIStateMaintenance --> CLIStateCouponMaintenance
+}
+@enduml

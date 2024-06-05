@@ -1,0 +1,117 @@
+@startuml
+
+namespace DataType {
+
+    class User {
+        + User(username : string, password : string)
+        + getUsername() : string
+        + getPasswordHash() : string
+        + verifyPassword(password : string) : bool
+        - username : string
+        - passwordHash : string
+    }
+
+    class AdminUser {
+        + AdminUser(username : string, password : string)
+        + deserializeUser(line : string) : AdminUser
+        + serializeUser(user : AdminUser) : string
+    }
+    AdminUser --|> User
+
+    class NormalUser {
+        + NormalUser(username : string, password : string, email : string)
+        + getEmail() : string
+        + setEmail(email : string) : void
+        + deserializeUser(line : string) : NormalUser
+        + serializeUser(user : NormalUser) : string
+        - email : string
+    }
+    NormalUser --|> User
+
+    class Product {
+        + Product(name : string, description : string, price : double, remainingStock : long, discount : double, categoryId : uint64_t)
+        + getId() : uint64_t
+        + getName() : string
+        + getDescription() : string
+        + getPrice() : double
+        + getRemainingStock() : long
+        + getDiscount() : double
+        + getActualPrice() : double
+        + getCategoryId() : uint64_t
+        + setName(name : string) : void
+        + setDescription(description : string) : void
+        + setPrice(price : double) : void
+        + setRemainingStock(remainingStock : long) : void
+        + setDiscount(discount : double) : void
+        + setCategoryId(categoryId : uint64_t) : void
+        + serialize(product : Product) : string
+        + deserialize(line : string) : Product
+        - id : uint64_t
+        - name : string
+        - description : string
+        - price : double
+        - remainingStock : long
+        - discount : double
+        - categoryId : uint64_t
+    }
+
+    class FullProduct {
+        + getCategory() : string
+        + setCategory(category : string) : void
+        - FullProduct(product : Product, category : string)
+        - category : string
+    }
+    FullProduct --|> Product
+
+    class Order {
+        + Order(purchaseId : uint64_t, username : string, price : double, purchaseTime : chrono::system_clock::time_point)
+        + getPurchaseId() : uint64_t
+        + getUsername() : string
+        + getPrice() : double
+        + getPurchaseTime() : chrono::system_clock::time_point
+        + serialize(order : Order) : string
+        + deserialize(line : string) : Order
+        - purchaseId : uint64_t
+        - username : string
+        - price : double
+        - purchaseTime : chrono::system_clock::time_point
+    }
+
+    class FullOrder {
+        + FullOrder(order : Order, products : vector<pair<FullProduct, long>>)
+        + getProducts() : vector<pair<FullProduct, long>>
+        - productList : vector<pair<FullProduct, long>>
+    }
+    FullOrder --|> Order
+
+    class Coupon {
+        + Coupon(name : string, id : uint64_t, type : Type, value : double, code : string)
+        + Coupon(name : string, type : Type, value : double, code : string)
+        + typeToString(type : Type) : string
+        + getName() : string
+        + getId() : uint64_t
+        + getType() : Type
+        + getValue() : double
+        + getCode() : string
+        + setName(name : string) : void
+        + setId(id : uint64_t) : void
+        + setType(type : Type) : void
+        + setValue(value : double) : void
+        + setCode(code : string) : void
+        + apply(price : double) : double
+        + serialize(coupon : Coupon) : string
+        + deserialize(line : string) : Coupon
+        - name : string
+        - id : uint64_t
+        - type : Type
+        - value : double
+        - code : string
+    }
+
+    enum Type {
+        PERCENTAGE
+        AMOUNT
+    }
+}
+
+@enduml
